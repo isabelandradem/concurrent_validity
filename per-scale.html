@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Per-Scale Cross-Domain View</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+const KAK_LABELS = {
+  ATL5a: "ATL5a: Control Impulses 1",
+  ATL5b: "ATL5b: Control Impulses 2",
+  ATL8: "ATL8: Working Memory",
+  ATL9: "ATL9: Flexible Thinking",
+  LAN6: "LAN6: Vocabulary",
+  LAN7a: "LAN7a: Word Categories",
+  LAN7b: "LAN7b: Shared Characteristics",
+  LIT1a: "LIT1a: Rhyme",
+  LIT1b: "LIT1b: Blending & Adding",
+  LIT1c: "LIT1c: Segmenting",
+  LIT1d: "LIT1d: Decoding & Encoding",
+  LIT2: "LIT2: Concepts of Print",
+  LIT3a: "LIT3a: Letter Names",
+  LIT3bi: "LIT3bi: Consonant Sounds",
+  LIT3bii: "LIT3bii: Vowel Sounds",
+  LIT4: "LIT4: Retell Stories",
+  LIT5: "LIT5: Answer Questions",
+  MAT2: "MAT2: Subitizing",
+  MAT3: "MAT3: Count 1 by 1",
+  MAT4: "MAT4: More or Less",
+  MAT5: "MAT5: Numerals",
+  MAT6a: "MAT6a: Add",
+  MAT6b: "MAT6b: Subtract",
+  MAT7: "MAT7: Patterns",
+  MAT8: "MAT8: Measurement",
+  MAT9: "MAT9: Shapes",
+  MAT10: "MAT10: Position of Objects",
+};
+
+const DOMAIN_GROUPS = [
+  { key: "ATL", label: "Executive Function", scales: ["ATL5a", "ATL5b", "ATL8", "ATL9"] },
+  { key: "LAN", label: "Language", scales: ["LAN6", "LAN7a", "LAN7b"] },
+  { key: "LIT", label: "Literacy", scales: ["LIT1a", "LIT1b", "LIT1c", "LIT1d", "LIT2", "LIT3a", "LIT3bi", "LIT3bii", "LIT4", "LIT5"] },
+  { key: "MAT", label: "Math", scales: ["MAT2", "MAT3", "MAT4", "MAT5", "MAT6a", "MAT6b", "MAT7", "MAT8", "MAT9", "MAT10"] },
+];
+
+const EXTERNAL_MEASURES = [
+  { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570", description: "HTKS-Revised — self-regulation (inhibitory control, working memory, cognitive flexibility)" },
+  { key: "igdis_Picture_ Naming_score", label: "myIGDIs: Picture Naming", domain: "LAN", color: "#D24935", description: "myIGDIs Picture Naming — oral language / expressive vocabulary" },
+  { key: "igdis_Which_One_ Doesn't_Belong_score", label: "myIGDIs: Which One Doesn't Belong", domain: "LAN", color: "#D24935", description: "myIGDIs Which One Doesn't Belong — comprehension / categorization" },
+  { key: "topel_pa_stdscore", label: "TOPEL PA", domain: "LIT", color: "#D7A23B", description: "TOPEL Phonological Awareness — print knowledge & phonological awareness" },
+  { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part A — number & operations" },
+  { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part B — geometry, patterning, algebraic thinking, measurement" },
+  { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Total — combined Part A + Part B" },
+];
+
+const P_KEY_MAP = {
+  htks_score: "htks_p",
+  "igdis_Picture_ Naming_score": "igdis_pn_p",
+  "igdis_Which_One_ Doesn't_Belong_score": "igdis_wodb_p",
+  topel_pa_stdscore: "topel_p",
+  rema_a_irt: "rema_a_p",
+  rema_b_irt: "rema_b_p",
+  rema_tot_irt: "rema_tot_p",
+};
+
+const N_KEY_MAP = {
+  htks_score: "htks_n",
+  "igdis_Picture_ Naming_score": "igdis_pn_n",
+  "igdis_Which_One_ Doesn't_Belong_score": "igdis_wodb_n",
+  topel_pa_stdscore: "topel_n",
+  rema_a_irt: "rema_a_n",
+  rema_b_irt: "rema_b_n",
+  rema_tot_irt: "rema_tot_n",
+};
+
+const EXPECTED_MAP = {
+  ATL5a: ["htks_score"],
+  ATL5b: ["htks_score"],
+  ATL8: ["htks_score"],
+  ATL9: ["htks_score"],
+  LAN6: ["igdis_Picture_ Naming_score"],
+  LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
+  LAN7b: ["igdis_Picture_ Naming_score", "igdis_Which_One_ Doesn't_Belong_score"],
+  LIT1a: ["topel_pa_stdscore"],
+  LIT1b: ["topel_pa_stdscore"],
+  LIT1c: ["topel_pa_stdscore"],
+  LIT1d: ["topel_pa_stdscore"],
+  LIT2: ["topel_pa_stdscore"],
+  LIT3a: ["topel_pa_stdscore"],
+  LIT3bi: ["topel_pa_stdscore"],
+  LIT3bii: ["topel_pa_stdscore"],
+  LIT4: ["topel_pa_stdscore"],
+  LIT5: ["topel_pa_stdscore"],
+  MAT2: ["rema_a_irt"],
+  MAT3: ["rema_a_irt"],
+  MAT4: ["rema_a_irt"],
+  MAT5: ["rema_a_irt"],
+  MAT6a: ["rema_a_irt"],
+  MAT6b: ["rema_a_irt"],
+  MAT7: ["rema_b_irt"],
+  MAT8: ["rema_b_irt"],
+  MAT9: ["rema_b_irt"],
+  MAT10: ["rema_b_irt"],
+};
+
+const RAW_DATA = [
+  { variable: "ATL5a", htks_score: 0.4081, "igdis_Picture_ Naming_score": 0.1401, "igdis_Which_One_ Doesn't_Belong_score": 0.2728, topel_pa_stdscore: 0.189, rema_a_irt: 0.3501, rema_b_irt: 0.249, rema_tot_irt: 0.3225, htks_p: 0, igdis_pn_p: 0.1336, igdis_wodb_p: 0.0058, topel_p: 0.0348, rema_a_p: 0.0001, rema_b_p: 0.0055, rema_tot_p: 0.0003, htks_n: 126, igdis_pn_n: 116, igdis_wodb_n: 101, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 123 },
+  { variable: "ATL5b", htks_score: 0.3248, "igdis_Picture_ Naming_score": 0.1354, "igdis_Which_One_ Doesn't_Belong_score": 0.2435, topel_pa_stdscore: 0.1491, rema_a_irt: 0.3533, rema_b_irt: 0.2326, rema_tot_irt: 0.3361, htks_p: 0.0016, igdis_pn_p: 0.2113, igdis_wodb_p: 0.0393, topel_p: 0.1608, rema_a_p: 0.0006, rema_b_p: 0.0282, rema_tot_p: 0.0014, htks_n: 92, igdis_pn_n: 87, igdis_wodb_n: 72, topel_n: 90, rema_a_n: 90, rema_b_n: 89, rema_tot_n: 88 },
+  { variable: "ATL8", htks_score: 0.3004, "igdis_Picture_ Naming_score": 0.3436, "igdis_Which_One_ Doesn't_Belong_score": 0.2804, topel_pa_stdscore: 0.1223, rema_a_irt: 0.3417, rema_b_irt: 0.0396, rema_tot_irt: 0.2219, htks_p: 0.0088, igdis_pn_p: 0.0033, igdis_wodb_p: 0.0286, topel_p: 0.2992, rema_a_p: 0.0029, rema_b_p: 0.7431, rema_tot_p: 0.0629, htks_n: 75, igdis_pn_n: 71, igdis_wodb_n: 61, topel_n: 74, rema_a_n: 74, rema_b_n: 71, rema_tot_n: 71 },
+  { variable: "ATL9", htks_score: 0.1825, "igdis_Picture_ Naming_score": 0.2543, "igdis_Which_One_ Doesn't_Belong_score": 0.1657, topel_pa_stdscore: 0.191, rema_a_irt: 0.1706, rema_b_irt: 0.0906, rema_tot_irt: 0.1566, htks_p: 0.0499, igdis_pn_p: 0.0088, igdis_wodb_p: 0.1185, topel_p: 0.04, rema_a_p: 0.0682, rema_b_p: 0.3376, rema_tot_p: 0.0976, htks_n: 116, igdis_pn_n: 105, igdis_wodb_n: 90, topel_n: 116, rema_a_n: 115, rema_b_n: 114, rema_tot_n: 113 },
+  { variable: "LAN6", htks_score: 0.2485, "igdis_Picture_ Naming_score": 0.1097, "igdis_Which_One_ Doesn't_Belong_score": 0.2083, topel_pa_stdscore: 0.0807, rema_a_irt: 0.1583, rema_b_irt: 0.1238, rema_tot_irt: 0.1076, htks_p: 0.0157, igdis_pn_p: 0.2951, igdis_wodb_p: 0.0709, topel_p: 0.4447, rema_a_p: 0.1296, rema_b_p: 0.2396, rema_tot_p: 0.3099, htks_n: 94, igdis_pn_n: 93, igdis_wodb_n: 76, topel_n: 92, rema_a_n: 93, rema_b_n: 92, rema_tot_n: 91 },
+  { variable: "LAN7a", htks_score: 0.2694, "igdis_Picture_ Naming_score": 0.2754, "igdis_Which_One_ Doesn't_Belong_score": 0.4871, topel_pa_stdscore: 0.2405, rema_a_irt: 0.2067, rema_b_irt: 0.1564, rema_tot_irt: 0.1976, htks_p: 0.0029, igdis_pn_p: 0.0034, igdis_wodb_p: 0, topel_p: 0.0084, rema_a_p: 0.0235, rema_b_p: 0.0894, rema_tot_p: 0.032, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 95, topel_n: 119, rema_a_n: 120, rema_b_n: 119, rema_tot_n: 118 },
+  { variable: "LAN7b", htks_score: 0.3854, "igdis_Picture_ Naming_score": 0.3467, "igdis_Which_One_ Doesn't_Belong_score": 0.3026, topel_pa_stdscore: 0.282, rema_a_irt: 0.3218, rema_b_irt: 0.1961, rema_tot_irt: 0.2906, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.002, topel_p: 0.0014, rema_a_p: 0.0003, rema_b_p: 0.0297, rema_tot_p: 0.0012, htks_n: 127, igdis_pn_n: 116, igdis_wodb_n: 102, topel_n: 126, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
+  { variable: "LIT1a", htks_score: 0.1592, "igdis_Picture_ Naming_score": 0.175, "igdis_Which_One_ Doesn't_Belong_score": 0.272, topel_pa_stdscore: 0.0577, rema_a_irt: 0.1179, rema_b_irt: 0.1101, rema_tot_irt: 0.1684, htks_p: 0.0727, igdis_pn_p: 0.0559, igdis_wodb_p: 0.0048, topel_p: 0.5193, rema_a_p: 0.1869, rema_b_p: 0.2217, rema_tot_p: 0.0615, htks_n: 128, igdis_pn_n: 120, igdis_wodb_n: 106, topel_n: 127, rema_a_n: 127, rema_b_n: 125, rema_tot_n: 124 },
+  { variable: "LIT1b", htks_score: 0.3161, "igdis_Picture_ Naming_score": 0.2944, "igdis_Which_One_ Doesn't_Belong_score": 0.4749, topel_pa_stdscore: 0.1873, rema_a_irt: 0.2764, rema_b_irt: 0.0971, rema_tot_irt: 0.2359, htks_p: 0.0003, igdis_pn_p: 0.0013, igdis_wodb_p: 0, topel_p: 0.0365, rema_a_p: 0.0018, rema_b_p: 0.2854, rema_tot_p: 0.0089, htks_n: 126, igdis_pn_n: 117, igdis_wodb_n: 102, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
+  { variable: "LIT1c", htks_score: 0.3474, "igdis_Picture_ Naming_score": 0.3424, "igdis_Which_One_ Doesn't_Belong_score": 0.475, topel_pa_stdscore: 0.3209, rema_a_irt: 0.4009, rema_b_irt: 0.159, rema_tot_irt: 0.3035, htks_p: 0.0001, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0882, rema_tot_p: 0.001, htks_n: 119, igdis_pn_n: 110, igdis_wodb_n: 96, topel_n: 119, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 115 },
+  { variable: "LIT1d", htks_score: -0.0339, "igdis_Picture_ Naming_score": 0.2686, "igdis_Which_One_ Doesn't_Belong_score": 0.3632, topel_pa_stdscore: 0.041, rema_a_irt: 0.2919, rema_b_irt: 0.113, rema_tot_irt: 0.2093, htks_p: 0.8172, igdis_pn_p: 0.0621, igdis_wodb_p: 0.023, topel_p: 0.7797, rema_a_p: 0.0419, rema_b_p: 0.4345, rema_tot_p: 0.1489, htks_n: 49, igdis_pn_n: 49, igdis_wodb_n: 39, topel_n: 49, rema_a_n: 49, rema_b_n: 50, rema_tot_n: 49 },
+  { variable: "LIT2", htks_score: 0.4602, "igdis_Picture_ Naming_score": 0.4736, "igdis_Which_One_ Doesn't_Belong_score": 0.4075, topel_pa_stdscore: 0.1337, rema_a_irt: 0.5092, rema_b_irt: 0.5341, rema_tot_irt: 0.5176, htks_p: 0.008, igdis_pn_p: 0.0071, igdis_wodb_p: 0.0432, topel_p: 0.4658, rema_a_p: 0.0034, rema_b_p: 0.0016, rema_tot_p: 0.0029, htks_n: 32, igdis_pn_n: 31, igdis_wodb_n: 25, topel_n: 32, rema_a_n: 31, rema_b_n: 32, rema_tot_n: 31 },
+  { variable: "LIT3a", htks_score: 0.4055, "igdis_Picture_ Naming_score": 0.4974, "igdis_Which_One_ Doesn't_Belong_score": 0.4103, topel_pa_stdscore: 0.17, rema_a_irt: 0.5938, rema_b_irt: 0.3594, rema_tot_irt: 0.5013, htks_p: 0.0141, igdis_pn_p: 0.002, igdis_wodb_p: 0.0271, topel_p: 0.3215, rema_a_p: 0.0002, rema_b_p: 0.0313, rema_tot_p: 0.0022, htks_n: 36, igdis_pn_n: 36, igdis_wodb_n: 29, topel_n: 36, rema_a_n: 35, rema_b_n: 36, rema_tot_n: 35 },
+  { variable: "LIT3bi", htks_score: 0.3046, "igdis_Picture_ Naming_score": 0.4213, "igdis_Which_One_ Doesn't_Belong_score": 0.3732, topel_pa_stdscore: 0.3295, rema_a_irt: 0.429, rema_b_irt: 0.2148, rema_tot_irt: 0.3603, htks_p: 0.0004, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0.0145, rema_tot_p: 0, htks_n: 131, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 130, rema_a_n: 129, rema_b_n: 129, rema_tot_n: 128 },
+  { variable: "LIT3bii", htks_score: 0.2071, "igdis_Picture_ Naming_score": 0.3972, "igdis_Which_One_ Doesn't_Belong_score": 0.3229, topel_pa_stdscore: 0.1484, rema_a_irt: 0.4436, rema_b_irt: 0.2091, rema_tot_irt: 0.3896, htks_p: 0.0221, igdis_pn_p: 0, igdis_wodb_p: 0.0011, topel_p: 0.1042, rema_a_p: 0, rema_b_p: 0.0231, rema_tot_p: 0, htks_n: 122, igdis_pn_n: 113, igdis_wodb_n: 99, topel_n: 121, rema_a_n: 120, rema_b_n: 118, rema_tot_n: 117 },
+  { variable: "LIT4", htks_score: 0.5614, "igdis_Picture_ Naming_score": 0.3141, "igdis_Which_One_ Doesn't_Belong_score": 0.5469, topel_pa_stdscore: 0.0986, rema_a_irt: 0.4479, rema_b_irt: 0.3097, rema_tot_irt: 0.428, htks_p: 0.0001, igdis_pn_p: 0.0356, igdis_wodb_p: 0.0007, topel_p: 0.5194, rema_a_p: 0.002, rema_b_p: 0.0362, rema_tot_p: 0.0034, htks_n: 45, igdis_pn_n: 45, igdis_wodb_n: 35, topel_n: 45, rema_a_n: 45, rema_b_n: 46, rema_tot_n: 45 },
+  { variable: "LIT5", htks_score: 0.4903, "igdis_Picture_ Naming_score": 0.366, "igdis_Which_One_ Doesn't_Belong_score": 0.3622, topel_pa_stdscore: 0.4533, rema_a_irt: 0.4096, rema_b_irt: 0.3179, rema_tot_irt: 0.3401, htks_p: 0.0028, igdis_pn_p: 0.0333, igdis_wodb_p: 0.0633, topel_p: 0.0055, rema_a_p: 0.0145, rema_b_p: 0.0628, rema_tot_p: 0.0491, htks_n: 35, igdis_pn_n: 34, igdis_wodb_n: 27, topel_n: 36, rema_a_n: 35, rema_b_n: 35, rema_tot_n: 34 },
+  { variable: "MAT2", htks_score: 0.2994, "igdis_Picture_ Naming_score": 0.4217, "igdis_Which_One_ Doesn't_Belong_score": 0.4056, topel_pa_stdscore: 0.1962, rema_a_irt: 0.4925, rema_b_irt: 0.296, rema_tot_irt: 0.4535, htks_p: 0.0026, igdis_pn_p: 0, igdis_wodb_p: 0.0002, topel_p: 0.0541, rema_a_p: 0, rema_b_p: 0.0031, rema_tot_p: 0, htks_n: 99, igdis_pn_n: 94, igdis_wodb_n: 81, topel_n: 97, rema_a_n: 98, rema_b_n: 98, rema_tot_n: 97 },
+  { variable: "MAT3", htks_score: 0.4263, "igdis_Picture_ Naming_score": 0.2689, "igdis_Which_One_ Doesn't_Belong_score": 0.4968, topel_pa_stdscore: 0.3429, rema_a_irt: 0.499, rema_b_irt: 0.3485, rema_tot_irt: 0.4955, htks_p: 0, igdis_pn_p: 0.0081, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0003, rema_tot_p: 0, htks_n: 104, igdis_pn_n: 96, igdis_wodb_n: 84, topel_n: 102, rema_a_n: 103, rema_b_n: 102, rema_tot_n: 101 },
+  { variable: "MAT4", htks_score: 0.514, "igdis_Picture_ Naming_score": 0.3659, "igdis_Which_One_ Doesn't_Belong_score": 0.3932, topel_pa_stdscore: 0.4866, rema_a_irt: 0.3743, rema_b_irt: 0.2511, rema_tot_irt: 0.3488, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.0001, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0066, rema_tot_p: 0.0001, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 93, topel_n: 118, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 114 },
+  { variable: "MAT5", htks_score: 0.3631, "igdis_Picture_ Naming_score": 0.4115, "igdis_Which_One_ Doesn't_Belong_score": 0.3984, topel_pa_stdscore: 0.2876, rema_a_irt: 0.5683, rema_b_irt: 0.2693, rema_tot_irt: 0.4712, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0006, rema_a_p: 0, rema_b_p: 0.0015, rema_tot_p: 0, htks_n: 140, igdis_pn_n: 130, igdis_wodb_n: 113, topel_n: 138, rema_a_n: 138, rema_b_n: 136, rema_tot_n: 135 },
+  { variable: "MAT6a", htks_score: 0.4034, "igdis_Picture_ Naming_score": 0.4256, "igdis_Which_One_ Doesn't_Belong_score": 0.5015, topel_pa_stdscore: 0.357, rema_a_irt: 0.5736, rema_b_irt: 0.2752, rema_tot_irt: 0.5136, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0019, rema_tot_p: 0, htks_n: 128, igdis_pn_n: 118, igdis_wodb_n: 104, topel_n: 126, rema_a_n: 126, rema_b_n: 125, rema_tot_n: 124 },
+  { variable: "MAT6b", htks_score: 0.4266, "igdis_Picture_ Naming_score": 0.463, "igdis_Which_One_ Doesn't_Belong_score": 0.4525, topel_pa_stdscore: 0.3339, rema_a_irt: 0.3088, rema_b_irt: 0.1304, rema_tot_irt: 0.2301, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0.0011, rema_b_p: 0.1766, rema_tot_p: 0.0166, htks_n: 111, igdis_pn_n: 102, igdis_wodb_n: 90, topel_n: 110, rema_a_n: 109, rema_b_n: 109, rema_tot_n: 108 },
+  { variable: "MAT7", htks_score: 0.443, "igdis_Picture_ Naming_score": 0.4365, "igdis_Which_One_ Doesn't_Belong_score": 0.5217, topel_pa_stdscore: 0.281, rema_a_irt: 0.5489, rema_b_irt: 0.4462, rema_tot_irt: 0.5841, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 137, igdis_pn_n: 126, igdis_wodb_n: 108, topel_n: 135, rema_a_n: 134, rema_b_n: 133, rema_tot_n: 131 },
+  { variable: "MAT8", htks_score: 0.3823, "igdis_Picture_ Naming_score": 0.3881, "igdis_Which_One_ Doesn't_Belong_score": 0.3481, topel_pa_stdscore: 0.2516, rema_a_irt: 0.5176, rema_b_irt: 0.4197, rema_tot_irt: 0.5168, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0023, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 147, igdis_pn_n: 134, igdis_wodb_n: 116, topel_n: 145, rema_a_n: 144, rema_b_n: 143, rema_tot_n: 141 },
+  { variable: "MAT9", htks_score: 0.4474, "igdis_Picture_ Naming_score": 0.3085, "igdis_Which_One_ Doesn't_Belong_score": 0.4008, topel_pa_stdscore: 0.3223, rema_a_irt: 0.5433, rema_b_irt: 0.3383, rema_tot_irt: 0.499, htks_p: 0, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 145, igdis_pn_n: 132, igdis_wodb_n: 115, topel_n: 143, rema_a_n: 143, rema_b_n: 141, rema_tot_n: 140 },
+  { variable: "MAT10", htks_score: 0.388, "igdis_Picture_ Naming_score": 0.5248, "igdis_Which_One_ Doesn't_Belong_score": 0.4939, topel_pa_stdscore: 0.374, rema_a_irt: 0.3422, rema_b_irt: 0.0746, rema_tot_irt: 0.1662, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0.0001, rema_b_p: 0.4027, rema_tot_p: 0.0619, htks_n: 130, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 129, rema_a_n: 128, rema_b_n: 128, rema_tot_n: 127 },
+];
+
+const SCALE_MIN = -0.2;
+const SCALE_MAX = 0.7;
+const SCALE_RANGE = SCALE_MAX - SCALE_MIN;
+
+const DOMAIN_COLORS = {
+  ATL: "#9B4570",
+  LAN: "#D24935",
+  LIT: "#D7A23B",
+  MAT: "#5A9F4B",
+};
+
+function getDomainForScale(variable) {
+  if (variable.startsWith("ATL")) return "ATL";
+  if (variable.startsWith("LAN")) return "LAN";
+  if (variable.startsWith("LIT")) return "LIT";
+  if (variable.startsWith("MAT")) return "MAT";
+  return "";
+}
+
+function PerScaleView() {
+  const [selected, setSelected] = useState("ATL5a");
+
+  const row = RAW_DATA.find((d) => d.variable === selected);
+  const domain = getDomainForScale(selected);
+  const domainColor = DOMAIN_COLORS[domain];
+  const expectedKeys = EXPECTED_MAP[selected] || [];
+
+  const barMaxWidth = 280;
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#fafbfc",
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
+        {/* Sticky header */}
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            background: "#fafbfc",
+            paddingTop: 40,
+            paddingBottom: 16,
+            borderBottom: "1px solid #e5e7eb",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
+            <h1
+              style={{
+                fontSize: 26,
+                fontWeight: 700,
+                color: "#000",
+                margin: 0,
+                lineHeight: 1.2,
+              }}
+            >
+              Per-Scale Cross-Domain View
+            </h1>
+            <a
+              href="index.html"
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "#6b7280",
+                textDecoration: "none",
+                padding: "6px 14px",
+                borderRadius: 6,
+                border: "1px solid #d1d5db",
+                background: "white",
+                transition: "all 0.15s",
+              }}
+            >
+              &larr; By Domain View
+            </a>
+          </div>
+          <p style={{ fontSize: 14, color: "#000", margin: "0 0 12px", lineHeight: 1.5, maxWidth: 620 }}>
+            Select a KAK assessment scale to see how it correlates with every RTI direct assessment (English).
+            Bars colored by the external assessment's domain.
+          </p>
+
+          {/* Dropdown */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <label
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                color: "#9ca3af",
+              }}
+            >
+              KAK Scale
+            </label>
+            <select
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+              style={{
+                padding: "8px 12px",
+                borderRadius: 8,
+                border: `2px solid ${domainColor}60`,
+                background: "white",
+                fontSize: 14,
+                fontWeight: 600,
+                color: "#000",
+                fontFamily: "'Inter', -apple-system, sans-serif",
+                cursor: "pointer",
+                outline: "none",
+                minWidth: 300,
+                appearance: "auto",
+              }}
+            >
+              {DOMAIN_GROUPS.map((group) => (
+                <optgroup key={group.key} label={`${group.key} — ${group.label}`}>
+                  {group.scales.map((s) => (
+                    <option key={s} value={s}>
+                      {KAK_LABELS[s]}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Main card */}
+        <div
+          style={{
+            marginTop: 24,
+            background: "white",
+            borderRadius: 12,
+            border: `1px solid ${domainColor}30`,
+            overflow: "hidden",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              padding: "16px 24px",
+              background: `linear-gradient(135deg, ${domainColor}12, ${domainColor}08)`,
+              borderBottom: `1px solid ${domainColor}20`,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <div
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: domainColor,
+              }}
+            />
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 17,
+                fontWeight: 700,
+                color: "#000",
+              }}
+            >
+              {KAK_LABELS[selected]}
+            </h2>
+          </div>
+
+          <div style={{ padding: "16px 24px 24px" }}>
+            {/* Scale axis labels */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "200px 1fr",
+                gap: "0 16px",
+                marginBottom: 6,
+              }}
+            >
+              <div />
+              <div style={{ position: "relative", width: barMaxWidth, height: 16 }}>
+                {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6].map((v) => {
+                  const x = ((v - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
+                  return (
+                    <span
+                      key={v}
+                      style={{
+                        position: "absolute",
+                        left: x,
+                        transform: "translateX(-50%)",
+                        fontSize: 9,
+                        color: "#9ca3af",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {v === 0 ? "0" : v.toFixed(1)}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+
+            {EXTERNAL_MEASURES.map((ext, i) => {
+              const r = row[ext.key];
+              const p = row[P_KEY_MAP[ext.key]];
+              const n = row[N_KEY_MAP[ext.key]];
+              const sig = p < 0.05;
+              const isExpected = expectedKeys.includes(ext.key);
+
+              const abs = Math.abs(r);
+              const zeroX = ((0 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
+              const thresholdX = ((0.3 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
+              const barWidth = (abs / SCALE_RANGE) * barMaxWidth;
+              const barLeft = r >= 0 ? zeroX : zeroX - barWidth;
+
+              const barColor =
+                r < 0
+                  ? "#d1d5db"
+                  : abs >= 0.5
+                  ? ext.color
+                  : abs >= 0.3
+                  ? ext.color + "cc"
+                  : abs >= 0.1
+                  ? ext.color + "66"
+                  : "#e5e7eb";
+
+              const prevExt = i > 0 ? EXTERNAL_MEASURES[i - 1] : null;
+              const showSeparator = prevExt && prevExt.domain !== ext.domain;
+
+              return (
+                <div key={ext.key}>
+                  {showSeparator && (
+                    <div style={{ height: 1, background: "#f0f0f0", margin: "6px 0" }} />
+                  )}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "200px 1fr",
+                      gap: "0 16px",
+                      alignItems: "center",
+                      padding: "5px 0",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 500,
+                        color: "#000",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: "50%",
+                          background: ext.color,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <span style={{ lineHeight: 1.2 }}>{ext.label}</span>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+                      <div
+                        style={{
+                          width: barMaxWidth,
+                          height: 22,
+                          background: "#f3f4f6",
+                          borderRadius: 4,
+                          position: "relative",
+                          overflow: "hidden",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: barLeft,
+                            width: Math.max(barWidth, 2),
+                            height: "100%",
+                            background: barColor,
+                            borderRadius: 4,
+                            transition: "left 0.4s ease, width 0.4s ease",
+                          }}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: zeroX,
+                            top: 0,
+                            bottom: 0,
+                            width: 0,
+                            borderLeft: "2px solid #000",
+                          }}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: thresholdX,
+                            top: 0,
+                            bottom: 0,
+                            width: 0,
+                            borderLeft: "2px dashed #0A2A65",
+                            opacity: 0.45,
+                          }}
+                        />
+                      </div>
+                      <span
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 600,
+                          color: sig ? "#000" : "#9ca3af",
+                          width: 44,
+                          textAlign: "right",
+                          flexShrink: 0,
+                          marginLeft: 8,
+                        }}
+                      >
+                        {r.toFixed(2)}
+                      </span>
+                      <span
+                        style={{
+                          width: 28,
+                          textAlign: "center",
+                          flexShrink: 0,
+                          marginLeft: 6,
+                        }}
+                      >
+                        {!sig && (
+                          <span
+                            style={{
+                              fontSize: 10,
+                              color: "#d97706",
+                              fontWeight: 500,
+                              background: "#fef3c7",
+                              padding: "1px 5px",
+                              borderRadius: 3,
+                            }}
+                          >
+                            ns
+                          </span>
+                        )}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          color: "#9ca3af",
+                          width: 46,
+                          textAlign: "right",
+                          flexShrink: 0,
+                          marginLeft: 4,
+                        }}
+                      >
+                        n={n}
+                      </span>
+                      <span
+                        style={{
+                          width: 58,
+                          textAlign: "center",
+                          flexShrink: 0,
+                          marginLeft: 6,
+                        }}
+                      >
+                        {isExpected && (
+                          <span
+                            style={{
+                              fontSize: 9,
+                              fontWeight: 700,
+                              color: domainColor,
+                              background: domainColor + "18",
+                              border: `1px solid ${domainColor}40`,
+                              padding: "1px 5px",
+                              borderRadius: 3,
+                              whiteSpace: "nowrap",
+                              letterSpacing: "0.02em",
+                            }}
+                          >
+                            expected
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Assessment descriptions */}
+        <div
+          style={{
+            marginTop: 24,
+            background: "white",
+            borderRadius: 12,
+            border: "1px solid #e5e7eb",
+            overflow: "hidden",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          }}
+        >
+          <div
+            style={{
+              padding: "12px 24px",
+              borderBottom: "1px solid #f0f0f0",
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#000",
+            }}
+          >
+            External Assessment Descriptions
+          </div>
+          <div style={{ padding: "12px 24px 16px" }}>
+            {EXTERNAL_MEASURES.map((ext) => (
+              <div
+                key={ext.key}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 8,
+                  padding: "4px 0",
+                  fontSize: 12,
+                  color: "#000",
+                  lineHeight: 1.5,
+                }}
+              >
+                <div
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: ext.color,
+                    flexShrink: 0,
+                    marginTop: 5,
+                  }}
+                />
+                <span>
+                  <strong>{ext.label}:</strong>{" "}
+                  {ext.description}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div
+          style={{
+            marginTop: 16,
+            padding: "16px 20px",
+            background: "#f9fafb",
+            borderRadius: 8,
+            border: "1px solid #e5e7eb",
+            fontSize: 12,
+            color: "#000",
+            lineHeight: 1.6,
+          }}
+        >
+          <strong>Note:</strong> Correlations use
+          pairwise deletion. The dashed line marks r = 0.30 (moderate threshold).
+          Bars colored by the external assessment's domain. Sample sizes vary by
+          scale. Direct assessments administered by RTI.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<PerScaleView />);
+  </script>
+</body>
+</html>
