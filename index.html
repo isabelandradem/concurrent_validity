@@ -217,31 +217,8 @@ const LANG_CONFIGS = {
           igdis_Dibujos_score: "Dibujos",
         },
         externalDescriptions: {
-          "igdis_Verbos_ Expressivos_score": "myIGDIs Verbos Expressivos measures expressive language — the child sees a picture of an action and names the verb in Spanish, tapping into expressive vocabulary.",
-          igdis_Dibujos_score: "myIGDIs Dibujos measures expressive vocabulary — the child sees a picture and names it in Spanish.",
-        },
-      },
-      LIT: {
-        label: "Literacy",
-        color: "#D7A23B",
-        colorLight: "#fdf5e3",
-        colorMid: "#FEDC6F",
-        externalMeasures: ["htks_score", "igdis_Verbos_ Expressivos_score", "igdis_Dibujos_score", "rema_a_irt", "rema_b_irt", "rema_tot_irt"],
-        externalLabels: {
-          htks_score: "HTKS",
-          "igdis_Verbos_ Expressivos_score": "Verbos Expressivos",
-          igdis_Dibujos_score: "Dibujos",
-          rema_a_irt: "REMA A",
-          rema_b_irt: "REMA B",
-          rema_tot_irt: "REMA Total",
-        },
-        externalDescriptions: {
-          htks_score: "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. HTKS-Revised measures self-regulation and executive function.",
-          "igdis_Verbos_ Expressivos_score": "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. myIGDIs Verbos Expressivos measures expressive language.",
-          igdis_Dibujos_score: "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. myIGDIs Dibujos measures expressive vocabulary.",
-          rema_a_irt: "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. REMA-Short Part A: Number & Operations.",
-          rema_b_irt: "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. REMA-Short Part B: Geometry, Patterning, and other topics.",
-          rema_tot_irt: "No matched literacy assessment was administered in Spanish. Showing cross-domain correlations for exploration. REMA-Short Total combines Parts A and B.",
+          "igdis_Verbos_ Expressivos_score": "myIGDIs Verbos Expresivos (\"Expressive Verbs\") assesses a child's ability to produce action words when shown illustrations of characters performing actions. It targets verb knowledge, which is a stronger predictor of later language/literacy development than noun acquisition alone, as it reflects deeper syntactic and semantic understanding.",
+          igdis_Dibujos_score: "myIGDIs Dibujos (\"Pictures\") assesses expressive picture naming — a child's ability to name objects shown in pictures, measuring expressive vocabulary and oral language. It's the Spanish parallel to the English \"Picture Naming\" measure.",
         },
       },
       MAT: {
@@ -265,7 +242,6 @@ const LANG_CONFIGS = {
     defaults: {
       ATL: "htks_score",
       LAN: "igdis_Verbos_ Expressivos_score",
-      LIT: "htks_score",
       MAT: "rema_a_irt",
     },
     expectedCorrelations: {
@@ -295,15 +271,6 @@ const LANG_CONFIGS = {
       { variable: "LAN6", htks_score: 0.3365, "igdis_Verbos_ Expressivos_score": 0.3415, igdis_Dibujos_score: -0.0631, rema_a_irt: 0.7324, rema_b_irt: 0.4766, rema_tot_irt: 0.5751, htks_p: 0.1258, igdis_ve_p: 0.1524, igdis_d_p: 0.7857, rema_a_p: 0.0001, rema_b_p: 0.0289, rema_tot_p: 0.0064, htks_n: 22, igdis_ve_n: 19, igdis_d_n: 21, rema_a_n: 22, rema_b_n: 21, rema_tot_n: 21 },
       { variable: "LAN7a", htks_score: 0.1733, "igdis_Verbos_ Expressivos_score": 0.286, igdis_Dibujos_score: 0.3551, rema_a_irt: 0.4883, rema_b_irt: 0.4259, rema_tot_irt: 0.492, htks_p: 0.3349, igdis_ve_p: 0.1188, igdis_d_p: 0.0426, rema_a_p: 0.0039, rema_b_p: 0.0151, rema_tot_p: 0.0042, htks_n: 33, igdis_ve_n: 31, igdis_d_n: 33, rema_a_n: 33, rema_b_n: 32, rema_tot_n: 32 },
       { variable: "LAN7b", htks_score: 0.1607, "igdis_Verbos_ Expressivos_score": 0.236, igdis_Dibujos_score: 0.3792, rema_a_irt: 0.5434, rema_b_irt: 0.4524, rema_tot_irt: 0.4827, htks_p: 0.3877, igdis_ve_p: 0.2178, igdis_d_p: 0.0354, rema_a_p: 0.0016, rema_b_p: 0.0121, rema_tot_p: 0.0069, htks_n: 31, igdis_ve_n: 29, igdis_d_n: 31, rema_a_n: 31, rema_b_n: 30, rema_tot_n: 30 },
-      { variable: "LIT1a", htks_score: -0.0433, "igdis_Verbos_ Expressivos_score": 0.1299, igdis_Dibujos_score: 0.1855, rema_a_irt: 0.2966, rema_b_irt: 0.3435, rema_tot_irt: 0.2606, htks_p: 0.8022, igdis_ve_p: 0.4711, igdis_d_p: 0.2861, rema_a_p: 0.079, rema_b_p: 0.0433, rema_tot_p: 0.1305, htks_n: 36, igdis_ve_n: 33, igdis_d_n: 35, rema_a_n: 36, rema_b_n: 35, rema_tot_n: 35 },
-      { variable: "LIT1b", htks_score: 0.2747, "igdis_Verbos_ Expressivos_score": 0.3645, igdis_Dibujos_score: 0.0087, rema_a_irt: 0.3019, rema_b_irt: 0.2368, rema_tot_irt: 0.3255, htks_p: 0.1102, igdis_ve_p: 0.0341, igdis_d_p: 0.9599, rema_a_p: 0.078, rema_b_p: 0.1776, rema_tot_p: 0.0603, htks_n: 35, igdis_ve_n: 34, igdis_d_n: 36, rema_a_n: 35, rema_b_n: 34, rema_tot_n: 34 },
-      { variable: "LIT1c", htks_score: 0.0491, "igdis_Verbos_ Expressivos_score": -0.0329, igdis_Dibujos_score: 0.0664, rema_a_irt: 0.1572, rema_b_irt: 0.1279, rema_tot_irt: 0.1208, htks_p: 0.7826, igdis_ve_p: 0.8534, igdis_d_p: 0.7049, rema_a_p: 0.3747, rema_b_p: 0.4781, rema_tot_p: 0.5031, htks_n: 34, igdis_ve_n: 34, igdis_d_n: 35, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "LIT1d", htks_score: 0.1407, "igdis_Verbos_ Expressivos_score": 0.3924, igdis_Dibujos_score: -0.1231, rema_a_irt: 0.294, rema_b_irt: 0.2036, rema_tot_irt: 0.2449, htks_p: 0.5656, igdis_ve_p: 0.1327, igdis_d_p: 0.6266, rema_a_p: 0.2218, rema_b_p: 0.4177, rema_tot_p: 0.3274, htks_n: 19, igdis_ve_n: 16, igdis_d_n: 18, rema_a_n: 19, rema_b_n: 18, rema_tot_n: 18 },
-      { variable: "LIT2", htks_score: 0.4436, "igdis_Verbos_ Expressivos_score": 0.3434, igdis_Dibujos_score: 0.3548, rema_a_irt: 0.7694, rema_b_irt: 0.5617, rema_tot_irt: 0.6883, htks_p: 0.0386, igdis_ve_p: 0.1383, igdis_d_p: 0.1145, rema_a_p: 0, rema_b_p: 0.0081, rema_tot_p: 0.0006, htks_n: 22, igdis_ve_n: 20, igdis_d_n: 21, rema_a_n: 22, rema_b_n: 21, rema_tot_n: 21 },
-      { variable: "LIT3a", htks_score: 0.3528, "igdis_Verbos_ Expressivos_score": 0.418, igdis_Dibujos_score: 0.3311, rema_a_irt: 0.725, rema_b_irt: 0.222, rema_tot_irt: 0.4493, htks_p: 0.0987, igdis_ve_p: 0.0593, igdis_d_p: 0.1323, rema_a_p: 0.0001, rema_b_p: 0.3208, rema_tot_p: 0.0359, htks_n: 23, igdis_ve_n: 21, igdis_d_n: 22, rema_a_n: 23, rema_b_n: 22, rema_tot_n: 22 },
-      { variable: "LIT3b", htks_score: 0.2224, "igdis_Verbos_ Expressivos_score": 0.242, igdis_Dibujos_score: 0.2605, rema_a_irt: 0.5379, rema_b_irt: 0.2608, rema_tot_irt: 0.376, htks_p: 0.2062, igdis_ve_p: 0.1977, igdis_d_p: 0.1431, rema_a_p: 0.001, rema_b_p: 0.1426, rema_tot_p: 0.031, htks_n: 34, igdis_ve_n: 30, igdis_d_n: 33, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "LIT4", htks_score: 0.1853, "igdis_Verbos_ Expressivos_score": 0.2495, igdis_Dibujos_score: 0.0391, rema_a_irt: 0.4977, rema_b_irt: -0.0389, rema_tot_irt: 0.3207, htks_p: 0.4766, igdis_ve_p: 0.3897, igdis_d_p: 0.8857, rema_a_p: 0.0421, rema_b_p: 0.8862, rema_tot_p: 0.2259, htks_n: 17, igdis_ve_n: 14, igdis_d_n: 16, rema_a_n: 17, rema_b_n: 16, rema_tot_n: 16 },
-      { variable: "LIT5", htks_score: 0.2729, "igdis_Verbos_ Expressivos_score": 0.5512, igdis_Dibujos_score: 0.3392, rema_a_irt: 0.5854, rema_b_irt: 0.4254, rema_tot_irt: 0.6365, htks_p: 0.197, igdis_ve_p: 0.0078, igdis_d_p: 0.1134, rema_a_p: 0.0027, rema_b_p: 0.043, rema_tot_p: 0.0011, htks_n: 24, igdis_ve_n: 22, igdis_d_n: 23, rema_a_n: 24, rema_b_n: 23, rema_tot_n: 23 },
       { variable: "MAT2", htks_score: 0.3805, "igdis_Verbos_ Expressivos_score": 0.35, igdis_Dibujos_score: 0.3571, rema_a_irt: 0.6061, rema_b_irt: 0.6537, rema_tot_irt: 0.655, htks_p: 0.038, igdis_ve_p: 0.0796, igdis_d_p: 0.0572, rema_a_p: 0.0004, rema_b_p: 0.0001, rema_tot_p: 0.0001, htks_n: 30, igdis_ve_n: 26, igdis_d_n: 29, rema_a_n: 30, rema_b_n: 29, rema_tot_n: 29 },
       { variable: "MAT3", htks_score: 0.2397, "igdis_Verbos_ Expressivos_score": 0.3821, igdis_Dibujos_score: 0.4243, rema_a_irt: 0.6782, rema_b_irt: 0.483, rema_tot_irt: 0.5367, htks_p: 0.2105, igdis_ve_p: 0.0654, igdis_d_p: 0.0308, rema_a_p: 0.0001, rema_b_p: 0.0092, rema_tot_p: 0.0032, htks_n: 29, igdis_ve_n: 24, igdis_d_n: 26, rema_a_n: 29, rema_b_n: 28, rema_tot_n: 28 },
       { variable: "MAT4", htks_score: 0.1516, "igdis_Verbos_ Expressivos_score": 0.4621, igdis_Dibujos_score: 0.1994, rema_a_irt: 0.3485, rema_b_irt: 0.3438, rema_tot_irt: 0.3033, htks_p: 0.4325, igdis_ve_p: 0.023, igdis_d_p: 0.3287, rema_a_p: 0.0639, rema_b_p: 0.0733, rema_tot_p: 0.1166, htks_n: 29, igdis_ve_n: 24, igdis_d_n: 26, rema_a_n: 29, rema_b_n: 28, rema_tot_n: 28 },
@@ -318,7 +285,9 @@ const LANG_CONFIGS = {
   },
 };
 
-const BAR_SCALE_MAX = 0.7;
+const SCALE_MIN = -0.2;
+const SCALE_MAX = 0.7;
+const SCALE_RANGE = SCALE_MAX - SCALE_MIN;
 
 function getStrengthColor(r, domainColor) {
   const abs = Math.abs(r);
@@ -330,10 +299,12 @@ function getStrengthColor(r, domainColor) {
 
 function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
   const abs = Math.abs(r);
-  const width = (abs / BAR_SCALE_MAX) * maxWidth;
-  const thresholdX = (0.3 / BAR_SCALE_MAX) * maxWidth;
+  const zeroX = ((0 - SCALE_MIN) / SCALE_RANGE) * maxWidth;
+  const thresholdX = ((0.3 - SCALE_MIN) / SCALE_RANGE) * maxWidth;
+  const barWidth = (abs / SCALE_RANGE) * maxWidth;
+  const barLeft = r >= 0 ? zeroX : zeroX - barWidth;
   const sig = p < 0.05;
-  const barColor = getStrengthColor(r, domainColor);
+  const barColor = r >= 0 ? getStrengthColor(r, domainColor) : "#d1d5db";
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
@@ -350,11 +321,23 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
       >
         <div
           style={{
-            width: Math.max(width, 2),
+            position: "absolute",
+            left: barLeft,
+            width: Math.max(barWidth, 2),
             height: "100%",
             background: barColor,
             borderRadius: 4,
-            transition: "width 0.4s ease",
+            transition: "left 0.4s ease, width 0.4s ease",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: zeroX,
+            top: 0,
+            bottom: 0,
+            width: 0,
+            borderLeft: "1px solid #d1d5db",
           }}
         />
         <div
@@ -748,7 +731,7 @@ function ConcurrentValidity() {
             }}
           >
             <li>
-              Bars show Pearson <em>r</em> on a scale from <strong>0 to 0.70</strong> (not 1.0).
+              Bars show Pearson <em>r</em> on a scale from <strong>&minus;0.20 to 0.70</strong> (not &minus;1.0 to 1.0).
             </li>
             <li>
               The{" "}
