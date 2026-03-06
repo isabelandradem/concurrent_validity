@@ -19,9 +19,9 @@
 const DOMAIN_CONFIG = {
   ATL: {
     label: "Executive Function",
-    color: "#EF6693",
-    colorLight: "#fce4ec",
-    colorMid: "#f8a4be",
+    color: "#9B4570",
+    colorLight: "#f5e3ed",
+    colorMid: "#D97CB1",
     externalMeasures: ["htks_score"],
     externalLabels: { htks_score: "HTKS" },
     externalDescriptions: {
@@ -30,9 +30,9 @@ const DOMAIN_CONFIG = {
   },
   LAN: {
     label: "Language",
-    color: "#A47FBB",
-    colorLight: "#f0e6f6",
-    colorMid: "#c9aed9",
+    color: "#D24935",
+    colorLight: "#fce8e5",
+    colorMid: "#F16757",
     externalMeasures: ["igdis_Picture_ Naming_score", "igdis_Which_One_ Doesn't_Belong_score"],
     externalLabels: {
       "igdis_Picture_ Naming_score": "Picture Naming",
@@ -45,9 +45,9 @@ const DOMAIN_CONFIG = {
   },
   LIT: {
     label: "Literacy",
-    color: "#47B6CE",
-    colorLight: "#e0f4f8",
-    colorMid: "#8dd4e4",
+    color: "#D7A23B",
+    colorLight: "#fdf5e3",
+    colorMid: "#FEDC6F",
     externalMeasures: ["topel_pa_stdscore"],
     externalLabels: { topel_pa_stdscore: "TOPEL PA" },
     externalDescriptions: {
@@ -56,9 +56,9 @@ const DOMAIN_CONFIG = {
   },
   MAT: {
     label: "Math",
-    color: "#13BF96",
-    colorLight: "#e0f7ef",
-    colorMid: "#7eddbe",
+    color: "#5A9F4B",
+    colorLight: "#e8f3e4",
+    colorMid: "#ACD077",
     externalMeasures: ["rema_a_irt", "rema_b_irt", "rema_tot_irt"],
     externalLabels: {
       rema_a_irt: "REMA A (Num & Ops)",
@@ -103,6 +103,33 @@ const KAK_LABELS = {
   MAT10: "MAT10: Position of Objects",
 };
 
+const EXPECTED_CORRELATIONS = {
+  ATL5a: ["htks_score"],
+  ATL5b: ["htks_score"],
+  ATL8: ["htks_score"],
+  ATL9: ["htks_score"],
+  LAN6: ["igdis_Picture_ Naming_score"],
+  LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
+  LAN7b: ["igdis_Which_One_ Doesn't_Belong_score"],
+  LIT1a: ["topel_pa_stdscore"],
+  LIT1b: ["topel_pa_stdscore"],
+  LIT1c: ["topel_pa_stdscore"],
+  LIT1d: ["topel_pa_stdscore"],
+  LIT3a: ["topel_pa_stdscore"],
+  LIT3bi: ["topel_pa_stdscore"],
+  LIT3bii: ["topel_pa_stdscore"],
+  MAT2: ["rema_a_irt"],
+  MAT3: ["rema_a_irt"],
+  MAT4: ["rema_a_irt"],
+  MAT5: ["rema_a_irt"],
+  MAT6a: ["rema_a_irt"],
+  MAT6b: ["rema_a_irt"],
+  MAT7: ["rema_b_irt"],
+  MAT8: ["rema_b_irt"],
+  MAT9: ["rema_b_irt"],
+  MAT10: ["rema_b_irt"],
+};
+
 const RAW_DATA = [
   { variable: "ATL5a", htks_score: 0.4081, "igdis_Picture_ Naming_score": 0.1401, "igdis_Which_One_ Doesn't_Belong_score": 0.2728, topel_pa_stdscore: 0.189, rema_a_irt: 0.3501, rema_b_irt: 0.249, rema_tot_irt: 0.3225, htks_p: 0, igdis_pn_p: 0.1336, igdis_wodb_p: 0.0058, topel_p: 0.0348, rema_a_p: 0.0001, rema_b_p: 0.0055, rema_tot_p: 0.0003, htks_n: 126, igdis_pn_n: 116, igdis_wodb_n: 101, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 123 },
   { variable: "ATL5b", htks_score: 0.3248, "igdis_Picture_ Naming_score": 0.1354, "igdis_Which_One_ Doesn't_Belong_score": 0.2435, topel_pa_stdscore: 0.1491, rema_a_irt: 0.3533, rema_b_irt: 0.2326, rema_tot_irt: 0.3361, htks_p: 0.0016, igdis_pn_p: 0.2113, igdis_wodb_p: 0.0393, topel_p: 0.1608, rema_a_p: 0.0006, rema_b_p: 0.0282, rema_tot_p: 0.0014, htks_n: 92, igdis_pn_n: 87, igdis_wodb_n: 72, topel_n: 90, rema_a_n: 90, rema_b_n: 89, rema_tot_n: 88 },
@@ -133,6 +160,8 @@ const RAW_DATA = [
   { variable: "MAT10", htks_score: 0.388, "igdis_Picture_ Naming_score": 0.5248, "igdis_Which_One_ Doesn't_Belong_score": 0.4939, topel_pa_stdscore: 0.374, rema_a_irt: 0.3422, rema_b_irt: 0.0746, rema_tot_irt: 0.1662, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0.0001, rema_b_p: 0.4027, rema_tot_p: 0.0619, htks_n: 130, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 129, rema_a_n: 128, rema_b_n: 128, rema_tot_n: 127 },
 ];
 
+const BAR_SCALE_MAX = 0.7;
+
 function getStrengthLabel(r) {
   const abs = Math.abs(r);
   if (abs >= 0.5) return "Strong";
@@ -149,14 +178,32 @@ function getStrengthColor(r, domainColor) {
   return "#e5e7eb";
 }
 
-function CorrelationBar({ r, p, n, maxWidth = 200, domainColor }) {
+function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
   const abs = Math.abs(r);
-  const width = (abs / 0.7) * maxWidth;
+  const width = (abs / BAR_SCALE_MAX) * maxWidth;
+  const thresholdX = (0.3 / BAR_SCALE_MAX) * maxWidth;
   const sig = p < 0.05;
   const barColor = getStrengthColor(r, domainColor);
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      {isExpected && (
+        <span
+          style={{
+            fontSize: 9,
+            fontWeight: 700,
+            color: domainColor,
+            background: domainColor + "18",
+            border: `1px solid ${domainColor}40`,
+            padding: "1px 5px",
+            borderRadius: 3,
+            whiteSpace: "nowrap",
+            letterSpacing: "0.02em",
+          }}
+        >
+          expected
+        </span>
+      )}
       <div
         style={{
           width: maxWidth,
@@ -174,6 +221,17 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor }) {
             background: barColor,
             borderRadius: 4,
             transition: "width 0.4s ease",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: thresholdX,
+            top: 0,
+            bottom: 0,
+            width: 0,
+            borderLeft: "2px dashed #0A2A65",
+            opacity: 0.45,
           }}
         />
       </div>
@@ -208,7 +266,7 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor }) {
 }
 
 function DomainSection({ domainKey, config, data, selectedExternal, onSelectExternal }) {
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   const domainData = data.filter((d) => d.variable.startsWith(domainKey));
   const measures = config.externalMeasures;
   const currentMeasure = selectedExternal[domainKey];
@@ -252,7 +310,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
               fontSize: 17,
               fontWeight: 700,
               fontFamily: "'Inter', -apple-system, sans-serif",
-              color: "#1f2937",
+              color: "#0A2A65",
             }}
           >
             {domainKey} — {config.label}
@@ -376,6 +434,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
               : ext === "rema_a_irt" ? "rema_a_n"
               : ext === "rema_b_irt" ? "rema_b_n"
               : "rema_tot_n";
+            const isExpected = (EXPECTED_CORRELATIONS[row.variable] || []).includes(ext);
 
             return [
               <div
@@ -401,6 +460,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
                   n={row[nKey]}
                   domainColor={config.color}
                   maxWidth={240}
+                  isExpected={isExpected}
                 />
               </div>,
             ];
@@ -442,7 +502,7 @@ function ConcurrentValidity() {
               fontSize: 26,
               fontWeight: 700,
               fontFamily: "'Inter', -apple-system, sans-serif",
-              color: "#111827",
+              color: "#0A2A65",
               margin: "0 0 8px",
               lineHeight: 1.2,
             }}
@@ -459,7 +519,11 @@ function ConcurrentValidity() {
             }}
           >
             KAK assessment scales vs. RTI direct assessments (English). Bars
-            show Pearson r. Cells marked{" "}
+            show Pearson r on a scale from 0 to 0.70. The{" "}
+            <span style={{ borderLeft: "2px dashed #0A2A65", opacity: 0.5, paddingLeft: 4 }}>
+              dashed line
+            </span>{" "}
+            marks r = .30, our target for concurrent validity. Cells marked{" "}
             <span
               style={{
                 background: "#fef3c7",
@@ -472,7 +536,22 @@ function ConcurrentValidity() {
             >
               ns
             </span>{" "}
-            are not statistically significant (p ≥ .05).
+            are not statistically significant (p &ge; .05).
+            Rows tagged{" "}
+            <span
+              style={{
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#5A9F4B",
+                background: "#5A9F4B18",
+                border: "1px solid #5A9F4B40",
+                padding: "1px 5px",
+                borderRadius: 3,
+              }}
+            >
+              expected
+            </span>{" "}
+            indicate the KAK scale most conceptually aligned with the selected external measure.
           </p>
           <div
             style={{
@@ -489,10 +568,10 @@ function ConcurrentValidity() {
                   width: 28,
                   height: 10,
                   borderRadius: 3,
-                  background: "#EF6693",
+                  background: "#0A2A65",
                 }}
               />
-              <span>Strong (r ≥ .50)</span>
+              <span>Strong (r &ge; .50)</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div
@@ -500,7 +579,7 @@ function ConcurrentValidity() {
                   width: 28,
                   height: 10,
                   borderRadius: 3,
-                  background: "#EF6693cc",
+                  background: "#0A2A65cc",
                 }}
               />
               <span>Moderate (.30–.49)</span>
@@ -511,7 +590,7 @@ function ConcurrentValidity() {
                   width: 28,
                   height: 10,
                   borderRadius: 3,
-                  background: "#EF669366",
+                  background: "#0A2A6566",
                 }}
               />
               <span>Weak (.10–.29)</span>
