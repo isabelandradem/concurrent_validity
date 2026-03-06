@@ -1,0 +1,537 @@
+import { useState, useMemo } from "react";
+
+const DOMAIN_CONFIG = {
+  ATL: {
+    label: "Executive Function",
+    color: "#EF6693",
+    colorLight: "#fce4ec",
+    colorMid: "#f8a4be",
+    externalMeasures: ["htks_score"],
+    externalLabels: { htks_score: "HTKS" },
+    externalDescriptions: {
+      htks_score: "HTKS-Revised measures self-regulation, specifically all three executive function components: inhibitory control, working memory, and cognitive flexibility. Children play a modified Head, Shoulders, Knees and Toes game that requires doing the opposite of what is instructed.",
+    },
+  },
+  LAN: {
+    label: "Language",
+    color: "#A47FBB",
+    colorLight: "#f0e6f6",
+    colorMid: "#c9aed9",
+    externalMeasures: ["igdis_Picture_ Naming_score", "igdis_Which_One_ Doesn't_Belong_score"],
+    externalLabels: {
+      "igdis_Picture_ Naming_score": "Picture Naming",
+      "igdis_Which_One_ Doesn't_Belong_score": "Which One Doesn't Belong",
+    },
+    externalDescriptions: {
+      "igdis_Picture_ Naming_score": "myIGDIs Picture Naming measures oral language — the child sees a picture and names it, tapping into expressive vocabulary.",
+      "igdis_Which_One_ Doesn't_Belong_score": "myIGDIs Which One Doesn't Belong measures comprehension — the child identifies which item doesn't fit in a group, tapping into categorization and reasoning about relationships between concepts.",
+    },
+  },
+  LIT: {
+    label: "Literacy",
+    color: "#47B6CE",
+    colorLight: "#e0f4f8",
+    colorMid: "#8dd4e4",
+    externalMeasures: ["topel_pa_stdscore"],
+    externalLabels: { topel_pa_stdscore: "TOPEL PA" },
+    externalDescriptions: {
+      topel_pa_stdscore: "TOPEL Phonological Awareness subtest measures print knowledge and phonological awareness. Tasks include elision (saying what is left after a specific sound is deleted from a word) and blending. The Definitional Vocabulary subtest was not administered.",
+    },
+  },
+  MAT: {
+    label: "Math",
+    color: "#13BF96",
+    colorLight: "#e0f7ef",
+    colorMid: "#7eddbe",
+    externalMeasures: ["rema_a_irt", "rema_b_irt", "rema_tot_irt"],
+    externalLabels: {
+      rema_a_irt: "REMA A (Num & Ops)",
+      rema_b_irt: "REMA B (Geo/Pat/etc.)",
+      rema_tot_irt: "REMA Total",
+    },
+    externalDescriptions: {
+      rema_a_irt: "REMA-Short Part A: Number & Operations covers foundational number skills including subitizing, counting, more/less comparisons, numeral recognition, addition, and subtraction. KAK MAT2–MAT6b scales are expected to correlate here.",
+      rema_b_irt: "REMA-Short Part B: Geometry, Patterning, Algebraic Thinking, Measurement, and other topics covers broader math domains beyond number sense. KAK MAT7–MAT10 scales are expected to correlate here.",
+      rema_tot_irt: "REMA-Short Total combines scores from both Part A (Number & Operations) and Part B (Geometry, Patterning, Algebraic Thinking, Measurement, and other topics).",
+    },
+  },
+};
+
+const KAK_LABELS = {
+  ATL5a: "ATL5a: Control Impulses 1",
+  ATL5b: "ATL5b: Control Impulses 2",
+  ATL8: "ATL8: Working Memory",
+  ATL9: "ATL9: Flexible Thinking",
+  LAN6: "LAN6: Vocabulary",
+  LAN7a: "LAN7a: Word Categories",
+  LAN7b: "LAN7b: Shared Characteristics",
+  LIT1a: "LIT1a: Rhyme",
+  LIT1b: "LIT1b: Blending & Adding",
+  LIT1c: "LIT1c: Segmenting",
+  LIT1d: "LIT1d: Decoding & Encoding",
+  LIT2: "LIT2: Concepts of Print",
+  LIT3a: "LIT3a: Letter Names",
+  LIT3bi: "LIT3bi: Consonant Sounds",
+  LIT3bii: "LIT3bii: Vowel Sounds",
+  LIT4: "LIT4: Retell Stories",
+  LIT5: "LIT5: Answer Questions",
+  MAT2: "MAT2: Subitizing",
+  MAT3: "MAT3: Count 1 by 1",
+  MAT4: "MAT4: More or Less",
+  MAT5: "MAT5: Numerals",
+  MAT6a: "MAT6a: Add",
+  MAT6b: "MAT6b: Subtract",
+  MAT7: "MAT7: Patterns",
+  MAT8: "MAT8: Measurement",
+  MAT9: "MAT9: Shapes",
+  MAT10: "MAT10: Position of Objects",
+};
+
+const RAW_DATA = [
+  { variable: "ATL5a", htks_score: 0.4081, "igdis_Picture_ Naming_score": 0.1401, "igdis_Which_One_ Doesn't_Belong_score": 0.2728, topel_pa_stdscore: 0.189, rema_a_irt: 0.3501, rema_b_irt: 0.249, rema_tot_irt: 0.3225, htks_p: 0, igdis_pn_p: 0.1336, igdis_wodb_p: 0.0058, topel_p: 0.0348, rema_a_p: 0.0001, rema_b_p: 0.0055, rema_tot_p: 0.0003, htks_n: 126, igdis_pn_n: 116, igdis_wodb_n: 101, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 123 },
+  { variable: "ATL5b", htks_score: 0.3248, "igdis_Picture_ Naming_score": 0.1354, "igdis_Which_One_ Doesn't_Belong_score": 0.2435, topel_pa_stdscore: 0.1491, rema_a_irt: 0.3533, rema_b_irt: 0.2326, rema_tot_irt: 0.3361, htks_p: 0.0016, igdis_pn_p: 0.2113, igdis_wodb_p: 0.0393, topel_p: 0.1608, rema_a_p: 0.0006, rema_b_p: 0.0282, rema_tot_p: 0.0014, htks_n: 92, igdis_pn_n: 87, igdis_wodb_n: 72, topel_n: 90, rema_a_n: 90, rema_b_n: 89, rema_tot_n: 88 },
+  { variable: "ATL8", htks_score: 0.3004, "igdis_Picture_ Naming_score": 0.3436, "igdis_Which_One_ Doesn't_Belong_score": 0.2804, topel_pa_stdscore: 0.1223, rema_a_irt: 0.3417, rema_b_irt: 0.0396, rema_tot_irt: 0.2219, htks_p: 0.0088, igdis_pn_p: 0.0033, igdis_wodb_p: 0.0286, topel_p: 0.2992, rema_a_p: 0.0029, rema_b_p: 0.7431, rema_tot_p: 0.0629, htks_n: 75, igdis_pn_n: 71, igdis_wodb_n: 61, topel_n: 74, rema_a_n: 74, rema_b_n: 71, rema_tot_n: 71 },
+  { variable: "ATL9", htks_score: 0.1825, "igdis_Picture_ Naming_score": 0.2543, "igdis_Which_One_ Doesn't_Belong_score": 0.1657, topel_pa_stdscore: 0.191, rema_a_irt: 0.1706, rema_b_irt: 0.0906, rema_tot_irt: 0.1566, htks_p: 0.0499, igdis_pn_p: 0.0088, igdis_wodb_p: 0.1185, topel_p: 0.04, rema_a_p: 0.0682, rema_b_p: 0.3376, rema_tot_p: 0.0976, htks_n: 116, igdis_pn_n: 105, igdis_wodb_n: 90, topel_n: 116, rema_a_n: 115, rema_b_n: 114, rema_tot_n: 113 },
+  { variable: "LAN6", htks_score: 0.2485, "igdis_Picture_ Naming_score": 0.1097, "igdis_Which_One_ Doesn't_Belong_score": 0.2083, topel_pa_stdscore: 0.0807, rema_a_irt: 0.1583, rema_b_irt: 0.1238, rema_tot_irt: 0.1076, htks_p: 0.0157, igdis_pn_p: 0.2951, igdis_wodb_p: 0.0709, topel_p: 0.4447, rema_a_p: 0.1296, rema_b_p: 0.2396, rema_tot_p: 0.3099, htks_n: 94, igdis_pn_n: 93, igdis_wodb_n: 76, topel_n: 92, rema_a_n: 93, rema_b_n: 92, rema_tot_n: 91 },
+  { variable: "LAN7a", htks_score: 0.2694, "igdis_Picture_ Naming_score": 0.2754, "igdis_Which_One_ Doesn't_Belong_score": 0.4871, topel_pa_stdscore: 0.2405, rema_a_irt: 0.2067, rema_b_irt: 0.1564, rema_tot_irt: 0.1976, htks_p: 0.0029, igdis_pn_p: 0.0034, igdis_wodb_p: 0, topel_p: 0.0084, rema_a_p: 0.0235, rema_b_p: 0.0894, rema_tot_p: 0.032, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 95, topel_n: 119, rema_a_n: 120, rema_b_n: 119, rema_tot_n: 118 },
+  { variable: "LAN7b", htks_score: 0.3854, "igdis_Picture_ Naming_score": 0.3467, "igdis_Which_One_ Doesn't_Belong_score": 0.3026, topel_pa_stdscore: 0.282, rema_a_irt: 0.3218, rema_b_irt: 0.1961, rema_tot_irt: 0.2906, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.002, topel_p: 0.0014, rema_a_p: 0.0003, rema_b_p: 0.0297, rema_tot_p: 0.0012, htks_n: 127, igdis_pn_n: 116, igdis_wodb_n: 102, topel_n: 126, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
+  { variable: "LIT1a", htks_score: 0.1592, "igdis_Picture_ Naming_score": 0.175, "igdis_Which_One_ Doesn't_Belong_score": 0.272, topel_pa_stdscore: 0.0577, rema_a_irt: 0.1179, rema_b_irt: 0.1101, rema_tot_irt: 0.1684, htks_p: 0.0727, igdis_pn_p: 0.0559, igdis_wodb_p: 0.0048, topel_p: 0.5193, rema_a_p: 0.1869, rema_b_p: 0.2217, rema_tot_p: 0.0615, htks_n: 128, igdis_pn_n: 120, igdis_wodb_n: 106, topel_n: 127, rema_a_n: 127, rema_b_n: 125, rema_tot_n: 124 },
+  { variable: "LIT1b", htks_score: 0.3161, "igdis_Picture_ Naming_score": 0.2944, "igdis_Which_One_ Doesn't_Belong_score": 0.4749, topel_pa_stdscore: 0.1873, rema_a_irt: 0.2764, rema_b_irt: 0.0971, rema_tot_irt: 0.2359, htks_p: 0.0003, igdis_pn_p: 0.0013, igdis_wodb_p: 0, topel_p: 0.0365, rema_a_p: 0.0018, rema_b_p: 0.2854, rema_tot_p: 0.0089, htks_n: 126, igdis_pn_n: 117, igdis_wodb_n: 102, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
+  { variable: "LIT1c", htks_score: 0.3474, "igdis_Picture_ Naming_score": 0.3424, "igdis_Which_One_ Doesn't_Belong_score": 0.475, topel_pa_stdscore: 0.3209, rema_a_irt: 0.4009, rema_b_irt: 0.159, rema_tot_irt: 0.3035, htks_p: 0.0001, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0882, rema_tot_p: 0.001, htks_n: 119, igdis_pn_n: 110, igdis_wodb_n: 96, topel_n: 119, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 115 },
+  { variable: "LIT1d", htks_score: -0.0339, "igdis_Picture_ Naming_score": 0.2686, "igdis_Which_One_ Doesn't_Belong_score": 0.3632, topel_pa_stdscore: 0.041, rema_a_irt: 0.2919, rema_b_irt: 0.113, rema_tot_irt: 0.2093, htks_p: 0.8172, igdis_pn_p: 0.0621, igdis_wodb_p: 0.023, topel_p: 0.7797, rema_a_p: 0.0419, rema_b_p: 0.4345, rema_tot_p: 0.1489, htks_n: 49, igdis_pn_n: 49, igdis_wodb_n: 39, topel_n: 49, rema_a_n: 49, rema_b_n: 50, rema_tot_n: 49 },
+  { variable: "LIT2", htks_score: 0.4602, "igdis_Picture_ Naming_score": 0.4736, "igdis_Which_One_ Doesn't_Belong_score": 0.4075, topel_pa_stdscore: 0.1337, rema_a_irt: 0.5092, rema_b_irt: 0.5341, rema_tot_irt: 0.5176, htks_p: 0.008, igdis_pn_p: 0.0071, igdis_wodb_p: 0.0432, topel_p: 0.4658, rema_a_p: 0.0034, rema_b_p: 0.0016, rema_tot_p: 0.0029, htks_n: 32, igdis_pn_n: 31, igdis_wodb_n: 25, topel_n: 32, rema_a_n: 31, rema_b_n: 32, rema_tot_n: 31 },
+  { variable: "LIT3a", htks_score: 0.4055, "igdis_Picture_ Naming_score": 0.4974, "igdis_Which_One_ Doesn't_Belong_score": 0.4103, topel_pa_stdscore: 0.17, rema_a_irt: 0.5938, rema_b_irt: 0.3594, rema_tot_irt: 0.5013, htks_p: 0.0141, igdis_pn_p: 0.002, igdis_wodb_p: 0.0271, topel_p: 0.3215, rema_a_p: 0.0002, rema_b_p: 0.0313, rema_tot_p: 0.0022, htks_n: 36, igdis_pn_n: 36, igdis_wodb_n: 29, topel_n: 36, rema_a_n: 35, rema_b_n: 36, rema_tot_n: 35 },
+  { variable: "LIT3bi", htks_score: 0.3046, "igdis_Picture_ Naming_score": 0.4213, "igdis_Which_One_ Doesn't_Belong_score": 0.3732, topel_pa_stdscore: 0.3295, rema_a_irt: 0.429, rema_b_irt: 0.2148, rema_tot_irt: 0.3603, htks_p: 0.0004, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0.0145, rema_tot_p: 0, htks_n: 131, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 130, rema_a_n: 129, rema_b_n: 129, rema_tot_n: 128 },
+  { variable: "LIT3bii", htks_score: 0.2071, "igdis_Picture_ Naming_score": 0.3972, "igdis_Which_One_ Doesn't_Belong_score": 0.3229, topel_pa_stdscore: 0.1484, rema_a_irt: 0.4436, rema_b_irt: 0.2091, rema_tot_irt: 0.3896, htks_p: 0.0221, igdis_pn_p: 0, igdis_wodb_p: 0.0011, topel_p: 0.1042, rema_a_p: 0, rema_b_p: 0.0231, rema_tot_p: 0, htks_n: 122, igdis_pn_n: 113, igdis_wodb_n: 99, topel_n: 121, rema_a_n: 120, rema_b_n: 118, rema_tot_n: 117 },
+  { variable: "LIT4", htks_score: 0.5614, "igdis_Picture_ Naming_score": 0.3141, "igdis_Which_One_ Doesn't_Belong_score": 0.5469, topel_pa_stdscore: 0.0986, rema_a_irt: 0.4479, rema_b_irt: 0.3097, rema_tot_irt: 0.428, htks_p: 0.0001, igdis_pn_p: 0.0356, igdis_wodb_p: 0.0007, topel_p: 0.5194, rema_a_p: 0.002, rema_b_p: 0.0362, rema_tot_p: 0.0034, htks_n: 45, igdis_pn_n: 45, igdis_wodb_n: 35, topel_n: 45, rema_a_n: 45, rema_b_n: 46, rema_tot_n: 45 },
+  { variable: "LIT5", htks_score: 0.4903, "igdis_Picture_ Naming_score": 0.366, "igdis_Which_One_ Doesn't_Belong_score": 0.3622, topel_pa_stdscore: 0.4533, rema_a_irt: 0.4096, rema_b_irt: 0.3179, rema_tot_irt: 0.3401, htks_p: 0.0028, igdis_pn_p: 0.0333, igdis_wodb_p: 0.0633, topel_p: 0.0055, rema_a_p: 0.0145, rema_b_p: 0.0628, rema_tot_p: 0.0491, htks_n: 35, igdis_pn_n: 34, igdis_wodb_n: 27, topel_n: 36, rema_a_n: 35, rema_b_n: 35, rema_tot_n: 34 },
+  { variable: "MAT2", htks_score: 0.2994, "igdis_Picture_ Naming_score": 0.4217, "igdis_Which_One_ Doesn't_Belong_score": 0.4056, topel_pa_stdscore: 0.1962, rema_a_irt: 0.4925, rema_b_irt: 0.296, rema_tot_irt: 0.4535, htks_p: 0.0026, igdis_pn_p: 0, igdis_wodb_p: 0.0002, topel_p: 0.0541, rema_a_p: 0, rema_b_p: 0.0031, rema_tot_p: 0, htks_n: 99, igdis_pn_n: 94, igdis_wodb_n: 81, topel_n: 97, rema_a_n: 98, rema_b_n: 98, rema_tot_n: 97 },
+  { variable: "MAT3", htks_score: 0.4263, "igdis_Picture_ Naming_score": 0.2689, "igdis_Which_One_ Doesn't_Belong_score": 0.4968, topel_pa_stdscore: 0.3429, rema_a_irt: 0.499, rema_b_irt: 0.3485, rema_tot_irt: 0.4955, htks_p: 0, igdis_pn_p: 0.0081, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0003, rema_tot_p: 0, htks_n: 104, igdis_pn_n: 96, igdis_wodb_n: 84, topel_n: 102, rema_a_n: 103, rema_b_n: 102, rema_tot_n: 101 },
+  { variable: "MAT4", htks_score: 0.514, "igdis_Picture_ Naming_score": 0.3659, "igdis_Which_One_ Doesn't_Belong_score": 0.3932, topel_pa_stdscore: 0.4866, rema_a_irt: 0.3743, rema_b_irt: 0.2511, rema_tot_irt: 0.3488, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.0001, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0066, rema_tot_p: 0.0001, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 93, topel_n: 118, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 114 },
+  { variable: "MAT5", htks_score: 0.3631, "igdis_Picture_ Naming_score": 0.4115, "igdis_Which_One_ Doesn't_Belong_score": 0.3984, topel_pa_stdscore: 0.2876, rema_a_irt: 0.5683, rema_b_irt: 0.2693, rema_tot_irt: 0.4712, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0006, rema_a_p: 0, rema_b_p: 0.0015, rema_tot_p: 0, htks_n: 140, igdis_pn_n: 130, igdis_wodb_n: 113, topel_n: 138, rema_a_n: 138, rema_b_n: 136, rema_tot_n: 135 },
+  { variable: "MAT6a", htks_score: 0.4034, "igdis_Picture_ Naming_score": 0.4256, "igdis_Which_One_ Doesn't_Belong_score": 0.5015, topel_pa_stdscore: 0.357, rema_a_irt: 0.5736, rema_b_irt: 0.2752, rema_tot_irt: 0.5136, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0019, rema_tot_p: 0, htks_n: 128, igdis_pn_n: 118, igdis_wodb_n: 104, topel_n: 126, rema_a_n: 126, rema_b_n: 125, rema_tot_n: 124 },
+  { variable: "MAT6b", htks_score: 0.4266, "igdis_Picture_ Naming_score": 0.463, "igdis_Which_One_ Doesn't_Belong_score": 0.4525, topel_pa_stdscore: 0.3339, rema_a_irt: 0.3088, rema_b_irt: 0.1304, rema_tot_irt: 0.2301, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0.0011, rema_b_p: 0.1766, rema_tot_p: 0.0166, htks_n: 111, igdis_pn_n: 102, igdis_wodb_n: 90, topel_n: 110, rema_a_n: 109, rema_b_n: 109, rema_tot_n: 108 },
+  { variable: "MAT7", htks_score: 0.443, "igdis_Picture_ Naming_score": 0.4365, "igdis_Which_One_ Doesn't_Belong_score": 0.5217, topel_pa_stdscore: 0.281, rema_a_irt: 0.5489, rema_b_irt: 0.4462, rema_tot_irt: 0.5841, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 137, igdis_pn_n: 126, igdis_wodb_n: 108, topel_n: 135, rema_a_n: 134, rema_b_n: 133, rema_tot_n: 131 },
+  { variable: "MAT8", htks_score: 0.3823, "igdis_Picture_ Naming_score": 0.3881, "igdis_Which_One_ Doesn't_Belong_score": 0.3481, topel_pa_stdscore: 0.2516, rema_a_irt: 0.5176, rema_b_irt: 0.4197, rema_tot_irt: 0.5168, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0023, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 147, igdis_pn_n: 134, igdis_wodb_n: 116, topel_n: 145, rema_a_n: 144, rema_b_n: 143, rema_tot_n: 141 },
+  { variable: "MAT9", htks_score: 0.4474, "igdis_Picture_ Naming_score": 0.3085, "igdis_Which_One_ Doesn't_Belong_score": 0.4008, topel_pa_stdscore: 0.3223, rema_a_irt: 0.5433, rema_b_irt: 0.3383, rema_tot_irt: 0.499, htks_p: 0, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 145, igdis_pn_n: 132, igdis_wodb_n: 115, topel_n: 143, rema_a_n: 143, rema_b_n: 141, rema_tot_n: 140 },
+  { variable: "MAT10", htks_score: 0.388, "igdis_Picture_ Naming_score": 0.5248, "igdis_Which_One_ Doesn't_Belong_score": 0.4939, topel_pa_stdscore: 0.374, rema_a_irt: 0.3422, rema_b_irt: 0.0746, rema_tot_irt: 0.1662, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0.0001, rema_b_p: 0.4027, rema_tot_p: 0.0619, htks_n: 130, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 129, rema_a_n: 128, rema_b_n: 128, rema_tot_n: 127 },
+];
+
+function getStrengthLabel(r) {
+  const abs = Math.abs(r);
+  if (abs >= 0.5) return "Strong";
+  if (abs >= 0.3) return "Moderate";
+  if (abs >= 0.1) return "Weak";
+  return "Negligible";
+}
+
+function getStrengthColor(r, domainColor) {
+  const abs = Math.abs(r);
+  if (abs >= 0.5) return domainColor;
+  if (abs >= 0.3) return domainColor + "cc";
+  if (abs >= 0.1) return domainColor + "66";
+  return "#e5e7eb";
+}
+
+function CorrelationBar({ r, p, n, maxWidth = 200, domainColor }) {
+  const abs = Math.abs(r);
+  const width = (abs / 0.7) * maxWidth;
+  const sig = p < 0.05;
+  const barColor = getStrengthColor(r, domainColor);
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div
+        style={{
+          width: maxWidth,
+          height: 22,
+          background: "#f3f4f6",
+          borderRadius: 4,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            width: Math.max(width, 2),
+            height: "100%",
+            background: barColor,
+            borderRadius: 4,
+            transition: "width 0.4s ease",
+          }}
+        />
+      </div>
+      <span
+        style={{
+          fontFamily: "'Inter', -apple-system, sans-serif",
+          fontSize: 13,
+          fontWeight: 600,
+          color: sig ? "#1f2937" : "#9ca3af",
+          minWidth: 48,
+        }}
+      >
+        {r.toFixed(2)}
+      </span>
+      {!sig && (
+        <span
+          style={{
+            fontSize: 10,
+            color: "#d97706",
+            fontWeight: 500,
+            background: "#fef3c7",
+            padding: "1px 5px",
+            borderRadius: 3,
+          }}
+        >
+          ns
+        </span>
+      )}
+      <span style={{ fontSize: 10, color: "#9ca3af" }}>n={n}</span>
+    </div>
+  );
+}
+
+function DomainSection({ domainKey, config, data, selectedExternal, onSelectExternal }) {
+  const [showInfo, setShowInfo] = useState(false);
+  const domainData = data.filter((d) => d.variable.startsWith(domainKey));
+  const measures = config.externalMeasures;
+  const currentMeasure = selectedExternal[domainKey];
+  const description = config.externalDescriptions[currentMeasure];
+
+  return (
+    <div
+      style={{
+        marginBottom: 36,
+        background: "white",
+        borderRadius: 12,
+        border: `1px solid ${config.colorLight}`,
+        overflow: "hidden",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+      }}
+    >
+      <div
+        style={{
+          padding: "16px 24px",
+          background: `linear-gradient(135deg, ${config.color}12, ${config.colorLight})`,
+          borderBottom: `1px solid ${config.colorLight}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 12,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: config.color,
+            }}
+          />
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 17,
+              fontWeight: 700,
+              fontFamily: "'Inter', -apple-system, sans-serif",
+              color: "#1f2937",
+            }}
+          >
+            {domainKey} — {config.label}
+          </h2>
+          <button
+            onClick={() => setShowInfo(!showInfo)}
+            style={{
+              background: "none",
+              border: `1.5px solid ${showInfo ? config.color : "#d1d5db"}`,
+              borderRadius: "50%",
+              width: 22,
+              height: 22,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              fontSize: 12,
+              fontWeight: 700,
+              color: showInfo ? config.color : "#9ca3af",
+              transition: "all 0.15s",
+              flexShrink: 0,
+            }}
+            title="About this assessment"
+          >
+            i
+          </button>
+        </div>
+        {measures.length > 1 && (
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {measures.map((m) => (
+              <button
+                key={m}
+                onClick={() => onSelectExternal(domainKey, m)}
+                style={{
+                  padding: "4px 12px",
+                  borderRadius: 6,
+                  border: `1.5px solid ${selectedExternal[domainKey] === m ? config.color : "#d1d5db"}`,
+                  background: selectedExternal[domainKey] === m ? config.color + "18" : "white",
+                  color: selectedExternal[domainKey] === m ? config.color : "#6b7280",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontFamily: "'Inter', -apple-system, sans-serif",
+                  transition: "all 0.15s",
+                }}
+              >
+                {config.externalLabels[m]}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      {showInfo && (
+        <div
+          style={{
+            padding: "12px 24px",
+            background: `${config.color}08`,
+            borderBottom: `1px solid ${config.colorLight}`,
+            fontSize: 13,
+            color: "#4b5563",
+            lineHeight: 1.6,
+          }}
+        >
+          <span style={{ fontWeight: 600, color: config.color }}>
+            {config.externalLabels[currentMeasure]}
+          </span>
+          {" — "}
+          {description}
+        </div>
+      )}
+      <div style={{ padding: "12px 24px 20px" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "220px 1fr",
+            gap: "6px 16px",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              color: "#9ca3af",
+              padding: "4px 0",
+            }}
+          >
+            KAK Assessment Scale
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              color: "#9ca3af",
+              padding: "4px 0",
+            }}
+          >
+            Correlation with{" "}
+            {config.externalLabels[selectedExternal[domainKey]]}
+          </div>
+          {domainData.map((row) => {
+            const ext = selectedExternal[domainKey];
+            const r = row[ext];
+            const pKey =
+              ext === "htks_score" ? "htks_p"
+              : ext === "igdis_Picture_ Naming_score" ? "igdis_pn_p"
+              : ext === "igdis_Which_One_ Doesn't_Belong_score" ? "igdis_wodb_p"
+              : ext === "topel_pa_stdscore" ? "topel_p"
+              : ext === "rema_a_irt" ? "rema_a_p"
+              : ext === "rema_b_irt" ? "rema_b_p"
+              : "rema_tot_p";
+            const nKey =
+              ext === "htks_score" ? "htks_n"
+              : ext === "igdis_Picture_ Naming_score" ? "igdis_pn_n"
+              : ext === "igdis_Which_One_ Doesn't_Belong_score" ? "igdis_wodb_n"
+              : ext === "topel_pa_stdscore" ? "topel_n"
+              : ext === "rema_a_irt" ? "rema_a_n"
+              : ext === "rema_b_irt" ? "rema_b_n"
+              : "rema_tot_n";
+
+            return [
+              <div
+                key={row.variable + "-label"}
+                style={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "#374151",
+                  fontFamily: "'Inter', -apple-system, sans-serif",
+                  padding: "6px 0",
+                  borderTop: "1px solid #f3f4f6",
+                }}
+              >
+                {KAK_LABELS[row.variable] || row.variable}
+              </div>,
+              <div
+                key={row.variable + "-bar"}
+                style={{ padding: "6px 0", borderTop: "1px solid #f3f4f6" }}
+              >
+                <CorrelationBar
+                  r={r}
+                  p={row[pKey]}
+                  n={row[nKey]}
+                  domainColor={config.color}
+                  maxWidth={240}
+                />
+              </div>,
+            ];
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ConcurrentValidity() {
+  const [selectedExternal, setSelectedExternal] = useState({
+    ATL: "htks_score",
+    LAN: "igdis_Picture_ Naming_score",
+    LIT: "topel_pa_stdscore",
+    MAT: "rema_a_irt",
+  });
+
+  const handleSelect = (domain, measure) => {
+    setSelectedExternal((prev) => ({ ...prev, [domain]: measure }));
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#fafbfc",
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+      <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 24px" }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1
+            style={{
+              fontSize: 26,
+              fontWeight: 700,
+              fontFamily: "'Inter', -apple-system, sans-serif",
+              color: "#111827",
+              margin: "0 0 8px",
+              lineHeight: 1.2,
+            }}
+          >
+            Concurrent Validity Correlations
+          </h1>
+          <p
+            style={{
+              fontSize: 14,
+              color: "#6b7280",
+              margin: "0 0 16px",
+              lineHeight: 1.5,
+              maxWidth: 600,
+            }}
+          >
+            KAK assessment scales vs. RTI direct assessments (English). Bars
+            show Pearson r. Cells marked{" "}
+            <span
+              style={{
+                background: "#fef3c7",
+                padding: "0 4px",
+                borderRadius: 3,
+                fontSize: 11,
+                fontWeight: 600,
+                color: "#d97706",
+              }}
+            >
+              ns
+            </span>{" "}
+            are not statistically significant (p ≥ .05).
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              flexWrap: "wrap",
+              fontSize: 12,
+              color: "#6b7280",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div
+                style={{
+                  width: 28,
+                  height: 10,
+                  borderRadius: 3,
+                  background: "#EF6693",
+                }}
+              />
+              <span>Strong (r ≥ .50)</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div
+                style={{
+                  width: 28,
+                  height: 10,
+                  borderRadius: 3,
+                  background: "#EF6693cc",
+                }}
+              />
+              <span>Moderate (.30–.49)</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div
+                style={{
+                  width: 28,
+                  height: 10,
+                  borderRadius: 3,
+                  background: "#EF669366",
+                }}
+              />
+              <span>Weak (.10–.29)</span>
+            </div>
+          </div>
+        </div>
+
+        {Object.entries(DOMAIN_CONFIG).map(([key, config]) => (
+          <DomainSection
+            key={key}
+            domainKey={key}
+            config={config}
+            data={RAW_DATA}
+            selectedExternal={selectedExternal}
+            onSelectExternal={handleSelect}
+          />
+        ))}
+
+        <div
+          style={{
+            marginTop: 8,
+            padding: "16px 20px",
+            background: "#f9fafb",
+            borderRadius: 8,
+            border: "1px solid #e5e7eb",
+            fontSize: 12,
+            color: "#9ca3af",
+            lineHeight: 1.6,
+          }}
+        >
+          <strong style={{ color: "#6b7280" }}>Note:</strong> Correlations use
+          pairwise deletion. Sample sizes vary by scale due to adaptive
+          assessment design (children only reach certain scales based on prior
+          performance). Direct assessments administered by RTI.
+        </div>
+      </div>
+    </div>
+  );
+}
