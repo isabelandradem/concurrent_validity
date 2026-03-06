@@ -172,18 +172,81 @@ function PerScaleView() {
 
   const barMaxWidth = 280;
 
+  const NAV_ITEMS = [
+    { key: "domain", label: "By Domain", href: "index.html", icon: "\u2588\u2588" },
+    { key: "scale", label: "Per Scale", href: "per-scale.html", icon: "\u2503" },
+  ];
+  const activePage = "scale";
+
   return (
     <div
       style={{
         minHeight: "100vh",
         background: "#fafbfc",
         fontFamily: "'Inter', -apple-system, sans-serif",
+        display: "flex",
       }}
     >
       <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
+
+      {/* Sidebar */}
+      <nav
+        style={{
+          width: 200,
+          minHeight: "100vh",
+          background: "#fff",
+          borderRight: "1px solid #e5e7eb",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 20,
+          display: "flex",
+          flexDirection: "column",
+          padding: "28px 0 20px",
+        }}
+      >
+        <div style={{ padding: "0 20px 24px", borderBottom: "1px solid #f0f0f0" }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#0A2A65", lineHeight: 1.3 }}>
+            Concurrent Validity
+          </div>
+          <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 2 }}>
+            Khan Kids &times; RTI
+          </div>
+        </div>
+        <div style={{ padding: "16px 12px", display: "flex", flexDirection: "column", gap: 4 }}>
+          {NAV_ITEMS.map((item) => {
+            const isActive = item.key === activePage;
+            return (
+              <a
+                key={item.key}
+                href={item.href}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "10px 12px",
+                  borderRadius: 8,
+                  textDecoration: "none",
+                  fontSize: 13,
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? "#0A2A65" : "#6b7280",
+                  background: isActive ? "#EEF2FF" : "transparent",
+                  transition: "all 0.15s",
+                }}
+              >
+                <span style={{ fontSize: 10, opacity: 0.6 }}>{item.icon}</span>
+                {item.label}
+              </a>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Main content */}
+      <div style={{ marginLeft: 200, flex: 1, minWidth: 0 }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
         {/* Sticky header */}
         <div
@@ -197,35 +260,17 @@ function PerScaleView() {
             borderBottom: "1px solid #e5e7eb",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-            <h1
-              style={{
-                fontSize: 26,
-                fontWeight: 700,
-                color: "#000",
-                margin: 0,
-                lineHeight: 1.2,
-              }}
-            >
-              Per-Scale Cross-Domain View
-            </h1>
-            <a
-              href="index.html"
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                color: "#6b7280",
-                textDecoration: "none",
-                padding: "6px 14px",
-                borderRadius: 6,
-                border: "1px solid #d1d5db",
-                background: "white",
-                transition: "all 0.15s",
-              }}
-            >
-              &larr; By Domain View
-            </a>
-          </div>
+          <h1
+            style={{
+              fontSize: 26,
+              fontWeight: 700,
+              color: "#000",
+              margin: "0 0 8px",
+              lineHeight: 1.2,
+            }}
+          >
+            Per-Scale Cross-Domain View
+          </h1>
           <p style={{ fontSize: 14, color: "#000", margin: "0 0 12px", lineHeight: 1.5, maxWidth: 620 }}>
             Select a KAK assessment scale to see how it correlates with every RTI direct assessment (English).
             Bars colored by the external assessment's domain.
@@ -612,6 +657,7 @@ function PerScaleView() {
           Bars colored by the external assessment's domain. Sample sizes vary by
           scale. Direct assessments administered by RTI.
         </div>
+      </div>
       </div>
     </div>
   );
