@@ -187,23 +187,6 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      {isExpected && (
-        <span
-          style={{
-            fontSize: 9,
-            fontWeight: 700,
-            color: domainColor,
-            background: domainColor + "18",
-            border: `1px solid ${domainColor}40`,
-            padding: "1px 5px",
-            borderRadius: 3,
-            whiteSpace: "nowrap",
-            letterSpacing: "0.02em",
-          }}
-        >
-          expected
-        </span>
-      )}
       <div
         style={{
           width: maxWidth,
@@ -240,7 +223,7 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
           fontFamily: "'Inter', -apple-system, sans-serif",
           fontSize: 13,
           fontWeight: 600,
-          color: sig ? "#1f2937" : "#9ca3af",
+          color: sig ? "#000000" : "#9ca3af",
           minWidth: 48,
         }}
       >
@@ -261,6 +244,23 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
         </span>
       )}
       <span style={{ fontSize: 10, color: "#9ca3af" }}>n={n}</span>
+      {isExpected && (
+        <span
+          style={{
+            fontSize: 9,
+            fontWeight: 700,
+            color: domainColor,
+            background: domainColor + "18",
+            border: `1px solid ${domainColor}40`,
+            padding: "1px 5px",
+            borderRadius: 3,
+            whiteSpace: "nowrap",
+            letterSpacing: "0.02em",
+          }}
+        >
+          expected
+        </span>
+      )}
     </div>
   );
 }
@@ -310,7 +310,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
               fontSize: 17,
               fontWeight: 700,
               fontFamily: "'Inter', -apple-system, sans-serif",
-              color: "#0A2A65",
+              color: "#000000",
             }}
           >
             {domainKey} — {config.label}
@@ -370,7 +370,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
             background: `${config.color}08`,
             borderBottom: `1px solid ${config.colorLight}`,
             fontSize: 13,
-            color: "#4b5563",
+            color: "#000000",
             lineHeight: 1.6,
           }}
         >
@@ -442,7 +442,7 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
                 style={{
                   fontSize: 13,
                   fontWeight: 500,
-                  color: "#374151",
+                  color: "#000000",
                   fontFamily: "'Inter', -apple-system, sans-serif",
                   padding: "6px 0",
                   borderTop: "1px solid #f3f4f6",
@@ -502,7 +502,7 @@ function ConcurrentValidity() {
               fontSize: 26,
               fontWeight: 700,
               fontFamily: "'Inter', -apple-system, sans-serif",
-              color: "#0A2A65",
+              color: "#000000",
               margin: "0 0 8px",
               lineHeight: 1.2,
             }}
@@ -512,7 +512,7 @@ function ConcurrentValidity() {
           <p
             style={{
               fontSize: 14,
-              color: "#6b7280",
+              color: "#000000",
               margin: "0 0 16px",
               lineHeight: 1.5,
               maxWidth: 600,
@@ -559,7 +559,7 @@ function ConcurrentValidity() {
               gap: 16,
               flexWrap: "wrap",
               fontSize: 12,
-              color: "#6b7280",
+              color: "#000000",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -617,11 +617,11 @@ function ConcurrentValidity() {
             borderRadius: 8,
             border: "1px solid #e5e7eb",
             fontSize: 12,
-            color: "#9ca3af",
+            color: "#000000",
             lineHeight: 1.6,
           }}
         >
-          <strong style={{ color: "#6b7280" }}>Note:</strong> Correlations use
+          <strong style={{ color: "#000000" }}>Note:</strong> Correlations use
           pairwise deletion. Sample sizes vary by scale due to adaptive
           assessment design (children only reach certain scales based on prior
           performance). Direct assessments administered by RTI.
