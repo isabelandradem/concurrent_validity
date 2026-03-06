@@ -663,8 +663,19 @@ function ConcurrentValidity() {
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
-      <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 24px" }}>
-        <div style={{ marginBottom: 32 }}>
+      <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 24px" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            background: "#fafbfc",
+            paddingTop: 40,
+            paddingBottom: 16,
+            marginBottom: 16,
+            borderBottom: "1px solid #e5e7eb",
+          }}
+        >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
             <h1
               style={{
@@ -817,6 +828,7 @@ function ConcurrentValidity() {
           </div>
         </div>
 
+        <div style={{ paddingTop: 16 }}>
         <ChartContent key={lang} lang={lang} />
 
         <div
@@ -835,6 +847,7 @@ function ConcurrentValidity() {
           pairwise deletion. Sample sizes vary by scale due to adaptive
           assessment design (children only reach certain scales based on prior
           performance). Direct assessments administered by RTI.
+        </div>
         </div>
       </div>
     </div>
