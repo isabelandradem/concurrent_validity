@@ -75,15 +75,70 @@ const LANG_CONFIGS = {
   EN: {
     langLabel: "English",
     domainConfig: {
-      ATL: {
-        label: "Executive Function",
-        color: "#9B4570",
-        colorLight: "#f5e3ed",
-        colorMid: "#D97CB1",
-        externalMeasures: ["htks_score"],
-        externalLabels: { htks_score: "HTKS" },
+      MAT: {
+        label: "Math",
+        color: "#5A9F4B",
+        colorLight: "#e8f3e4",
+        colorMid: "#ACD077",
+        externalMeasures: ["rema_a_irt", "rema_b_irt", "rema_tot_irt"],
+        externalLabels: {
+          rema_a_irt: "REMA A (Num & Ops)",
+          rema_b_irt: "REMA B (Geo/Pat/etc.)",
+          rema_tot_irt: "REMA Total",
+        },
         externalDescriptions: {
-          htks_score: "HTKS-Revised measures self-regulation, specifically all three executive function components: inhibitory control, working memory, and cognitive flexibility. Children play a modified Head, Shoulders, Knees and Toes game that requires doing the opposite of what is instructed.",
+          rema_a_irt: "REMA-Short Part A: Number & Operations covers foundational number skills including subitizing, counting, more/less comparisons, numeral recognition, addition, and subtraction. KAK MAT2–MAT6b scales are expected to correlate here.",
+          rema_b_irt: "REMA-Short Part B: Geometry, Patterning, Algebraic Thinking, Measurement, and other topics covers broader math domains beyond number sense. KAK MAT7–MAT9 scales are expected to correlate here.",
+          rema_tot_irt: "REMA-Short Total combines scores from both Part A (Number & Operations) and Part B (Geometry, Patterning, Algebraic Thinking, Measurement, and other topics).",
+        },
+        notes: {
+          title: "Alex's Notes \u2014 Convergent Validity",
+          items: [
+            "We expected <b>MAT2</b>\u2013<b>MAT6b</b> to match best with <b>REMA A</b> (Number & Operations).",
+            "We expected <b>MAT7</b>\u2013<b>MAT9</b> to match best with <b>REMA B</b> (Geometry, Patterning, Measurement, etc.).",
+            "<b>MAT10</b> (Position of Objects) primarily assesses positional vocabulary, making it a weak conceptual match for either REMA subscale.",
+          ],
+        },
+        discriminantNotes: {
+          title: "Alex's Notes \u2014 Discriminant Validity",
+          items: [
+            "<b>MAT2</b>, <b>MAT3</b>, <b>MAT5</b>, <b>MAT6a</b>, <b>MAT8</b>, and <b>MAT9</b> all have their strongest correlation with <b>REMA A</b> \u2014 consistent with convergent validity expectations.",
+            "<b>MAT7</b> has its strongest correlation with <b>REMA Total</b> rather than <b>REMA B</b>.",
+            "<b>MAT4</b> correlates most strongly with <b>HTKS</b>, then <b>TOPEL PA</b> and <b>IGDIS Which One</b>, before <b>REMA A</b>.",
+            "<b>MAT6b</b> correlates most strongly with <b>IGDIS Picture Naming</b> and <b>IGDIS Which One</b>, then <b>HTKS</b> and <b>TOPEL PA</b>, before <b>REMA A</b>.",
+            "<b>MAT10</b> has strong correlations with nearly every measure <em>except</em> its a priori match (<b>REMA B</b>) and <b>REMA Total</b>.",
+          ],
+        },
+      },
+      LIT: {
+        label: "Literacy",
+        color: "#D7A23B",
+        colorLight: "#fdf5e3",
+        colorMid: "#FEDC6F",
+        externalMeasures: ["topel_pa_stdscore"],
+        externalLabels: { topel_pa_stdscore: "TOPEL PA" },
+        externalDescriptions: {
+          topel_pa_stdscore: "TOPEL Phonological Awareness subtest measures print knowledge and phonological awareness. Tasks include elision (saying what is left after a specific sound is deleted from a word) and blending. The Definitional Vocabulary subtest was not administered.",
+        },
+        notes: {
+          title: "Alex's Notes \u2014 Convergent Validity",
+          items: [
+            "<b>TOPEL PA</b> (Phonological Awareness) assesses blending and elision.",
+            "We expected <b>LIT1b</b> (Blending & Adding) and <b>LIT1c</b> (Segmenting) to be the strongest matches, given direct construct overlap with TOPEL PA\u2019s tasks.",
+            "<b>LIT1a</b> (Rhyme) and <b>LIT1d</b> (Decoding & Encoding) were also expected to correlate, but to a lesser degree.",
+            "<b>TOPEL Print Knowledge</b> (PK) was not administered \u2014 it would have been the primary criterion for <b>LIT2</b>, <b>LIT3a</b>, <b>LIT3bi</b>, and <b>LIT3bii</b>.",
+            "We did not expect a strong match between <b>LIT4</b>/<b>LIT5</b> (listening comprehension) and <b>TOPEL PA</b> (phonological awareness), but would expect moderate-to-strong correlations with <b>myIGDIs Picture Naming</b> (vocabulary) and <b>Which One Doesn\u2019t Belong</b> (comprehension).",
+          ],
+        },
+        discriminantNotes: {
+          title: "Alex's Notes \u2014 Discriminant Validity",
+          items: [
+            "Discriminant validity for literacy is difficult to gauge beyond <b>LIT1a</b>\u2013<b>LIT1d</b>, since we lack strong a priori matches for the remaining scales.",
+            "Discriminant validity is weak for <b>LIT1a</b>\u2013<b>LIT1d</b>: correlations with non-matched assessments are generally stronger than with <b>TOPEL PA</b>.",
+            "For <b>LIT2</b> and <b>LIT3a</b>\u2013<b>LIT3bii</b>, we lack a priori matches, so discriminant comparisons are not applicable.",
+            "<b>LIT4</b> (Retell Stories) correlates most strongly with <b>HTKS</b>, then <b>IGDIS Which One Doesn\u2019t Belong</b> (comprehension).",
+            "<b>LIT5</b> (Answer Questions) correlates most strongly with <b>HTKS</b>, then <b>TOPEL PA</b>, <b>IGDIS Picture Naming</b> (vocabulary), and <b>IGDIS Which One Doesn\u2019t Belong</b> (comprehension).",
+          ],
         },
       },
       LAN: {
@@ -100,57 +155,60 @@ const LANG_CONFIGS = {
           "igdis_Picture_ Naming_score": "myIGDIs Picture Naming measures oral language — the child sees a picture and names it, tapping into expressive vocabulary.",
           "igdis_Which_One_ Doesn't_Belong_score": "myIGDIs Which One Doesn't Belong measures comprehension — the child identifies which item doesn't fit in a group, tapping into categorization and reasoning about relationships between concepts.",
         },
-      },
-      LIT: {
-        label: "Literacy",
-        color: "#D7A23B",
-        colorLight: "#fdf5e3",
-        colorMid: "#FEDC6F",
-        externalMeasures: ["topel_pa_stdscore"],
-        externalLabels: { topel_pa_stdscore: "TOPEL PA" },
-        externalDescriptions: {
-          topel_pa_stdscore: "TOPEL Phonological Awareness subtest measures print knowledge and phonological awareness. Tasks include elision (saying what is left after a specific sound is deleted from a word) and blending. The Definitional Vocabulary subtest was not administered.",
+        notes: {
+          title: "Alex's Notes \u2014 Convergent Validity",
+          items: [
+            "We expected <b>LAN6</b> (Vocabulary) to match very strongly with <b>myIGDIs Picture Naming</b>, which features the same task design.",
+            "We expected <b>LAN7a</b> (Word Categories) to match very strongly with <b>myIGDIs Which One Doesn\u2019t Belong</b>, which also features the same task design.",
+            "We expected <b>LAN7b</b> (Shared Characteristics) to correlate with one or both measures; the a priori direction was less certain.",
+          ],
+        },
+        discriminantNotes: {
+          title: "Alex's Notes \u2014 Discriminant Validity",
+          items: [
+            "Discriminant validity for the language scales is a mixed bag.",
+            "<b>LAN6</b> (Vocabulary) has weak correlations across the board; its highest correlation is with <b>HTKS</b>.",
+            "<b>LAN7a</b> (Word Categories) is most strongly correlated with its a priori match (<b>IGDIS Which One Doesn\u2019t Belong</b>). Next strongest are <b>IGDIS Picture Naming</b> (vocabulary) and <b>HTKS</b>.",
+            "<b>LAN7b</b> (Shared Characteristics) correlations in order of strength: <b>HTKS</b>, <b>IGDIS Picture Naming</b> (vocabulary), <b>REMA A</b>, then <b>IGDIS Which One Doesn\u2019t Belong</b> (comprehension) \u2014 a more diffuse pattern.",
+          ],
         },
       },
-      MAT: {
-        label: "Math",
-        color: "#5A9F4B",
-        colorLight: "#e8f3e4",
-        colorMid: "#ACD077",
-        externalMeasures: ["rema_a_irt", "rema_b_irt", "rema_tot_irt"],
-        externalLabels: {
-          rema_a_irt: "REMA A (Num & Ops)",
-          rema_b_irt: "REMA B (Geo/Pat/etc.)",
-          rema_tot_irt: "REMA Total",
-        },
+      ATL: {
+        label: "Executive Function",
+        color: "#9B4570",
+        colorLight: "#f5e3ed",
+        colorMid: "#D97CB1",
+        externalMeasures: ["htks_score"],
+        externalLabels: { htks_score: "HTKS" },
         externalDescriptions: {
-          rema_a_irt: "REMA-Short Part A: Number & Operations covers foundational number skills including subitizing, counting, more/less comparisons, numeral recognition, addition, and subtraction. KAK MAT2–MAT6b scales are expected to correlate here.",
-          rema_b_irt: "REMA-Short Part B: Geometry, Patterning, Algebraic Thinking, Measurement, and other topics covers broader math domains beyond number sense. KAK MAT7–MAT10 scales are expected to correlate here.",
-          rema_tot_irt: "REMA-Short Total combines scores from both Part A (Number & Operations) and Part B (Geometry, Patterning, Algebraic Thinking, Measurement, and other topics).",
+          htks_score: "HTKS-Revised measures self-regulation, specifically all three executive function components: inhibitory control, working memory, and cognitive flexibility. Children play a modified Head, Shoulders, Knees and Toes game that requires doing the opposite of what is instructed.",
+        },
+        notes: {
+          title: "Alex's Notes \u2014 Convergent Validity",
+          items: [
+            "<b>HTKS</b> is designed to assess all three aspects of executive function: working memory, inhibitory control, and cognitive flexibility.",
+            "<b>ATL5a</b>/<b>ATL5b</b> (Control Impulses), <b>ATL8</b> (Working Memory), and <b>ATL9</b> (Flexible Thinking) each focus on a specific EF component, but we expected all four scales to correlate with <b>HTKS</b> given its composite nature.",
+          ],
+        },
+        discriminantNotes: {
+          title: "Alex's Notes \u2014 Discriminant Validity",
+          items: [
+            "Discriminant validity for the executive function scales is a mixed bag.",
+            "<b>ATL5a</b> (Control Impulses 1) is most strongly correlated with its a priori match, <b>HTKS</b>.",
+            "<b>ATL5b</b> (Control Impulses 2) is most strongly correlated with <b>REMA A</b> and <b>REMA Total</b> (which summarizes REMA A and B). Correlation with <b>HTKS</b> comes next.",
+            "<b>ATL8</b> (Working Memory) is most strongly correlated with <b>IGDIS Picture Naming</b> (vocabulary) and <b>REMA A</b>. Correlation with <b>HTKS</b> comes next.",
+            "<b>ATL9</b> (Flexible Thinking) is most strongly correlated with <b>IGDIS Picture Naming</b> (vocabulary). Correlation with <b>HTKS</b> comes next, but is similar in magnitude to other correlations.",
+          ],
         },
       },
     },
     defaults: {
-      ATL: "htks_score",
-      LAN: "igdis_Picture_ Naming_score",
-      LIT: "topel_pa_stdscore",
       MAT: "rema_a_irt",
+      LIT: "topel_pa_stdscore",
+      LAN: "igdis_Picture_ Naming_score",
+      ATL: "htks_score",
     },
     expectedCorrelations: {
-      ATL5a: ["htks_score"],
-      ATL5b: ["htks_score"],
-      ATL8: ["htks_score"],
-      ATL9: ["htks_score"],
-      LAN6: ["igdis_Picture_ Naming_score"],
-      LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
-      LAN7b: ["igdis_Which_One_ Doesn't_Belong_score"],
-      LIT1a: ["topel_pa_stdscore"],
-      LIT1b: ["topel_pa_stdscore"],
-      LIT1c: ["topel_pa_stdscore"],
-      LIT1d: ["topel_pa_stdscore"],
-      LIT3a: ["topel_pa_stdscore"],
-      LIT3bi: ["topel_pa_stdscore"],
-      LIT3bii: ["topel_pa_stdscore"],
       MAT2: ["rema_a_irt"],
       MAT3: ["rema_a_irt"],
       MAT4: ["rema_a_irt"],
@@ -160,8 +218,36 @@ const LANG_CONFIGS = {
       MAT7: ["rema_b_irt"],
       MAT8: ["rema_b_irt"],
       MAT9: ["rema_b_irt"],
-      MAT10: ["rema_b_irt"],
+      LIT1a: ["topel_pa_stdscore"],
+      LIT1b: ["topel_pa_stdscore"],
+      LIT1c: ["topel_pa_stdscore"],
+      LIT1d: ["topel_pa_stdscore"],
+      LIT3a: ["topel_pa_stdscore"],
+      LIT3bi: ["topel_pa_stdscore"],
+      LIT3bii: ["topel_pa_stdscore"],
+      LAN6: ["igdis_Picture_ Naming_score"],
+      LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
+      LAN7b: ["igdis_Which_One_ Doesn't_Belong_score"],
+      ATL5a: ["htks_score"],
+      ATL5b: ["htks_score"],
+      ATL8: ["htks_score"],
+      ATL9: ["htks_score"],
     },
+    allExternalMeasures: [
+      { key: "rema_a_irt", shortLabel: "REMA A", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_b_irt", shortLabel: "REMA B", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_tot_irt", shortLabel: "REMA Tot", domain: "MAT", color: "#5A9F4B" },
+      { key: "topel_pa_stdscore", shortLabel: "TOPEL PA", domain: "LIT", color: "#D7A23B" },
+      { key: "igdis_Picture_ Naming_score", shortLabel: "Pic Naming", domain: "LAN", color: "#D24935" },
+      { key: "igdis_Which_One_ Doesn't_Belong_score", shortLabel: "Which One", domain: "LAN", color: "#D24935" },
+      { key: "htks_score", shortLabel: "HTKS", domain: "ATL", color: "#9B4570" },
+    ],
+    allMeasureGroups: [
+      { domain: "MAT", label: "Math", color: "#5A9F4B", count: 3 },
+      { domain: "LIT", label: "Literacy", color: "#D7A23B", count: 1 },
+      { domain: "LAN", label: "Language", color: "#D24935", count: 2 },
+      { domain: "ATL", label: "Exec Function", color: "#9B4570", count: 1 },
+    ],
     data: [
       { variable: "ATL5a", htks_score: 0.4081, "igdis_Picture_ Naming_score": 0.1401, "igdis_Which_One_ Doesn't_Belong_score": 0.2728, topel_pa_stdscore: 0.189, rema_a_irt: 0.3501, rema_b_irt: 0.249, rema_tot_irt: 0.3225, htks_p: 0, igdis_pn_p: 0.1336, igdis_wodb_p: 0.0058, topel_p: 0.0348, rema_a_p: 0.0001, rema_b_p: 0.0055, rema_tot_p: 0.0003, htks_n: 126, igdis_pn_n: 116, igdis_wodb_n: 101, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 123 },
       { variable: "ATL5b", htks_score: 0.3248, "igdis_Picture_ Naming_score": 0.1354, "igdis_Which_One_ Doesn't_Belong_score": 0.2435, topel_pa_stdscore: 0.1491, rema_a_irt: 0.3533, rema_b_irt: 0.2326, rema_tot_irt: 0.3361, htks_p: 0.0016, igdis_pn_p: 0.2113, igdis_wodb_p: 0.0393, topel_p: 0.1608, rema_a_p: 0.0006, rema_b_p: 0.0282, rema_tot_p: 0.0014, htks_n: 92, igdis_pn_n: 87, igdis_wodb_n: 72, topel_n: 90, rema_a_n: 90, rema_b_n: 89, rema_tot_n: 88 },
@@ -195,32 +281,6 @@ const LANG_CONFIGS = {
   SPA: {
     langLabel: "Spanish",
     domainConfig: {
-      ATL: {
-        label: "Executive Function",
-        color: "#9B4570",
-        colorLight: "#f5e3ed",
-        colorMid: "#D97CB1",
-        externalMeasures: ["htks_score"],
-        externalLabels: { htks_score: "HTKS" },
-        externalDescriptions: {
-          htks_score: "HTKS-Revised measures self-regulation, specifically all three executive function components: inhibitory control, working memory, and cognitive flexibility. Children play a modified Head, Shoulders, Knees and Toes game that requires doing the opposite of what is instructed.",
-        },
-      },
-      LAN: {
-        label: "Language",
-        color: "#D24935",
-        colorLight: "#fce8e5",
-        colorMid: "#F16757",
-        externalMeasures: ["igdis_Dibujos_score", "igdis_Verbos_ Expressivos_score"],
-        externalLabels: {
-          "igdis_Verbos_ Expressivos_score": "Verbos Expressivos",
-          igdis_Dibujos_score: "Dibujos",
-        },
-        externalDescriptions: {
-          "igdis_Verbos_ Expressivos_score": "myIGDIs Verbos Expresivos (\"Expressive Verbs\") assesses a child's ability to produce action words when shown illustrations of characters performing actions. It targets verb knowledge, which is a stronger predictor of later language/literacy development than noun acquisition alone, as it reflects deeper syntactic and semantic understanding.",
-          igdis_Dibujos_score: "myIGDIs Dibujos (\"Pictures\") assesses expressive picture naming — a child's ability to name objects shown in pictures, measuring expressive vocabulary and oral language. It's the Spanish parallel to the English \"Picture Naming\" measure.",
-        },
-      },
       MAT: {
         label: "Math",
         color: "#5A9F4B",
@@ -238,20 +298,39 @@ const LANG_CONFIGS = {
           rema_tot_irt: "REMA-Short Total combines scores from both Part A and Part B.",
         },
       },
+      LAN: {
+        label: "Language",
+        color: "#D24935",
+        colorLight: "#fce8e5",
+        colorMid: "#F16757",
+        externalMeasures: ["igdis_Dibujos_score", "igdis_Verbos_ Expressivos_score"],
+        externalLabels: {
+          "igdis_Verbos_ Expressivos_score": "Verbos Expressivos",
+          igdis_Dibujos_score: "Dibujos",
+        },
+        externalDescriptions: {
+          "igdis_Verbos_ Expressivos_score": "myIGDIs Verbos Expresivos (\"Expressive Verbs\") assesses a child's ability to produce action words when shown illustrations of characters performing actions. It targets verb knowledge, which is a stronger predictor of later language/literacy development than noun acquisition alone, as it reflects deeper syntactic and semantic understanding.",
+          igdis_Dibujos_score: "myIGDIs Dibujos (\"Pictures\") assesses expressive picture naming — a child's ability to name objects shown in pictures, measuring expressive vocabulary and oral language. It's the Spanish parallel to the English \"Picture Naming\" measure.",
+        },
+      },
+      ATL: {
+        label: "Executive Function",
+        color: "#9B4570",
+        colorLight: "#f5e3ed",
+        colorMid: "#D97CB1",
+        externalMeasures: ["htks_score"],
+        externalLabels: { htks_score: "HTKS" },
+        externalDescriptions: {
+          htks_score: "HTKS-Revised measures self-regulation, specifically all three executive function components: inhibitory control, working memory, and cognitive flexibility. Children play a modified Head, Shoulders, Knees and Toes game that requires doing the opposite of what is instructed.",
+        },
+      },
     },
     defaults: {
-      ATL: "htks_score",
-      LAN: "igdis_Dibujos_score",
       MAT: "rema_a_irt",
+      LAN: "igdis_Dibujos_score",
+      ATL: "htks_score",
     },
     expectedCorrelations: {
-      ATL5a: ["htks_score"],
-      ATL5b: ["htks_score"],
-      ATL8: ["htks_score"],
-      ATL9: ["htks_score"],
-      LAN6: ["igdis_Verbos_ Expressivos_score"],
-      LAN7a: ["igdis_Dibujos_score"],
-      LAN7b: ["igdis_Dibujos_score"],
       MAT2: ["rema_a_irt"],
       MAT3: ["rema_a_irt"],
       MAT4: ["rema_a_irt"],
@@ -261,7 +340,13 @@ const LANG_CONFIGS = {
       MAT7: ["rema_b_irt"],
       MAT8: ["rema_b_irt"],
       MAT9: ["rema_b_irt"],
-      MAT10: ["rema_b_irt"],
+      LAN6: ["igdis_Verbos_ Expressivos_score"],
+      LAN7a: ["igdis_Dibujos_score"],
+      LAN7b: ["igdis_Dibujos_score"],
+      ATL5a: ["htks_score"],
+      ATL5b: ["htks_score"],
+      ATL8: ["htks_score"],
+      ATL9: ["htks_score"],
     },
     data: [
       { variable: "ATL5a", htks_score: 0.2287, "igdis_Verbos_ Expressivos_score": 0.3598, igdis_Dibujos_score: 0.4051, rema_a_irt: 0.5329, rema_b_irt: 0.4539, rema_tot_irt: 0.4689, htks_p: 0.2005, igdis_ve_p: 0.0468, igdis_d_p: 0.0193, rema_a_p: 0.0014, rema_b_p: 0.0091, rema_tot_p: 0.0068, htks_n: 33, igdis_ve_n: 31, igdis_d_n: 33, rema_a_n: 33, rema_b_n: 32, rema_tot_n: 32 },
@@ -431,8 +516,16 @@ function CorrelationBar({ r, p, n, maxWidth = 200, domainColor, isExpected }) {
   );
 }
 
-function DomainSection({ domainKey, config, data, selectedExternal, onSelectExternal, expectedCorrelations }) {
+function getHeatColor(r) {
+  const abs = Math.abs(r);
+  const intensity = Math.min(abs / 0.6, 1);
+  return `rgba(22, 163, 74, ${(intensity * 0.65).toFixed(2)})`;
+}
+
+function DomainSection({ domainKey, config, data, selectedExternal, onSelectExternal, expectedCorrelations, allExternalMeasures, allMeasureGroups }) {
   const [showInfo, setShowInfo] = useState(true);
+  const [showNotes, setShowNotes] = useState(false);
+  const [showDiscriminant, setShowDiscriminant] = useState(false);
   const domainData = data.filter((d) => d.variable.startsWith(domainKey));
   const measures = config.externalMeasures;
   const currentMeasure = selectedExternal[domainKey];
@@ -619,6 +712,238 @@ function DomainSection({ domainKey, config, data, selectedExternal, onSelectExte
           })}
         </div>
       </div>
+      {config.notes && (
+        <div
+          style={{
+            borderTop: `1px solid ${config.colorLight}`,
+          }}
+        >
+          <button
+            onClick={() => setShowNotes(!showNotes)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              width: "100%",
+              padding: "10px 24px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#9ca3af",
+              fontFamily: "'Inter', -apple-system, sans-serif",
+              transition: "color 0.15s",
+            }}
+          >
+            <span style={{
+              display: "inline-block",
+              transform: showNotes ? "rotate(90deg)" : "rotate(0deg)",
+              transition: "transform 0.2s",
+              fontSize: 10,
+            }}>&#9654;</span>
+            {config.notes.title}
+          </button>
+          {showNotes && (
+            <div style={{ padding: "0 24px 16px" }}>
+              <ul style={{
+                margin: 0,
+                paddingLeft: 18,
+                fontSize: 13,
+                color: "#374151",
+                lineHeight: 1.7,
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}>
+                {config.notes.items.map((note, i) => (
+                  <li key={i} dangerouslySetInnerHTML={{ __html: note }} />
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+      {config.discriminantNotes && allExternalMeasures && (
+        <div style={{ borderTop: `1px solid ${config.colorLight}` }}>
+          <button
+            onClick={() => setShowDiscriminant(!showDiscriminant)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              width: "100%",
+              padding: "10px 24px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#9ca3af",
+              fontFamily: "'Inter', -apple-system, sans-serif",
+              transition: "color 0.15s",
+            }}
+          >
+            <span style={{
+              display: "inline-block",
+              transform: showDiscriminant ? "rotate(90deg)" : "rotate(0deg)",
+              transition: "transform 0.2s",
+              fontSize: 10,
+            }}>&#9654;</span>
+            Discriminant Validity
+          </button>
+          {showDiscriminant && (
+            <div style={{ padding: "0 24px 20px" }}>
+              <p style={{ fontSize: 12, color: "#6b7280", marginBottom: 12, lineHeight: 1.5 }}>
+                Do these scales correlate more strongly with their a priori match than with measures from other domains?
+                The highest correlation per row is <strong>bolded</strong>. A priori match columns are highlighted.
+              </p>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{
+                  borderCollapse: "collapse",
+                  fontSize: 12,
+                  fontFamily: "'Inter', -apple-system, sans-serif",
+                  width: "100%",
+                  minWidth: 620,
+                }}>
+                  <thead>
+                    <tr>
+                      <th style={{ padding: "4px 8px" }} />
+                      {allMeasureGroups.map((g) => (
+                        <th
+                          key={g.domain}
+                          colSpan={g.count}
+                          style={{
+                            padding: "4px 6px",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            color: g.domain === domainKey ? "#000" : g.color,
+                            borderBottom: `2px solid ${g.color}`,
+                            textAlign: "center",
+                            letterSpacing: "0.03em",
+                            background: g.domain === domainKey ? g.color + "10" : "transparent",
+                          }}
+                        >
+                          {g.label}
+                        </th>
+                      ))}
+                    </tr>
+                    <tr>
+                      <th style={{
+                        padding: "4px 8px",
+                        textAlign: "left",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: "#9ca3af",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                      }}>
+                        Scale
+                      </th>
+                      {allExternalMeasures.map((m) => {
+                        const isOwnDomain = m.domain === domainKey;
+                        return (
+                          <th
+                            key={m.key}
+                            style={{
+                              padding: "4px 6px",
+                              fontSize: 10,
+                              fontWeight: 600,
+                              color: isOwnDomain ? "#000" : "#6b7280",
+                              textAlign: "center",
+                              background: isOwnDomain ? m.color + "10" : "transparent",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {m.shortLabel}
+                          </th>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {domainData.map((row) => {
+                      const values = allExternalMeasures.map((m) => ({
+                        key: m.key,
+                        r: row[m.key],
+                        domain: m.domain,
+                        color: m.color,
+                      }));
+                      const maxR = Math.max(...values.map((v) => Math.abs(v.r)));
+                      const expectedKeys = expectedCorrelations[row.variable] || [];
+
+                      return (
+                        <tr key={row.variable}>
+                          <td style={{
+                            padding: "5px 8px",
+                            fontWeight: 500,
+                            color: "#000",
+                            whiteSpace: "nowrap",
+                            borderTop: "1px solid #f3f4f6",
+                          }}>
+                            {(KAK_LABELS[row.variable] || row.variable).replace(/^[A-Z]+\d+[a-z]*:?\s*/, "")}
+                            <span style={{ color: "#9ca3af", fontWeight: 400 }}>{" "}({row.variable})</span>
+                          </td>
+                          {values.map((v) => {
+                            const isMax = Math.abs(v.r) === maxR;
+                            const isExpected = expectedKeys.includes(v.key);
+                            const isOwnDomain = v.domain === domainKey;
+                            return (
+                              <td
+                                key={v.key}
+                                style={{
+                                  padding: isExpected ? "3px 4px" : "5px 6px",
+                                  textAlign: "center",
+                                  fontWeight: isMax ? 700 : 400,
+                                  color: isMax ? "#000" : "#374151",
+                                  background: isExpected
+                                    ? `linear-gradient(${config.color}25, ${config.color}25), ${getHeatColor(v.r)}`
+                                    : getHeatColor(v.r),
+                                  borderTop: isExpected ? `3px solid ${config.color}` : "1px solid #f3f4f6",
+                                  borderBottom: isExpected ? `3px solid ${config.color}` : "none",
+                                  borderLeft: isExpected ? `3px solid ${config.color}` : isOwnDomain ? `1px solid ${config.color}30` : "none",
+                                  borderRight: isExpected ? `3px solid ${config.color}` : isOwnDomain ? `1px solid ${config.color}30` : "none",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {v.r.toFixed(2)}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <div style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#9ca3af",
+                  marginBottom: 6,
+                }}>
+                  {config.discriminantNotes.title}
+                </div>
+                <ul style={{
+                  margin: 0,
+                  paddingLeft: 18,
+                  fontSize: 13,
+                  color: "#374151",
+                  lineHeight: 1.7,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                }}>
+                  {config.discriminantNotes.items.map((note, i) => (
+                    <li key={i} dangerouslySetInnerHTML={{ __html: note }} />
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -642,6 +967,8 @@ function ChartContent({ lang }) {
           selectedExternal={selectedExternal}
           onSelectExternal={handleSelect}
           expectedCorrelations={cfg.expectedCorrelations}
+          allExternalMeasures={cfg.allExternalMeasures}
+          allMeasureGroups={cfg.allMeasureGroups}
         />
       ))}
     </div>

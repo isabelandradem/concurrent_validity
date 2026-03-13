@@ -47,20 +47,20 @@ const KAK_LABELS = {
 };
 
 const DOMAIN_GROUPS = [
-  { key: "ATL", label: "Executive Function", scales: ["ATL5a", "ATL5b", "ATL8", "ATL9"] },
-  { key: "LAN", label: "Language", scales: ["LAN6", "LAN7a", "LAN7b"] },
-  { key: "LIT", label: "Literacy", scales: ["LIT1a", "LIT1b", "LIT1c", "LIT1d", "LIT2", "LIT3a", "LIT3bi", "LIT3bii", "LIT4", "LIT5"] },
   { key: "MAT", label: "Math", scales: ["MAT2", "MAT3", "MAT4", "MAT5", "MAT6a", "MAT6b", "MAT7", "MAT8", "MAT9", "MAT10"] },
+  { key: "LIT", label: "Literacy", scales: ["LIT1a", "LIT1b", "LIT1c", "LIT1d", "LIT2", "LIT3a", "LIT3bi", "LIT3bii", "LIT4", "LIT5"] },
+  { key: "LAN", label: "Language", scales: ["LAN6", "LAN7a", "LAN7b"] },
+  { key: "ATL", label: "Executive Function", scales: ["ATL5a", "ATL5b", "ATL8", "ATL9"] },
 ];
 
 const EXTERNAL_MEASURES = [
-  { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570", description: "HTKS-Revised — self-regulation (inhibitory control, working memory, cognitive flexibility)" },
-  { key: "igdis_Picture_ Naming_score", label: "myIGDIs: Picture Naming", domain: "LAN", color: "#D24935", description: "myIGDIs Picture Naming — oral language / expressive vocabulary" },
-  { key: "igdis_Which_One_ Doesn't_Belong_score", label: "myIGDIs: Which One Doesn't Belong", domain: "LAN", color: "#D24935", description: "myIGDIs Which One Doesn't Belong — comprehension / categorization" },
-  { key: "topel_pa_stdscore", label: "TOPEL PA", domain: "LIT", color: "#D7A23B", description: "TOPEL Phonological Awareness — print knowledge & phonological awareness" },
   { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part A — number & operations" },
   { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part B — geometry, patterning, algebraic thinking, measurement" },
   { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Total — combined Part A + Part B" },
+  { key: "topel_pa_stdscore", label: "TOPEL PA", domain: "LIT", color: "#D7A23B", description: "TOPEL Phonological Awareness — print knowledge & phonological awareness" },
+  { key: "igdis_Picture_ Naming_score", label: "myIGDIs: Picture Naming", domain: "LAN", color: "#D24935", description: "myIGDIs Picture Naming — oral language / expressive vocabulary" },
+  { key: "igdis_Which_One_ Doesn't_Belong_score", label: "myIGDIs: Which One Doesn't Belong", domain: "LAN", color: "#D24935", description: "myIGDIs Which One Doesn't Belong — comprehension / categorization" },
+  { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570", description: "HTKS-Revised — self-regulation (inhibitory control, working memory, cognitive flexibility)" },
 ];
 
 const P_KEY_MAP = {
@@ -110,7 +110,6 @@ const EXPECTED_MAP = {
   MAT7: ["rema_b_irt"],
   MAT8: ["rema_b_irt"],
   MAT9: ["rema_b_irt"],
-  MAT10: ["rema_b_irt"],
 };
 
 const RAW_DATA = [
@@ -163,7 +162,7 @@ function getDomainForScale(variable) {
 }
 
 function PerScaleView() {
-  const [selected, setSelected] = useState("ATL5a");
+  const [selected, setSelected] = useState("MAT2");
 
   const row = RAW_DATA.find((d) => d.variable === selected);
   const domain = getDomainForScale(selected);
