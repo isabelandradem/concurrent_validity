@@ -4,16 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Per-Scale Cross-Domain View</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./vendor/react.production.min.js"></script>
+  <script src="./vendor/react-dom.production.min.js"></script>
+  <script src="./vendor/babel.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel">
+  <script>
+    window.__showBootError = function (message) {
+      var root = document.getElementById("root");
+      if (!root) return;
+      root.innerHTML =
+        "<div style='max-width:900px;margin:24px auto;padding:16px;border:1px solid #fca5a5;background:#fef2f2;border-radius:8px;color:#991b1b;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;line-height:1.5;'>" +
+        "<strong>Page failed to load.</strong><br/>" +
+        "<div style='margin-top:8px;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#fff;padding:10px;border-radius:6px;border:1px solid #fecaca;'>" +
+        String(message || "Unknown runtime error") +
+        "</div>" +
+        "</div>";
+    };
+
+    window.addEventListener("error", function (event) {
+      window.__showBootError((event.error && event.error.stack) || event.message);
+    });
+
+    window.addEventListener("unhandledrejection", function (event) {
+      var reason = event.reason && (event.reason.stack || event.reason.message || event.reason);
+      window.__showBootError(reason || "Unhandled promise rejection");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.React || !window.ReactDOM || !window.Babel) {
+        window.__showBootError(
+          "Missing dependency. Could not load React, ReactDOM, or Babel from local files in ./vendor/."
+        );
+      }
+    });
+  </script>
+  <script type="text/babel" data-presets="env,react">
     const { useState } = React;
 
 const KAK_LABELS = {
@@ -778,8 +808,12 @@ function PerScaleView() {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<PerScaleView />);
+try {
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<PerScaleView />);
+} catch (error) {
+  window.__showBootError(error && (error.stack || error.message || error));
+}
   </script>
 </body>
 </html>
