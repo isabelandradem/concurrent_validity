@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Per-Scale Cross-Domain View</title>
+  <title>Fall vs. Spring Comparison</title>
   <script src="./vendor/react.production.min.js"></script>
   <script src="./vendor/react-dom.production.min.js"></script>
   <script src="./vendor/babel.min.js"></script>
@@ -149,21 +149,21 @@ window.VALIDITY_DATA = {
         "</div>" +
         "</div>";
     };
-
     window.addEventListener("error", function (event) {
       window.__showBootError((event.error && event.error.stack) || event.message);
     });
-
     window.addEventListener("unhandledrejection", function (event) {
       var reason = event.reason && (event.reason.stack || event.reason.message || event.reason);
       window.__showBootError(reason || "Unhandled promise rejection");
     });
-
     document.addEventListener("DOMContentLoaded", function () {
       if (!window.React || !window.ReactDOM || !window.Babel) {
         window.__showBootError(
           "Missing dependency. Could not load React, ReactDOM, or Babel from local files in ./vendor/."
         );
+      }
+      if (!window.VALIDITY_DATA) {
+        window.__showBootError("Missing data. Could not load ./data.js (window.VALIDITY_DATA).");
       }
     });
   </script>
@@ -211,71 +211,24 @@ const LANG_CONFIGS = {
       { key: "ATL", label: "Executive Function", scales: ["ATL5a", "ATL5b", "ATL8", "ATL9"] },
     ],
     externalMeasures: [
-      { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part A — number & operations" },
-      { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part B — geometry, patterning, algebraic thinking, measurement" },
-      { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Total — combined Part A + Part B" },
-      { key: "topel_pa_stdscore", label: "TOPEL PA", domain: "LIT", color: "#D7A23B", description: "TOPEL Phonological Awareness — print knowledge & phonological awareness" },
-      { key: "igdis_Picture_ Naming_score", label: "myIGDIs: Picture Naming", domain: "LAN", color: "#D24935", description: "myIGDIs Picture Naming — oral language / expressive vocabulary" },
-      { key: "igdis_Which_One_ Doesn't_Belong_score", label: "myIGDIs: Which One Doesn't Belong", domain: "LAN", color: "#D24935", description: "myIGDIs Which One Doesn't Belong — comprehension / categorization" },
-      { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570", description: "HTKS-Revised — self-regulation (inhibitory control, working memory, cognitive flexibility)" },
+      { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B" },
+      { key: "topel_pa_stdscore", label: "TOPEL PA", domain: "LIT", color: "#D7A23B" },
+      { key: "igdis_Picture_ Naming_score", label: "myIGDIs: Picture Naming", domain: "LAN", color: "#D24935" },
+      { key: "igdis_Which_One_ Doesn't_Belong_score", label: "myIGDIs: Which One Doesn't Belong", domain: "LAN", color: "#D24935" },
+      { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570" },
     ],
     expectedMap: {
-      ATL5a: ["htks_score"],
-      ATL5b: ["htks_score"],
-      ATL8: ["htks_score"],
-      ATL9: ["htks_score"],
-      LAN6: ["igdis_Picture_ Naming_score"],
-      LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
+      ATL5a: ["htks_score"], ATL5b: ["htks_score"], ATL8: ["htks_score"], ATL9: ["htks_score"],
+      LAN6: ["igdis_Picture_ Naming_score"], LAN7a: ["igdis_Which_One_ Doesn't_Belong_score"],
       LAN7b: ["igdis_Picture_ Naming_score", "igdis_Which_One_ Doesn't_Belong_score"],
-      LIT1a: ["topel_pa_stdscore"],
-      LIT1b: ["topel_pa_stdscore"],
-      LIT1c: ["topel_pa_stdscore"],
-      LIT1d: ["topel_pa_stdscore"],
-      LIT2: ["topel_pa_stdscore"],
-      LIT3a: ["topel_pa_stdscore"],
-      LIT3bi: ["topel_pa_stdscore"],
-      LIT3bii: ["topel_pa_stdscore"],
-      LIT4: ["topel_pa_stdscore"],
-      LIT5: ["topel_pa_stdscore"],
-      MAT2: ["rema_a_irt"],
-      MAT3: ["rema_a_irt"],
-      MAT4: ["rema_a_irt"],
-      MAT5: ["rema_a_irt"],
-      MAT6a: ["rema_a_irt"],
-      MAT6b: ["rema_a_irt"],
-      MAT7: ["rema_b_irt"],
-      MAT8: ["rema_b_irt"],
-      MAT9: ["rema_b_irt"],
+      LIT1a: ["topel_pa_stdscore"], LIT1b: ["topel_pa_stdscore"], LIT1c: ["topel_pa_stdscore"], LIT1d: ["topel_pa_stdscore"],
+      LIT2: ["topel_pa_stdscore"], LIT3a: ["topel_pa_stdscore"], LIT3bi: ["topel_pa_stdscore"], LIT3bii: ["topel_pa_stdscore"],
+      LIT4: ["topel_pa_stdscore"], LIT5: ["topel_pa_stdscore"],
+      MAT2: ["rema_a_irt"], MAT3: ["rema_a_irt"], MAT4: ["rema_a_irt"], MAT5: ["rema_a_irt"], MAT6a: ["rema_a_irt"], MAT6b: ["rema_a_irt"],
+      MAT7: ["rema_b_irt"], MAT8: ["rema_b_irt"], MAT9: ["rema_b_irt"],
     },
-    data: [
-      { variable: "ATL5a", htks_score: 0.4081, "igdis_Picture_ Naming_score": 0.1401, "igdis_Which_One_ Doesn't_Belong_score": 0.2728, topel_pa_stdscore: 0.189, rema_a_irt: 0.3501, rema_b_irt: 0.249, rema_tot_irt: 0.3225, htks_p: 0, igdis_pn_p: 0.1336, igdis_wodb_p: 0.0058, topel_p: 0.0348, rema_a_p: 0.0001, rema_b_p: 0.0055, rema_tot_p: 0.0003, htks_n: 126, igdis_pn_n: 116, igdis_wodb_n: 101, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 123 },
-      { variable: "ATL5b", htks_score: 0.3248, "igdis_Picture_ Naming_score": 0.1354, "igdis_Which_One_ Doesn't_Belong_score": 0.2435, topel_pa_stdscore: 0.1491, rema_a_irt: 0.3533, rema_b_irt: 0.2326, rema_tot_irt: 0.3361, htks_p: 0.0016, igdis_pn_p: 0.2113, igdis_wodb_p: 0.0393, topel_p: 0.1608, rema_a_p: 0.0006, rema_b_p: 0.0282, rema_tot_p: 0.0014, htks_n: 92, igdis_pn_n: 87, igdis_wodb_n: 72, topel_n: 90, rema_a_n: 90, rema_b_n: 89, rema_tot_n: 88 },
-      { variable: "ATL8", htks_score: 0.3004, "igdis_Picture_ Naming_score": 0.3436, "igdis_Which_One_ Doesn't_Belong_score": 0.2804, topel_pa_stdscore: 0.1223, rema_a_irt: 0.3417, rema_b_irt: 0.0396, rema_tot_irt: 0.2219, htks_p: 0.0088, igdis_pn_p: 0.0033, igdis_wodb_p: 0.0286, topel_p: 0.2992, rema_a_p: 0.0029, rema_b_p: 0.7431, rema_tot_p: 0.0629, htks_n: 75, igdis_pn_n: 71, igdis_wodb_n: 61, topel_n: 74, rema_a_n: 74, rema_b_n: 71, rema_tot_n: 71 },
-      { variable: "ATL9", htks_score: 0.1825, "igdis_Picture_ Naming_score": 0.2543, "igdis_Which_One_ Doesn't_Belong_score": 0.1657, topel_pa_stdscore: 0.191, rema_a_irt: 0.1706, rema_b_irt: 0.0906, rema_tot_irt: 0.1566, htks_p: 0.0499, igdis_pn_p: 0.0088, igdis_wodb_p: 0.1185, topel_p: 0.04, rema_a_p: 0.0682, rema_b_p: 0.3376, rema_tot_p: 0.0976, htks_n: 116, igdis_pn_n: 105, igdis_wodb_n: 90, topel_n: 116, rema_a_n: 115, rema_b_n: 114, rema_tot_n: 113 },
-      { variable: "LAN6", htks_score: 0.2485, "igdis_Picture_ Naming_score": 0.1097, "igdis_Which_One_ Doesn't_Belong_score": 0.2083, topel_pa_stdscore: 0.0807, rema_a_irt: 0.1583, rema_b_irt: 0.1238, rema_tot_irt: 0.1076, htks_p: 0.0157, igdis_pn_p: 0.2951, igdis_wodb_p: 0.0709, topel_p: 0.4447, rema_a_p: 0.1296, rema_b_p: 0.2396, rema_tot_p: 0.3099, htks_n: 94, igdis_pn_n: 93, igdis_wodb_n: 76, topel_n: 92, rema_a_n: 93, rema_b_n: 92, rema_tot_n: 91 },
-      { variable: "LAN7a", htks_score: 0.2694, "igdis_Picture_ Naming_score": 0.2754, "igdis_Which_One_ Doesn't_Belong_score": 0.4871, topel_pa_stdscore: 0.2405, rema_a_irt: 0.2067, rema_b_irt: 0.1564, rema_tot_irt: 0.1976, htks_p: 0.0029, igdis_pn_p: 0.0034, igdis_wodb_p: 0, topel_p: 0.0084, rema_a_p: 0.0235, rema_b_p: 0.0894, rema_tot_p: 0.032, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 95, topel_n: 119, rema_a_n: 120, rema_b_n: 119, rema_tot_n: 118 },
-      { variable: "LAN7b", htks_score: 0.3854, "igdis_Picture_ Naming_score": 0.3467, "igdis_Which_One_ Doesn't_Belong_score": 0.3026, topel_pa_stdscore: 0.282, rema_a_irt: 0.3218, rema_b_irt: 0.1961, rema_tot_irt: 0.2906, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.002, topel_p: 0.0014, rema_a_p: 0.0003, rema_b_p: 0.0297, rema_tot_p: 0.0012, htks_n: 127, igdis_pn_n: 116, igdis_wodb_n: 102, topel_n: 126, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
-      { variable: "LIT1a", htks_score: 0.1592, "igdis_Picture_ Naming_score": 0.175, "igdis_Which_One_ Doesn't_Belong_score": 0.272, topel_pa_stdscore: 0.0577, rema_a_irt: 0.1179, rema_b_irt: 0.1101, rema_tot_irt: 0.1684, htks_p: 0.0727, igdis_pn_p: 0.0559, igdis_wodb_p: 0.0048, topel_p: 0.5193, rema_a_p: 0.1869, rema_b_p: 0.2217, rema_tot_p: 0.0615, htks_n: 128, igdis_pn_n: 120, igdis_wodb_n: 106, topel_n: 127, rema_a_n: 127, rema_b_n: 125, rema_tot_n: 124 },
-      { variable: "LIT1b", htks_score: 0.3161, "igdis_Picture_ Naming_score": 0.2944, "igdis_Which_One_ Doesn't_Belong_score": 0.4749, topel_pa_stdscore: 0.1873, rema_a_irt: 0.2764, rema_b_irt: 0.0971, rema_tot_irt: 0.2359, htks_p: 0.0003, igdis_pn_p: 0.0013, igdis_wodb_p: 0, topel_p: 0.0365, rema_a_p: 0.0018, rema_b_p: 0.2854, rema_tot_p: 0.0089, htks_n: 126, igdis_pn_n: 117, igdis_wodb_n: 102, topel_n: 125, rema_a_n: 125, rema_b_n: 123, rema_tot_n: 122 },
-      { variable: "LIT1c", htks_score: 0.3474, "igdis_Picture_ Naming_score": 0.3424, "igdis_Which_One_ Doesn't_Belong_score": 0.475, topel_pa_stdscore: 0.3209, rema_a_irt: 0.4009, rema_b_irt: 0.159, rema_tot_irt: 0.3035, htks_p: 0.0001, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0882, rema_tot_p: 0.001, htks_n: 119, igdis_pn_n: 110, igdis_wodb_n: 96, topel_n: 119, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 115 },
-      { variable: "LIT1d", htks_score: -0.0339, "igdis_Picture_ Naming_score": 0.2686, "igdis_Which_One_ Doesn't_Belong_score": 0.3632, topel_pa_stdscore: 0.041, rema_a_irt: 0.2919, rema_b_irt: 0.113, rema_tot_irt: 0.2093, htks_p: 0.8172, igdis_pn_p: 0.0621, igdis_wodb_p: 0.023, topel_p: 0.7797, rema_a_p: 0.0419, rema_b_p: 0.4345, rema_tot_p: 0.1489, htks_n: 49, igdis_pn_n: 49, igdis_wodb_n: 39, topel_n: 49, rema_a_n: 49, rema_b_n: 50, rema_tot_n: 49 },
-      { variable: "LIT2", htks_score: 0.4602, "igdis_Picture_ Naming_score": 0.4736, "igdis_Which_One_ Doesn't_Belong_score": 0.4075, topel_pa_stdscore: 0.1337, rema_a_irt: 0.5092, rema_b_irt: 0.5341, rema_tot_irt: 0.5176, htks_p: 0.008, igdis_pn_p: 0.0071, igdis_wodb_p: 0.0432, topel_p: 0.4658, rema_a_p: 0.0034, rema_b_p: 0.0016, rema_tot_p: 0.0029, htks_n: 32, igdis_pn_n: 31, igdis_wodb_n: 25, topel_n: 32, rema_a_n: 31, rema_b_n: 32, rema_tot_n: 31 },
-      { variable: "LIT3a", htks_score: 0.4055, "igdis_Picture_ Naming_score": 0.4974, "igdis_Which_One_ Doesn't_Belong_score": 0.4103, topel_pa_stdscore: 0.17, rema_a_irt: 0.5938, rema_b_irt: 0.3594, rema_tot_irt: 0.5013, htks_p: 0.0141, igdis_pn_p: 0.002, igdis_wodb_p: 0.0271, topel_p: 0.3215, rema_a_p: 0.0002, rema_b_p: 0.0313, rema_tot_p: 0.0022, htks_n: 36, igdis_pn_n: 36, igdis_wodb_n: 29, topel_n: 36, rema_a_n: 35, rema_b_n: 36, rema_tot_n: 35 },
-      { variable: "LIT3bi", htks_score: 0.3046, "igdis_Picture_ Naming_score": 0.4213, "igdis_Which_One_ Doesn't_Belong_score": 0.3732, topel_pa_stdscore: 0.3295, rema_a_irt: 0.429, rema_b_irt: 0.2148, rema_tot_irt: 0.3603, htks_p: 0.0004, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0.0145, rema_tot_p: 0, htks_n: 131, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 130, rema_a_n: 129, rema_b_n: 129, rema_tot_n: 128 },
-      { variable: "LIT3bii", htks_score: 0.2071, "igdis_Picture_ Naming_score": 0.3972, "igdis_Which_One_ Doesn't_Belong_score": 0.3229, topel_pa_stdscore: 0.1484, rema_a_irt: 0.4436, rema_b_irt: 0.2091, rema_tot_irt: 0.3896, htks_p: 0.0221, igdis_pn_p: 0, igdis_wodb_p: 0.0011, topel_p: 0.1042, rema_a_p: 0, rema_b_p: 0.0231, rema_tot_p: 0, htks_n: 122, igdis_pn_n: 113, igdis_wodb_n: 99, topel_n: 121, rema_a_n: 120, rema_b_n: 118, rema_tot_n: 117 },
-      { variable: "LIT4", htks_score: 0.5614, "igdis_Picture_ Naming_score": 0.3141, "igdis_Which_One_ Doesn't_Belong_score": 0.5469, topel_pa_stdscore: 0.0986, rema_a_irt: 0.4479, rema_b_irt: 0.3097, rema_tot_irt: 0.428, htks_p: 0.0001, igdis_pn_p: 0.0356, igdis_wodb_p: 0.0007, topel_p: 0.5194, rema_a_p: 0.002, rema_b_p: 0.0362, rema_tot_p: 0.0034, htks_n: 45, igdis_pn_n: 45, igdis_wodb_n: 35, topel_n: 45, rema_a_n: 45, rema_b_n: 46, rema_tot_n: 45 },
-      { variable: "LIT5", htks_score: 0.4903, "igdis_Picture_ Naming_score": 0.366, "igdis_Which_One_ Doesn't_Belong_score": 0.3622, topel_pa_stdscore: 0.4533, rema_a_irt: 0.4096, rema_b_irt: 0.3179, rema_tot_irt: 0.3401, htks_p: 0.0028, igdis_pn_p: 0.0333, igdis_wodb_p: 0.0633, topel_p: 0.0055, rema_a_p: 0.0145, rema_b_p: 0.0628, rema_tot_p: 0.0491, htks_n: 35, igdis_pn_n: 34, igdis_wodb_n: 27, topel_n: 36, rema_a_n: 35, rema_b_n: 35, rema_tot_n: 34 },
-      { variable: "MAT2", htks_score: 0.2994, "igdis_Picture_ Naming_score": 0.4217, "igdis_Which_One_ Doesn't_Belong_score": 0.4056, topel_pa_stdscore: 0.1962, rema_a_irt: 0.4925, rema_b_irt: 0.296, rema_tot_irt: 0.4535, htks_p: 0.0026, igdis_pn_p: 0, igdis_wodb_p: 0.0002, topel_p: 0.0541, rema_a_p: 0, rema_b_p: 0.0031, rema_tot_p: 0, htks_n: 99, igdis_pn_n: 94, igdis_wodb_n: 81, topel_n: 97, rema_a_n: 98, rema_b_n: 98, rema_tot_n: 97 },
-      { variable: "MAT3", htks_score: 0.4263, "igdis_Picture_ Naming_score": 0.2689, "igdis_Which_One_ Doesn't_Belong_score": 0.4968, topel_pa_stdscore: 0.3429, rema_a_irt: 0.499, rema_b_irt: 0.3485, rema_tot_irt: 0.4955, htks_p: 0, igdis_pn_p: 0.0081, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0, rema_b_p: 0.0003, rema_tot_p: 0, htks_n: 104, igdis_pn_n: 96, igdis_wodb_n: 84, topel_n: 102, rema_a_n: 103, rema_b_n: 102, rema_tot_n: 101 },
-      { variable: "MAT4", htks_score: 0.514, "igdis_Picture_ Naming_score": 0.3659, "igdis_Which_One_ Doesn't_Belong_score": 0.3932, topel_pa_stdscore: 0.4866, rema_a_irt: 0.3743, rema_b_irt: 0.2511, rema_tot_irt: 0.3488, htks_p: 0, igdis_pn_p: 0.0001, igdis_wodb_p: 0.0001, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0066, rema_tot_p: 0.0001, htks_n: 120, igdis_pn_n: 111, igdis_wodb_n: 93, topel_n: 118, rema_a_n: 117, rema_b_n: 116, rema_tot_n: 114 },
-      { variable: "MAT5", htks_score: 0.3631, "igdis_Picture_ Naming_score": 0.4115, "igdis_Which_One_ Doesn't_Belong_score": 0.3984, topel_pa_stdscore: 0.2876, rema_a_irt: 0.5683, rema_b_irt: 0.2693, rema_tot_irt: 0.4712, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0006, rema_a_p: 0, rema_b_p: 0.0015, rema_tot_p: 0, htks_n: 140, igdis_pn_n: 130, igdis_wodb_n: 113, topel_n: 138, rema_a_n: 138, rema_b_n: 136, rema_tot_n: 135 },
-      { variable: "MAT6a", htks_score: 0.4034, "igdis_Picture_ Naming_score": 0.4256, "igdis_Which_One_ Doesn't_Belong_score": 0.5015, topel_pa_stdscore: 0.357, rema_a_irt: 0.5736, rema_b_irt: 0.2752, rema_tot_irt: 0.5136, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0, rema_b_p: 0.0019, rema_tot_p: 0, htks_n: 128, igdis_pn_n: 118, igdis_wodb_n: 104, topel_n: 126, rema_a_n: 126, rema_b_n: 125, rema_tot_n: 124 },
-      { variable: "MAT6b", htks_score: 0.4266, "igdis_Picture_ Naming_score": 0.463, "igdis_Which_One_ Doesn't_Belong_score": 0.4525, topel_pa_stdscore: 0.3339, rema_a_irt: 0.3088, rema_b_irt: 0.1304, rema_tot_irt: 0.2301, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.0004, rema_a_p: 0.0011, rema_b_p: 0.1766, rema_tot_p: 0.0166, htks_n: 111, igdis_pn_n: 102, igdis_wodb_n: 90, topel_n: 110, rema_a_n: 109, rema_b_n: 109, rema_tot_n: 108 },
-      { variable: "MAT7", htks_score: 0.443, "igdis_Picture_ Naming_score": 0.4365, "igdis_Which_One_ Doesn't_Belong_score": 0.5217, topel_pa_stdscore: 0.281, rema_a_irt: 0.5489, rema_b_irt: 0.4462, rema_tot_irt: 0.5841, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0.001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 137, igdis_pn_n: 126, igdis_wodb_n: 108, topel_n: 135, rema_a_n: 134, rema_b_n: 133, rema_tot_n: 131 },
-      { variable: "MAT8", htks_score: 0.3823, "igdis_Picture_ Naming_score": 0.3881, "igdis_Which_One_ Doesn't_Belong_score": 0.3481, topel_pa_stdscore: 0.2516, rema_a_irt: 0.5176, rema_b_irt: 0.4197, rema_tot_irt: 0.5168, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0.0001, topel_p: 0.0023, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 147, igdis_pn_n: 134, igdis_wodb_n: 116, topel_n: 145, rema_a_n: 144, rema_b_n: 143, rema_tot_n: 141 },
-      { variable: "MAT9", htks_score: 0.4474, "igdis_Picture_ Naming_score": 0.3085, "igdis_Which_One_ Doesn't_Belong_score": 0.4008, topel_pa_stdscore: 0.3223, rema_a_irt: 0.5433, rema_b_irt: 0.3383, rema_tot_irt: 0.499, htks_p: 0, igdis_pn_p: 0.0003, igdis_wodb_p: 0, topel_p: 0.0001, rema_a_p: 0, rema_b_p: 0, rema_tot_p: 0, htks_n: 145, igdis_pn_n: 132, igdis_wodb_n: 115, topel_n: 143, rema_a_n: 143, rema_b_n: 141, rema_tot_n: 140 },
-      { variable: "MAT10", htks_score: 0.388, "igdis_Picture_ Naming_score": 0.5248, "igdis_Which_One_ Doesn't_Belong_score": 0.4939, topel_pa_stdscore: 0.374, rema_a_irt: 0.3422, rema_b_irt: 0.0746, rema_tot_irt: 0.1662, htks_p: 0, igdis_pn_p: 0, igdis_wodb_p: 0, topel_p: 0, rema_a_p: 0.0001, rema_b_p: 0.4027, rema_tot_p: 0.0619, htks_n: 130, igdis_pn_n: 120, igdis_wodb_n: 104, topel_n: 129, rema_a_n: 128, rema_b_n: 128, rema_tot_n: 127 },
-    ],
     defaultScale: "MAT2",
   },
   SPA: {
@@ -287,59 +240,19 @@ const LANG_CONFIGS = {
       { key: "ATL", label: "Executive Function", scales: ["ATL5a", "ATL5b", "ATL8", "ATL9"] },
     ],
     externalMeasures: [
-      { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part A — number & operations" },
-      { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Part B — geometry, patterning, algebraic thinking, measurement" },
-      { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B", description: "REMA-Short Total — combined Part A + Part B" },
-      { key: "igdis_Dibujos_score", label: "myIGDIs: Dibujos", domain: "LAN", color: "#D24935", description: "myIGDIs Dibujos — expressive picture naming / expressive vocabulary (Spanish parallel to Picture Naming)" },
-      { key: "igdis_Verbos_ Expressivos_score", label: "myIGDIs: Verbos Expresivos", domain: "LAN", color: "#D24935", description: "myIGDIs Verbos Expresivos — expressive verbs / action word production" },
-      { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570", description: "HTKS-Revised — self-regulation (inhibitory control, working memory, cognitive flexibility)" },
+      { key: "rema_a_irt", label: "REMA A (Num & Ops)", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_b_irt", label: "REMA B (Geo/Pat/etc.)", domain: "MAT", color: "#5A9F4B" },
+      { key: "rema_tot_irt", label: "REMA Total", domain: "MAT", color: "#5A9F4B" },
+      { key: "igdis_Dibujos_score", label: "myIGDIs: Dibujos", domain: "LAN", color: "#D24935" },
+      { key: "igdis_Verbos_ Expressivos_score", label: "myIGDIs: Verbos Expresivos", domain: "LAN", color: "#D24935" },
+      { key: "htks_score", label: "HTKS", domain: "EF", color: "#9B4570" },
     ],
     expectedMap: {
-      ATL5a: ["htks_score"],
-      ATL5b: ["htks_score"],
-      ATL8: ["htks_score"],
-      ATL9: ["htks_score"],
-      LAN6: ["igdis_Verbos_ Expressivos_score"],
-      LAN7a: ["igdis_Dibujos_score"],
-      LAN7b: ["igdis_Dibujos_score"],
-      MAT2: ["rema_a_irt"],
-      MAT3: ["rema_a_irt"],
-      MAT4: ["rema_a_irt"],
-      MAT5: ["rema_a_irt"],
-      MAT6a: ["rema_a_irt"],
-      MAT6b: ["rema_a_irt"],
-      MAT7: ["rema_b_irt"],
-      MAT8: ["rema_b_irt"],
-      MAT9: ["rema_b_irt"],
+      ATL5a: ["htks_score"], ATL5b: ["htks_score"], ATL8: ["htks_score"], ATL9: ["htks_score"],
+      LAN6: ["igdis_Verbos_ Expressivos_score"], LAN7a: ["igdis_Dibujos_score"], LAN7b: ["igdis_Dibujos_score"],
+      MAT2: ["rema_a_irt"], MAT3: ["rema_a_irt"], MAT4: ["rema_a_irt"], MAT5: ["rema_a_irt"], MAT6a: ["rema_a_irt"], MAT6b: ["rema_a_irt"],
+      MAT7: ["rema_b_irt"], MAT8: ["rema_b_irt"], MAT9: ["rema_b_irt"],
     },
-    data: [
-      { variable: "ATL5a", htks_score: 0.2287, "igdis_Verbos_ Expressivos_score": 0.3598, igdis_Dibujos_score: 0.4051, rema_a_irt: 0.5329, rema_b_irt: 0.4539, rema_tot_irt: 0.4689, htks_p: 0.2005, igdis_ve_p: 0.0468, igdis_d_p: 0.0193, rema_a_p: 0.0014, rema_b_p: 0.0091, rema_tot_p: 0.0068, htks_n: 33, igdis_ve_n: 31, igdis_d_n: 33, rema_a_n: 33, rema_b_n: 32, rema_tot_n: 32 },
-      { variable: "ATL5b", htks_score: 0.1587, "igdis_Verbos_ Expressivos_score": 0.3867, igdis_Dibujos_score: 0.3969, rema_a_irt: 0.32, rema_b_irt: 0.152, rema_tot_irt: 0.2364, htks_p: 0.4487, igdis_ve_p: 0.0754, igdis_d_p: 0.0608, rema_a_p: 0.1189, rema_b_p: 0.4783, rema_tot_p: 0.2662, htks_n: 25, igdis_ve_n: 22, igdis_d_n: 23, rema_a_n: 25, rema_b_n: 24, rema_tot_n: 24 },
-      { variable: "ATL8", htks_score: 0.2025, "igdis_Verbos_ Expressivos_score": 0.219, igdis_Dibujos_score: -0.0273, rema_a_irt: 0.3797, rema_b_irt: 0.2442, rema_tot_irt: 0.3563, htks_p: 0.4058, igdis_ve_p: 0.3983, igdis_d_p: 0.9118, rema_a_p: 0.1089, rema_b_p: 0.3288, rema_tot_p: 0.1467, htks_n: 19, igdis_ve_n: 17, igdis_d_n: 19, rema_a_n: 19, rema_b_n: 18, rema_tot_n: 18 },
-      { variable: "ATL9", htks_score: 0.196, "igdis_Verbos_ Expressivos_score": 0.317, igdis_Dibujos_score: 0.2867, rema_a_irt: 0.3345, rema_b_irt: 0.0877, rema_tot_irt: 0.2173, htks_p: 0.2824, igdis_ve_p: 0.0938, igdis_d_p: 0.1178, rema_a_p: 0.0613, rema_b_p: 0.6391, rema_tot_p: 0.2403, htks_n: 32, igdis_ve_n: 29, igdis_d_n: 31, rema_a_n: 32, rema_b_n: 31, rema_tot_n: 31 },
-      { variable: "LAN6", htks_score: 0.3365, "igdis_Verbos_ Expressivos_score": 0.3415, igdis_Dibujos_score: -0.0631, rema_a_irt: 0.7324, rema_b_irt: 0.4766, rema_tot_irt: 0.5751, htks_p: 0.1258, igdis_ve_p: 0.1524, igdis_d_p: 0.7857, rema_a_p: 0.0001, rema_b_p: 0.0289, rema_tot_p: 0.0064, htks_n: 22, igdis_ve_n: 19, igdis_d_n: 21, rema_a_n: 22, rema_b_n: 21, rema_tot_n: 21 },
-      { variable: "LAN7a", htks_score: 0.1733, "igdis_Verbos_ Expressivos_score": 0.286, igdis_Dibujos_score: 0.3551, rema_a_irt: 0.4883, rema_b_irt: 0.4259, rema_tot_irt: 0.492, htks_p: 0.3349, igdis_ve_p: 0.1188, igdis_d_p: 0.0426, rema_a_p: 0.0039, rema_b_p: 0.0151, rema_tot_p: 0.0042, htks_n: 33, igdis_ve_n: 31, igdis_d_n: 33, rema_a_n: 33, rema_b_n: 32, rema_tot_n: 32 },
-      { variable: "LAN7b", htks_score: 0.1607, "igdis_Verbos_ Expressivos_score": 0.236, igdis_Dibujos_score: 0.3792, rema_a_irt: 0.5434, rema_b_irt: 0.4524, rema_tot_irt: 0.4827, htks_p: 0.3877, igdis_ve_p: 0.2178, igdis_d_p: 0.0354, rema_a_p: 0.0016, rema_b_p: 0.0121, rema_tot_p: 0.0069, htks_n: 31, igdis_ve_n: 29, igdis_d_n: 31, rema_a_n: 31, rema_b_n: 30, rema_tot_n: 30 },
-      { variable: "LIT1a", htks_score: -0.0433, "igdis_Verbos_ Expressivos_score": 0.1299, igdis_Dibujos_score: 0.1855, rema_a_irt: 0.2966, rema_b_irt: 0.3435, rema_tot_irt: 0.2606, htks_p: 0.8022, igdis_ve_p: 0.4711, igdis_d_p: 0.2861, rema_a_p: 0.079, rema_b_p: 0.0433, rema_tot_p: 0.1305, htks_n: 36, igdis_ve_n: 33, igdis_d_n: 35, rema_a_n: 36, rema_b_n: 35, rema_tot_n: 35 },
-      { variable: "LIT1b", htks_score: 0.2747, "igdis_Verbos_ Expressivos_score": 0.3645, igdis_Dibujos_score: 0.0087, rema_a_irt: 0.3019, rema_b_irt: 0.2368, rema_tot_irt: 0.3255, htks_p: 0.1102, igdis_ve_p: 0.0341, igdis_d_p: 0.9599, rema_a_p: 0.078, rema_b_p: 0.1776, rema_tot_p: 0.0603, htks_n: 35, igdis_ve_n: 34, igdis_d_n: 36, rema_a_n: 35, rema_b_n: 34, rema_tot_n: 34 },
-      { variable: "LIT1c", htks_score: 0.0491, "igdis_Verbos_ Expressivos_score": -0.0329, igdis_Dibujos_score: 0.0664, rema_a_irt: 0.1572, rema_b_irt: 0.1279, rema_tot_irt: 0.1208, htks_p: 0.7826, igdis_ve_p: 0.8534, igdis_d_p: 0.7049, rema_a_p: 0.3747, rema_b_p: 0.4781, rema_tot_p: 0.5031, htks_n: 34, igdis_ve_n: 34, igdis_d_n: 35, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "LIT1d", htks_score: 0.1407, "igdis_Verbos_ Expressivos_score": 0.3924, igdis_Dibujos_score: -0.1231, rema_a_irt: 0.294, rema_b_irt: 0.2036, rema_tot_irt: 0.2449, htks_p: 0.5656, igdis_ve_p: 0.1327, igdis_d_p: 0.6266, rema_a_p: 0.2218, rema_b_p: 0.4177, rema_tot_p: 0.3274, htks_n: 19, igdis_ve_n: 16, igdis_d_n: 18, rema_a_n: 19, rema_b_n: 18, rema_tot_n: 18 },
-      { variable: "LIT2", htks_score: 0.4436, "igdis_Verbos_ Expressivos_score": 0.3434, igdis_Dibujos_score: 0.3548, rema_a_irt: 0.7694, rema_b_irt: 0.5617, rema_tot_irt: 0.6883, htks_p: 0.0386, igdis_ve_p: 0.1383, igdis_d_p: 0.1145, rema_a_p: 0, rema_b_p: 0.0081, rema_tot_p: 0.0006, htks_n: 22, igdis_ve_n: 20, igdis_d_n: 21, rema_a_n: 22, rema_b_n: 21, rema_tot_n: 21 },
-      { variable: "LIT3a", htks_score: 0.3528, "igdis_Verbos_ Expressivos_score": 0.418, igdis_Dibujos_score: 0.3311, rema_a_irt: 0.725, rema_b_irt: 0.222, rema_tot_irt: 0.4493, htks_p: 0.0987, igdis_ve_p: 0.0593, igdis_d_p: 0.1323, rema_a_p: 0.0001, rema_b_p: 0.3208, rema_tot_p: 0.0359, htks_n: 23, igdis_ve_n: 21, igdis_d_n: 22, rema_a_n: 23, rema_b_n: 22, rema_tot_n: 22 },
-      { variable: "LIT3b", htks_score: 0.2224, "igdis_Verbos_ Expressivos_score": 0.242, igdis_Dibujos_score: 0.2605, rema_a_irt: 0.5379, rema_b_irt: 0.2608, rema_tot_irt: 0.376, htks_p: 0.2062, igdis_ve_p: 0.1977, igdis_d_p: 0.1431, rema_a_p: 0.001, rema_b_p: 0.1426, rema_tot_p: 0.031, htks_n: 34, igdis_ve_n: 30, igdis_d_n: 33, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "LIT4", htks_score: 0.1853, "igdis_Verbos_ Expressivos_score": 0.2495, igdis_Dibujos_score: 0.0391, rema_a_irt: 0.4977, rema_b_irt: -0.0389, rema_tot_irt: 0.3207, htks_p: 0.4766, igdis_ve_p: 0.3897, igdis_d_p: 0.8857, rema_a_p: 0.0421, rema_b_p: 0.8862, rema_tot_p: 0.2259, htks_n: 17, igdis_ve_n: 14, igdis_d_n: 16, rema_a_n: 17, rema_b_n: 16, rema_tot_n: 16 },
-      { variable: "LIT5", htks_score: 0.2729, "igdis_Verbos_ Expressivos_score": 0.5512, igdis_Dibujos_score: 0.3392, rema_a_irt: 0.5854, rema_b_irt: 0.4254, rema_tot_irt: 0.6365, htks_p: 0.197, igdis_ve_p: 0.0078, igdis_d_p: 0.1134, rema_a_p: 0.0027, rema_b_p: 0.043, rema_tot_p: 0.0011, htks_n: 24, igdis_ve_n: 22, igdis_d_n: 23, rema_a_n: 24, rema_b_n: 23, rema_tot_n: 23 },
-      { variable: "MAT2", htks_score: 0.3805, "igdis_Verbos_ Expressivos_score": 0.35, igdis_Dibujos_score: 0.3571, rema_a_irt: 0.6061, rema_b_irt: 0.6537, rema_tot_irt: 0.655, htks_p: 0.038, igdis_ve_p: 0.0796, igdis_d_p: 0.0572, rema_a_p: 0.0004, rema_b_p: 0.0001, rema_tot_p: 0.0001, htks_n: 30, igdis_ve_n: 26, igdis_d_n: 29, rema_a_n: 30, rema_b_n: 29, rema_tot_n: 29 },
-      { variable: "MAT3", htks_score: 0.2397, "igdis_Verbos_ Expressivos_score": 0.3821, igdis_Dibujos_score: 0.4243, rema_a_irt: 0.6782, rema_b_irt: 0.483, rema_tot_irt: 0.5367, htks_p: 0.2105, igdis_ve_p: 0.0654, igdis_d_p: 0.0308, rema_a_p: 0.0001, rema_b_p: 0.0092, rema_tot_p: 0.0032, htks_n: 29, igdis_ve_n: 24, igdis_d_n: 26, rema_a_n: 29, rema_b_n: 28, rema_tot_n: 28 },
-      { variable: "MAT4", htks_score: 0.1516, "igdis_Verbos_ Expressivos_score": 0.4621, igdis_Dibujos_score: 0.1994, rema_a_irt: 0.3485, rema_b_irt: 0.3438, rema_tot_irt: 0.3033, htks_p: 0.4325, igdis_ve_p: 0.023, igdis_d_p: 0.3287, rema_a_p: 0.0639, rema_b_p: 0.0733, rema_tot_p: 0.1166, htks_n: 29, igdis_ve_n: 24, igdis_d_n: 26, rema_a_n: 29, rema_b_n: 28, rema_tot_n: 28 },
-      { variable: "MAT5", htks_score: 0.2569, "igdis_Verbos_ Expressivos_score": 0.402, igdis_Dibujos_score: 0.3661, rema_a_irt: 0.7246, rema_b_irt: 0.5016, rema_tot_irt: 0.6123, htks_p: 0.1558, igdis_ve_p: 0.0306, igdis_d_p: 0.0467, rema_a_p: 0, rema_b_p: 0.004, rema_tot_p: 0.0003, htks_n: 32, igdis_ve_n: 29, igdis_d_n: 30, rema_a_n: 32, rema_b_n: 31, rema_tot_n: 31 },
-      { variable: "MAT6a", htks_score: 0.4688, "igdis_Verbos_ Expressivos_score": 0.2617, igdis_Dibujos_score: 0.3081, rema_a_irt: 0.5573, rema_b_irt: 0.4235, rema_tot_irt: 0.5084, htks_p: 0.0052, igdis_ve_p: 0.1703, igdis_d_p: 0.0862, rema_a_p: 0.0006, rema_b_p: 0.014, rema_tot_p: 0.0025, htks_n: 34, igdis_ve_n: 29, igdis_d_n: 32, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "MAT6b", htks_score: 0.4143, "igdis_Verbos_ Expressivos_score": 0.2694, igdis_Dibujos_score: 0.2077, rema_a_irt: 0.3055, rema_b_irt: 0.4012, rema_tot_irt: 0.3968, htks_p: 0.0149, igdis_ve_p: 0.136, igdis_d_p: 0.246, rema_a_p: 0.0789, rema_b_p: 0.0207, rema_tot_p: 0.0222, htks_n: 34, igdis_ve_n: 32, igdis_d_n: 33, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "MAT7", htks_score: 0.4053, "igdis_Verbos_ Expressivos_score": 0.5201, igdis_Dibujos_score: 0.5523, rema_a_irt: 0.5973, rema_b_irt: 0.4224, rema_tot_irt: 0.4683, htks_p: 0.0174, igdis_ve_p: 0.0038, igdis_d_p: 0.001, rema_a_p: 0.0002, rema_b_p: 0.0143, rema_tot_p: 0.006, htks_n: 34, igdis_ve_n: 29, igdis_d_n: 32, rema_a_n: 34, rema_b_n: 33, rema_tot_n: 33 },
-      { variable: "MAT8", htks_score: 0.3619, "igdis_Verbos_ Expressivos_score": 0.2591, igdis_Dibujos_score: 0.2276, rema_a_irt: 0.6222, rema_b_irt: 0.3555, rema_tot_irt: 0.4889, htks_p: 0.0256, igdis_ve_p: 0.139, igdis_d_p: 0.1818, rema_a_p: 0, rema_b_p: 0.0308, rema_tot_p: 0.0021, htks_n: 38, igdis_ve_n: 34, igdis_d_n: 36, rema_a_n: 38, rema_b_n: 37, rema_tot_n: 37 },
-      { variable: "MAT9", htks_score: 0.4501, "igdis_Verbos_ Expressivos_score": 0.6239, igdis_Dibujos_score: 0.5255, rema_a_irt: 0.6301, rema_b_irt: 0.4218, rema_tot_irt: 0.526, htks_p: 0.004, igdis_ve_p: 0.0001, igdis_d_p: 0.0007, rema_a_p: 0, rema_b_p: 0.0084, rema_tot_p: 0.0007, htks_n: 39, igdis_ve_n: 35, igdis_d_n: 38, rema_a_n: 39, rema_b_n: 38, rema_tot_n: 38 },
-      { variable: "MAT10", htks_score: 0.4383, "igdis_Verbos_ Expressivos_score": 0.5223, igdis_Dibujos_score: 0.3573, rema_a_irt: 0.5336, rema_b_irt: 0.35, rema_tot_irt: 0.446, htks_p: 0.0084, igdis_ve_p: 0.0026, igdis_d_p: 0.0412, rema_a_p: 0.001, rema_b_p: 0.0424, rema_tot_p: 0.0082, htks_n: 35, igdis_ve_n: 31, igdis_d_n: 33, rema_a_n: 35, rema_b_n: 34, rema_tot_n: 34 },
-    ],
     defaultScale: "MAT2",
   },
 };
@@ -355,7 +268,6 @@ const P_KEY_MAP = {
   rema_b_irt: "rema_b_p",
   rema_tot_irt: "rema_tot_p",
 };
-
 const N_KEY_MAP = {
   htks_score: "htks_n",
   "igdis_Picture_ Naming_score": "igdis_pn_n",
@@ -368,17 +280,11 @@ const N_KEY_MAP = {
   rema_tot_irt: "rema_tot_n",
 };
 
-
 const SCALE_MIN = -0.2;
 const SCALE_MAX = 0.7;
 const SCALE_RANGE = SCALE_MAX - SCALE_MIN;
 
-const DOMAIN_COLORS = {
-  ATL: "#9B4570",
-  LAN: "#D24935",
-  LIT: "#D7A23B",
-  MAT: "#5A9F4B",
-};
+const DOMAIN_COLORS = { ATL: "#9B4570", LAN: "#D24935", LIT: "#D7A23B", MAT: "#5A9F4B" };
 
 function getDomainForScale(variable) {
   if (variable.startsWith("ATL")) return "ATL";
@@ -388,97 +294,99 @@ function getDomainForScale(variable) {
   return "";
 }
 
-function PerScaleView() {
+const barMaxWidth = 240;
+
+// A single horizontal correlation bar on the shared axis.
+function Bar({ r, color }) {
+  if (r === undefined || r === null || isNaN(r)) {
+    return (
+      <div style={{ width: barMaxWidth, height: 18, background: "#f3f4f6", borderRadius: 4, flexShrink: 0 }} />
+    );
+  }
+  const abs = Math.abs(r);
+  const zeroX = ((0 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
+  const thresholdX = ((0.3 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
+  const barWidth = (abs / SCALE_RANGE) * barMaxWidth;
+  const barLeft = r >= 0 ? zeroX : zeroX - barWidth;
+  const fill = r < 0 ? "#d1d5db" : color;
+  return (
+    <div style={{ width: barMaxWidth, height: 18, background: "#f3f4f6", borderRadius: 4, position: "relative", overflow: "hidden", flexShrink: 0 }}>
+      <div style={{ position: "absolute", left: barLeft, width: Math.max(barWidth, 2), height: "100%", background: fill, borderRadius: 4, transition: "left 0.4s ease, width 0.4s ease" }} />
+      <div style={{ position: "absolute", left: zeroX, top: 0, bottom: 0, width: 0, borderLeft: "2px solid #000" }} />
+      <div style={{ position: "absolute", left: thresholdX, top: 0, bottom: 0, width: 0, borderLeft: "2px dashed #0A2A65", opacity: 0.45 }} />
+    </div>
+  );
+}
+
+function SeasonRow({ seasonLabel, r, p, n, color, dim }) {
+  const has = r !== undefined && r !== null && !isNaN(r);
+  const sig = has && p < 0.05;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 0, opacity: dim ? 0.92 : 1 }}>
+      <span style={{ width: 48, fontSize: 11, fontWeight: 700, color: "#6b7280", flexShrink: 0, textTransform: "uppercase", letterSpacing: "0.03em" }}>
+        {seasonLabel}
+      </span>
+      <Bar r={r} color={color} />
+      <span style={{ fontSize: 13, fontWeight: 600, color: sig ? "#000" : "#9ca3af", width: 44, textAlign: "right", flexShrink: 0, marginLeft: 8 }}>
+        {has ? r.toFixed(2) : "—"}
+      </span>
+      <span style={{ width: 26, textAlign: "center", flexShrink: 0, marginLeft: 4 }}>
+        {has && !sig && (
+          <span style={{ fontSize: 9, color: "#d97706", fontWeight: 500, background: "#fef3c7", padding: "1px 4px", borderRadius: 3 }}>ns</span>
+        )}
+      </span>
+      <span style={{ fontSize: 10, color: "#9ca3af", width: 42, textAlign: "right", flexShrink: 0, marginLeft: 4 }}>
+        {has ? `n=${n}` : ""}
+      </span>
+    </div>
+  );
+}
+
+function CompareView() {
   const [lang, setLang] = useState("EN");
-  const [season, setSeason] = useState("Fall");
   const [selected, setSelected] = useState("MAT2");
 
   const cfg = LANG_CONFIGS[lang];
-  const activeData =
-    (window.VALIDITY_DATA && window.VALIDITY_DATA[lang] && window.VALIDITY_DATA[lang][season]) || cfg.data;
-  const row = activeData.find((d) => d.variable === selected);
+  const fallData = (window.VALIDITY_DATA && window.VALIDITY_DATA[lang] && window.VALIDITY_DATA[lang].Fall) || [];
+  const springData = (window.VALIDITY_DATA && window.VALIDITY_DATA[lang] && window.VALIDITY_DATA[lang].Spring) || [];
+  const fallRow = fallData.find((d) => d.variable === selected) || {};
+  const springRow = springData.find((d) => d.variable === selected) || {};
+
   const domain = getDomainForScale(selected);
   const domainColor = DOMAIN_COLORS[domain];
-  const expectedKeys = (cfg.expectedMap[selected]) || [];
+  const expectedKeys = cfg.expectedMap[selected] || [];
 
   const handleLangChange = (newLang) => {
     if (newLang === lang) return;
     const newCfg = LANG_CONFIGS[newLang];
     const allScales = newCfg.domainGroups.flatMap((g) => g.scales);
-    const newSelected = allScales.includes(selected) ? selected : newCfg.defaultScale;
+    setSelected(allScales.includes(selected) ? selected : newCfg.defaultScale);
     setLang(newLang);
-    setSelected(newSelected);
   };
 
-  const barMaxWidth = 280;
-
   const NAV_ITEMS = [
-    { key: "domain", label: "By Domain", href: "index.html", icon: "\u2588\u2588" },
-    { key: "scale", label: "Per Scale", href: "per-scale.html", icon: "\u2503" },
-    { key: "compare", label: "Fall vs. Spring", href: "compare.html", icon: "\u21c4" },
-    { key: "discriminant", label: "Discriminant", href: "discriminant.html", icon: "\u2260" },
+    { key: "domain", label: "By Domain", href: "index.html", icon: "██" },
+    { key: "scale", label: "Per Scale", href: "per-scale.html", icon: "┃" },
+    { key: "compare", label: "Fall vs. Spring", href: "compare.html", icon: "⇄" },
+    { key: "discriminant", label: "Discriminant", href: "discriminant.html", icon: "≠" },
   ];
-  const activePage = "scale";
+  const activePage = "compare";
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#fafbfc",
-        fontFamily: "'Inter', -apple-system, sans-serif",
-        display: "flex",
-      }}
-    >
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-      />
+    <div style={{ minHeight: "100vh", background: "#fafbfc", fontFamily: "'Inter', -apple-system, sans-serif", display: "flex" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
       {/* Sidebar */}
-      <nav
-        style={{
-          width: 200,
-          minHeight: "100vh",
-          background: "#fff",
-          borderRight: "1px solid #e5e7eb",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: 20,
-          display: "flex",
-          flexDirection: "column",
-          padding: "28px 0 20px",
-        }}
-      >
+      <nav style={{ width: 200, minHeight: "100vh", background: "#fff", borderRight: "1px solid #e5e7eb", position: "fixed", top: 0, left: 0, zIndex: 20, display: "flex", flexDirection: "column", padding: "28px 0 20px" }}>
         <div style={{ padding: "0 20px 24px", borderBottom: "1px solid #f0f0f0" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#0A2A65", lineHeight: 1.3 }}>
-            Concurrent Validity
-          </div>
-          <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 2 }}>
-            Khan Kids &times; RTI
-          </div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#0A2A65", lineHeight: 1.3 }}>Concurrent Validity</div>
+          <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 2 }}>Khan Kids &times; RTI</div>
         </div>
         <div style={{ padding: "16px 12px", display: "flex", flexDirection: "column", gap: 4 }}>
           {NAV_ITEMS.map((item) => {
             const isActive = item.key === activePage;
             return (
-              <a
-                key={item.key}
-                href={item.href}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "10px 12px",
-                  borderRadius: 8,
-                  textDecoration: "none",
-                  fontSize: 13,
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? "#0A2A65" : "#6b7280",
-                  background: isActive ? "#EEF2FF" : "transparent",
-                  transition: "all 0.15s",
-                }}
-              >
+              <a key={item.key} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 8, textDecoration: "none", fontSize: 13, fontWeight: isActive ? 700 : 500, color: isActive ? "#0A2A65" : "#6b7280", background: isActive ? "#EEF2FF" : "transparent", transition: "all 0.15s" }}>
                 <span style={{ fontSize: 10, opacity: 0.6 }}>{item.icon}</span>
                 {item.label}
               </a>
@@ -489,136 +397,30 @@ function PerScaleView() {
 
       {/* Main content */}
       <div style={{ marginLeft: 200, flex: 1, minWidth: 0 }}>
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px" }}>
         {/* Sticky header */}
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-            background: "#fafbfc",
-            paddingTop: 40,
-            paddingBottom: 16,
-            borderBottom: "1px solid #e5e7eb",
-          }}
-        >
+        <div style={{ position: "sticky", top: 0, zIndex: 10, background: "#fafbfc", paddingTop: 40, paddingBottom: 16, borderBottom: "1px solid #e5e7eb" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 8 }}>
-            <h1
-              style={{
-                fontSize: 26,
-                fontWeight: 700,
-                color: "#000",
-                margin: 0,
-                lineHeight: 1.2,
-              }}
-            >
-              Per-Scale Cross-Domain View
-            </h1>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <div
-              style={{
-                display: "flex",
-                background: "#e5e7eb",
-                borderRadius: 8,
-                padding: 3,
-              }}
-            >
+            <h1 style={{ fontSize: 26, fontWeight: 700, color: "#000", margin: 0, lineHeight: 1.2 }}>Fall vs. Spring Comparison</h1>
+            <div style={{ display: "flex", background: "#e5e7eb", borderRadius: 8, padding: 3 }}>
               {["EN", "SPA"].map((l) => (
-                <button
-                  key={l}
-                  onClick={() => handleLangChange(l)}
-                  style={{
-                    padding: "6px 16px",
-                    borderRadius: 6,
-                    border: "none",
-                    background: lang === l ? "#ffffff" : "transparent",
-                    color: lang === l ? "#000000" : "#6b7280",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    fontFamily: "'Inter', -apple-system, sans-serif",
-                    boxShadow: lang === l ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
-                    transition: "all 0.15s",
-                  }}
-                >
+                <button key={l} onClick={() => handleLangChange(l)} style={{ padding: "6px 16px", borderRadius: 6, border: "none", background: lang === l ? "#fff" : "transparent", color: lang === l ? "#000" : "#6b7280", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Inter', -apple-system, sans-serif", boxShadow: lang === l ? "0 1px 3px rgba(0,0,0,0.1)" : "none", transition: "all 0.15s" }}>
                   {l === "EN" ? "English" : "Spanish"}
                 </button>
               ))}
             </div>
-            <div
-              style={{
-                display: "flex",
-                background: "#e5e7eb",
-                borderRadius: 8,
-                padding: 3,
-              }}
-            >
-              {["Fall", "Spring"].map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSeason(s)}
-                  style={{
-                    padding: "6px 16px",
-                    borderRadius: 6,
-                    border: "none",
-                    background: season === s ? "#ffffff" : "transparent",
-                    color: season === s ? "#000000" : "#6b7280",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    fontFamily: "'Inter', -apple-system, sans-serif",
-                    boxShadow: season === s ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
-                    transition: "all 0.15s",
-                  }}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-            </div>
           </div>
-          <p style={{ fontSize: 14, color: "#000", margin: "0 0 12px", lineHeight: 1.5, maxWidth: 620 }}>
-            Select a KAK assessment scale to see how it correlates with every RTI direct assessment ({cfg.langLabel}).
-            Bars colored by the external assessment's domain.
+          <p style={{ fontSize: 14, color: "#000", margin: "0 0 12px", lineHeight: 1.5, maxWidth: 640 }}>
+            Select a KAK scale to compare its Fall and Spring correlations with each RTI direct assessment ({cfg.langLabel}).
+            The <b>&Delta;</b> column shows the change from Fall to Spring.
           </p>
-
-          {/* Dropdown */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            <label
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                color: "#9ca3af",
-              }}
-            >
-              KAK Scale
-            </label>
-            <select
-              value={selected}
-              onChange={(e) => setSelected(e.target.value)}
-              style={{
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: `2px solid ${domainColor}60`,
-                background: "white",
-                fontSize: 14,
-                fontWeight: 600,
-                color: "#000",
-                fontFamily: "'Inter', -apple-system, sans-serif",
-                cursor: "pointer",
-                outline: "none",
-                minWidth: 300,
-                appearance: "auto",
-              }}
-            >
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#9ca3af" }}>KAK Scale</label>
+            <select value={selected} onChange={(e) => setSelected(e.target.value)} style={{ padding: "8px 12px", borderRadius: 8, border: `2px solid ${domainColor}60`, background: "white", fontSize: 14, fontWeight: 600, color: "#000", fontFamily: "'Inter', -apple-system, sans-serif", cursor: "pointer", outline: "none", minWidth: 300, appearance: "auto" }}>
               {cfg.domainGroups.map((group) => (
                 <optgroup key={group.key} label={`${group.key} — ${group.label}`}>
                   {group.scales.map((s) => (
-                    <option key={s} value={s}>
-                      {KAK_LABELS[s]}
-                    </option>
+                    <option key={s} value={s}>{KAK_LABELS[s]}</option>
                   ))}
                 </optgroup>
               ))}
@@ -627,72 +429,21 @@ function PerScaleView() {
         </div>
 
         {/* Main card */}
-        <div
-          style={{
-            marginTop: 24,
-            background: "white",
-            borderRadius: 12,
-            border: `1px solid ${domainColor}30`,
-            overflow: "hidden",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-          }}
-        >
-          <div
-            style={{
-              padding: "16px 24px",
-              background: `linear-gradient(135deg, ${domainColor}12, ${domainColor}08)`,
-              borderBottom: `1px solid ${domainColor}20`,
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <div
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: "50%",
-                background: domainColor,
-              }}
-            />
-            <h2
-              style={{
-                margin: 0,
-                fontSize: 17,
-                fontWeight: 700,
-                color: "#000",
-              }}
-            >
-              {KAK_LABELS[selected]}
-            </h2>
+        <div style={{ marginTop: 24, background: "white", borderRadius: 12, border: `1px solid ${domainColor}30`, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+          <div style={{ padding: "16px 24px", background: `linear-gradient(135deg, ${domainColor}12, ${domainColor}08)`, borderBottom: `1px solid ${domainColor}20`, display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: domainColor }} />
+            <h2 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#000" }}>{KAK_LABELS[selected]}</h2>
           </div>
 
           <div style={{ padding: "16px 24px 24px" }}>
-            {/* Scale axis labels */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "200px 1fr",
-                gap: "0 16px",
-                marginBottom: 6,
-              }}
-            >
+            {/* Axis labels */}
+            <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: "0 16px", marginBottom: 6 }}>
               <div />
-              <div style={{ position: "relative", width: barMaxWidth, height: 16 }}>
+              <div style={{ position: "relative", marginLeft: 48, width: barMaxWidth, height: 16 }}>
                 {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6].map((v) => {
                   const x = ((v - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
                   return (
-                    <span
-                      key={v}
-                      style={{
-                        position: "absolute",
-                        left: x,
-                        transform: "translateX(-50%)",
-                        fontSize: 9,
-                        color: "#9ca3af",
-                        fontWeight: 500,
-                      }}
-                    >
+                    <span key={v} style={{ position: "absolute", left: x, transform: "translateX(-50%)", fontSize: 9, color: "#9ca3af", fontWeight: 500 }}>
                       {v === 0 ? "0" : v.toFixed(1)}
                     </span>
                   );
@@ -701,187 +452,40 @@ function PerScaleView() {
             </div>
 
             {cfg.externalMeasures.map((ext, i) => {
-              const r = row[ext.key];
-              const p = row[P_KEY_MAP[ext.key]];
-              const n = row[N_KEY_MAP[ext.key]];
-              const sig = p < 0.05;
+              const pKey = P_KEY_MAP[ext.key];
+              const nKey = N_KEY_MAP[ext.key];
+              const fr = fallRow[ext.key];
+              const sr = springRow[ext.key];
+              const hasFall = fr !== undefined && fr !== null && !isNaN(fr);
+              const hasSpring = sr !== undefined && sr !== null && !isNaN(sr);
+              const delta = hasFall && hasSpring ? sr - fr : null;
               const isExpected = expectedKeys.includes(ext.key);
-
-              const abs = Math.abs(r);
-              const zeroX = ((0 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
-              const thresholdX = ((0.3 - SCALE_MIN) / SCALE_RANGE) * barMaxWidth;
-              const barWidth = (abs / SCALE_RANGE) * barMaxWidth;
-              const barLeft = r >= 0 ? zeroX : zeroX - barWidth;
-
-              const barColor =
-                r < 0
-                  ? "#d1d5db"
-                  : abs >= 0.5
-                  ? ext.color
-                  : abs >= 0.3
-                  ? ext.color + "cc"
-                  : abs >= 0.1
-                  ? ext.color + "66"
-                  : "#e5e7eb";
 
               const prevExt = i > 0 ? cfg.externalMeasures[i - 1] : null;
               const showSeparator = prevExt && prevExt.domain !== ext.domain;
 
               return (
                 <div key={ext.key}>
-                  {showSeparator && (
-                    <div style={{ height: 1, background: "#f0f0f0", margin: "6px 0" }} />
-                  )}
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "200px 1fr",
-                      gap: "0 16px",
-                      alignItems: "center",
-                      padding: "5px 0",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 500,
-                        color: "#000",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: "50%",
-                          background: ext.color,
-                          flexShrink: 0,
-                        }}
-                      />
-                      <span style={{ lineHeight: 1.2 }}>{ext.label}</span>
-                    </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-                      <div
-                        style={{
-                          width: barMaxWidth,
-                          height: 22,
-                          background: "#f3f4f6",
-                          borderRadius: 4,
-                          position: "relative",
-                          overflow: "hidden",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: barLeft,
-                            width: Math.max(barWidth, 2),
-                            height: "100%",
-                            background: barColor,
-                            borderRadius: 4,
-                            transition: "left 0.4s ease, width 0.4s ease",
-                          }}
-                        />
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: zeroX,
-                            top: 0,
-                            bottom: 0,
-                            width: 0,
-                            borderLeft: "2px solid #000",
-                          }}
-                        />
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: thresholdX,
-                            top: 0,
-                            bottom: 0,
-                            width: 0,
-                            borderLeft: "2px dashed #0A2A65",
-                            opacity: 0.45,
-                          }}
-                        />
-                      </div>
-                      <span
-                        style={{
-                          fontSize: 13,
-                          fontWeight: 600,
-                          color: sig ? "#000" : "#9ca3af",
-                          width: 44,
-                          textAlign: "right",
-                          flexShrink: 0,
-                          marginLeft: 8,
-                        }}
-                      >
-                        {r.toFixed(2)}
-                      </span>
-                      <span
-                        style={{
-                          width: 28,
-                          textAlign: "center",
-                          flexShrink: 0,
-                          marginLeft: 6,
-                        }}
-                      >
-                        {!sig && (
-                          <span
-                            style={{
-                              fontSize: 10,
-                              color: "#d97706",
-                              fontWeight: 500,
-                              background: "#fef3c7",
-                              padding: "1px 5px",
-                              borderRadius: 3,
-                            }}
-                          >
-                            ns
-                          </span>
-                        )}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 10,
-                          color: "#9ca3af",
-                          width: 46,
-                          textAlign: "right",
-                          flexShrink: 0,
-                          marginLeft: 4,
-                        }}
-                      >
-                        n={n}
-                      </span>
-                      <span
-                        style={{
-                          width: 58,
-                          textAlign: "center",
-                          flexShrink: 0,
-                          marginLeft: 6,
-                        }}
-                      >
+                  {showSeparator && <div style={{ height: 1, background: "#f0f0f0", margin: "10px 0" }} />}
+                  <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: "0 16px", alignItems: "center", padding: "10px 0" }}>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: "#000", display: "flex", alignItems: "flex-start", gap: 6 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: "50%", background: ext.color, flexShrink: 0, marginTop: 5 }} />
+                      <div>
+                        <div style={{ lineHeight: 1.2 }}>{ext.label}</div>
                         {isExpected && (
-                          <span
-                            style={{
-                              fontSize: 9,
-                              fontWeight: 700,
-                              color: domainColor,
-                              background: domainColor + "18",
-                              border: `1px solid ${domainColor}40`,
-                              padding: "1px 5px",
-                              borderRadius: 3,
-                              whiteSpace: "nowrap",
-                              letterSpacing: "0.02em",
-                            }}
-                          >
+                          <span style={{ display: "inline-block", marginTop: 4, fontSize: 9, fontWeight: 700, color: domainColor, background: domainColor + "18", border: `1px solid ${domainColor}40`, padding: "1px 5px", borderRadius: 3, letterSpacing: "0.02em" }}>
                             expected
                           </span>
                         )}
-                      </span>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                        <SeasonRow seasonLabel="Fall" r={fr} p={fallRow[pKey]} n={fallRow[nKey]} color={ext.color + "80"} dim />
+                        <SeasonRow seasonLabel="Spring" r={sr} p={springRow[pKey]} n={springRow[nKey]} color={ext.color} />
+                      </div>
+                      <DeltaChip delta={delta} />
                     </div>
                   </div>
                 </div>
@@ -890,78 +494,23 @@ function PerScaleView() {
           </div>
         </div>
 
-        {/* Assessment descriptions */}
-        <div
-          style={{
-            marginTop: 24,
-            background: "white",
-            borderRadius: 12,
-            border: "1px solid #e5e7eb",
-            overflow: "hidden",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-          }}
-        >
-          <div
-            style={{
-              padding: "12px 24px",
-              borderBottom: "1px solid #f0f0f0",
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#000",
-            }}
-          >
-            External Assessment Descriptions
+        {/* Legend / footer */}
+        <div style={{ marginTop: 16, padding: "16px 20px", background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12, color: "#000", lineHeight: 1.6 }}>
+          <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginBottom: 8 }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ width: 22, height: 10, background: "#9ca3af", borderRadius: 2, opacity: 0.5 }} /> Fall (muted)
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ width: 22, height: 10, background: "#5A9F4B", borderRadius: 2 }} /> Spring (solid)
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontWeight: 700, color: "#16a34a" }}>&#9650;</span> increased &nbsp;
+              <span style={{ fontWeight: 700, color: "#dc2626" }}>&#9660;</span> decreased
+            </span>
           </div>
-          <div style={{ padding: "12px 24px 16px" }}>
-            {cfg.externalMeasures.map((ext) => (
-              <div
-                key={ext.key}
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  gap: 8,
-                  padding: "4px 0",
-                  fontSize: 12,
-                  color: "#000",
-                  lineHeight: 1.5,
-                }}
-              >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: ext.color,
-                    flexShrink: 0,
-                    marginTop: 5,
-                  }}
-                />
-                <span>
-                  <strong>{ext.label}:</strong>{" "}
-                  {ext.description}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div
-          style={{
-            marginTop: 16,
-            padding: "16px 20px",
-            background: "#f9fafb",
-            borderRadius: 8,
-            border: "1px solid #e5e7eb",
-            fontSize: 12,
-            color: "#000",
-            lineHeight: 1.6,
-          }}
-        >
-          <strong>Note:</strong> Correlations use
-          pairwise deletion. The dashed line marks r = 0.30 (moderate threshold).
-          Bars colored by the external assessment's domain. Sample sizes vary by
-          scale. Direct assessments administered by RTI.
+          <strong>Note:</strong> Bars share the same axis (−0.2 to 0.7); the black line marks r = 0 and the dashed line marks r = 0.30 (moderate threshold).
+          Correlations use pairwise deletion; <em>ns</em> = not significant (p ≥ 0.05). The &Delta; is descriptive (Spring − Fall) and is not a test of whether the change is significant.
+          Sample sizes (n) differ by season — the Spanish Spring samples in particular are small. Direct assessments administered by RTI.
         </div>
       </div>
       </div>
@@ -969,9 +518,26 @@ function PerScaleView() {
   );
 }
 
+function DeltaChip({ delta }) {
+  if (delta === null || delta === undefined || isNaN(delta)) {
+    return <span style={{ width: 64, flexShrink: 0 }} />;
+  }
+  const up = delta >= 0;
+  const color = Math.abs(delta) < 0.005 ? "#9ca3af" : up ? "#16a34a" : "#dc2626";
+  const arrow = Math.abs(delta) < 0.005 ? "" : up ? "▲" : "▼";
+  return (
+    <span style={{ width: 64, flexShrink: 0, textAlign: "left", display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+      <span style={{ fontSize: 9, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em" }}>&Delta;</span>
+      <span style={{ fontSize: 13, fontWeight: 700, color }}>
+        {arrow} {delta >= 0 ? "+" : ""}{delta.toFixed(2)}
+      </span>
+    </span>
+  );
+}
+
 try {
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  root.render(<PerScaleView />);
+  root.render(<CompareView />);
 } catch (error) {
   window.__showBootError(error && (error.stack || error.message || error));
 }

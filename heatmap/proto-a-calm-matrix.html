@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prototype A — Calm Verdict-First Matrix</title>
+<style>
+  :root{
+    --ink:#1b2330; --soft:#5d6675; --faint:#9aa3af; --line:#e9ebef; --line2:#f2f3f5;
+    --bg:#f7f8fa; --card:#fff;
+    --pass:#3f8f5f; --near:#4256b0; --fail:#c2683a; --none:#aeb4bd;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-feature-settings:"tnum" 1;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px 72px}
+  header.bar{position:sticky;top:0;z-index:30;background:rgba(247,248,250,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar-in{max-width:1000px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  h1{font-size:19px;font-weight:680;letter-spacing:-.01em;margin:0}
+  .sub{font-size:12.5px;color:var(--soft);margin:3px 0 0;max-width:560px}
+  .seg{display:inline-flex;background:#eceef1;border-radius:10px;padding:3px;gap:2px}
+  .seg button{appearance:none;border:0;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:var(--soft);padding:7px 20px;border-radius:8px;background:transparent;transition:all .15s}
+  .seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,32,46,.12),0 0 0 1px rgba(20,32,46,.04)}
+
+  .legend{display:flex;gap:20px;align-items:center;flex-wrap:wrap;font-size:11.5px;color:var(--soft);margin:18px 2px 0}
+  .lg{display:inline-flex;align-items:center;gap:7px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+  .pill.neut{background:#eef0f2;color:#5d6675} .pill.none{background:#eef0f2;color:var(--none)}
+  .chip{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .chip.froze{background:#e7eef6;color:#3f6592} .chip.tink{background:#f4ecdf;color:#8a6a37}
+  .ramp{width:120px;height:9px;border-radius:5px;border:1px solid var(--line);
+    background:linear-gradient(90deg,#f4f9fd,#d6e7f6,#b0d1ee,#78b0db,#3a82be,#145696)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(20,32,46,.04);margin-top:22px;overflow:hidden}
+  .chead{padding:14px 22px 12px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line2)}
+  .cdot{width:9px;height:9px;border-radius:50%;flex:none}
+  .chead h2{font-size:15px;font-weight:660;margin:0}
+  .chead .crit{font-size:12px;color:var(--faint)}
+  .scroll{overflow-x:auto}
+  table{border-collapse:separate;border-spacing:0;width:100%}
+  th.grp{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);text-align:center;padding:13px 6px 6px}
+  th.meas{font-size:10.5px;font-weight:600;color:var(--faint);text-align:center;padding:0 8px 4px;white-space:nowrap;border-bottom:1px solid var(--line);vertical-align:bottom}
+  th.lead,td.lead{text-align:left;padding:0 14px 0 22px;white-space:nowrap;border-bottom:1px solid var(--line2)}
+  th.vlead,td.vcell,th.slead,td.scell{text-align:left;padding:0 8px;white-space:nowrap;border-bottom:1px solid var(--line2)}
+  .nm{font-size:12.5px;font-weight:600}
+  .code{color:var(--faint);font-weight:500;font-size:11.5px}
+  td.cell{text-align:center;font-size:12px;font-variant-numeric:tabular-nums;height:36px;border-bottom:1px solid var(--line2);color:var(--soft);min-width:62px}
+  td.cell.dim{color:var(--faint)}
+  td.cell .v{display:flex;align-items:center;justify-content:center;height:36px;font-weight:450}
+  td.ap .v{box-shadow:inset 0 0 0 3px var(--apc,#27314a);border-radius:6px;margin:3px;height:30px}
+  td.max .v{font-weight:900;font-size:13.5px;letter-spacing:-.01em}
+  tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+  .foot{font-size:11.5px;color:var(--soft);line-height:1.6;margin-top:24px;max-width:760px}
+  .foot b{color:var(--ink);font-weight:650}
+  .tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:#cfd683;background:#b9c24d;border-radius:3px;padding:1px 5px;vertical-align:1px;margin-left:2px}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <div>
+      <h1>Discriminant Validity</h1>
+      <p class="sub">The <b>verdict</b> column answers the question for you; the shaded grid is the supporting evidence. Each row's strongest correlation is <b>bold</b>; the <b>a&nbsp;priori</b> match is outlined.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Season">
+      <button id="s-Fall" aria-pressed="true">Fall</button>
+      <button id="s-Spring" aria-pressed="false">Spring</button>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="legend">
+    <span class="lg"><span class="pill neut">✓ a priori strongest</span></span>
+    <span class="lg"><span class="pill neut">≈ same-domain match strongest</span></span>
+    <span class="lg"><span class="pill neut">✗ beaten by another domain</span></span>
+    <span class="lg"><span class="pill none">— no a priori match</span></span>
+    <span class="lg" style="color:var(--faint)">pill color = strongest match's domain</span>
+    <span class="lg" style="margin-left:auto">weak <span class="ramp"></span> strong</span>
+  </div>
+  <div id="mount"></div>
+  <p class="foot">
+    Each row's <b>a priori criterion</b> cell is outlined. The verdict reads the row's <i>strongest</i> correlation:
+    <b>✓</b> the criterion itself is strongest; <b>≈</b> a different measure in the <i>same</i> criterion family is strongest
+    (still convergent — e.g. Patterns leans on REMA Total rather than REMA B); <b>✗</b> a measure from <i>another</i> domain
+    is strongest (a discriminant concern, gap to the criterion shown). Each pill is <b>tinted by the domain</b> of that row's strongest
+    measure — the same colors as the column headers. The <b>Status</b> column flags whether each assessment was <b>frozen</b> or still
+    being <b>tinkered</b> with mid-pilot. Cells are shaded by magnitude — the grid recedes so the verdict leads.
+    English sample; direct assessments by RTI.
+  </p>
+</div>
+
+<script src="./proto-data.js"></script>
+<script>
+const P = window.PROTO;
+// sequential blue ramp (light -> deep blue); domain color lives in the headers & a priori outlines
+const STOPS=[[244,249,253],[214,231,246],[176,209,238],[120,176,219],[58,130,190],[20,86,150]];
+const MAX=0.70;
+function rgbAt(r){const t=Math.max(0,Math.min(r,MAX))/MAX;const x=t*(STOPS.length-1);const i=Math.min(Math.floor(x),STOPS.length-2);const f=x-i;const a=STOPS[i],b=STOPS[i+1];return a.map((v,k)=>Math.round(v+(b[k]-v)*f));}
+function heat(r){const c=rgbAt(r);return `rgb(${c[0]},${c[1]},${c[2]})`;}
+function lum(c){return (0.2126*c[0]+0.7152*c[1]+0.0722*c[2])/255;}
+// white text on dark cells; dark text on light (heavier ink for the bold max).
+function textColor(r,strong){const L=lum(rgbAt(r));if(L<=0.5)return "#fff";return strong?"var(--ink)":"#454c59";}
+
+let season="Fall";
+function fmt(x){return (x>=0?"":"−")+Math.abs(x).toFixed(2);}
+
+function card(domain){
+  const col=P.COLORS[domain.key];
+  const el=document.createElement("section");el.className="card";
+  el.innerHTML=`<div class="chead"><span class="cdot" style="background:${col}"></span><h2>${domain.label}</h2><span class="crit">a priori criterion: ${domain.criterion}</span></div>`;
+  const scroll=document.createElement("div");scroll.className="scroll";
+  const t=document.createElement("table");
+  let g=`<tr><th class="lead"></th><th class="slead"></th><th class="vlead"></th>`;
+  P.COL_GROUPS.forEach(c=>{const gc=P.COLORS[c.key];g+=`<th class="grp" colspan="${c.count}" style="color:${gc};border-bottom:2.5px solid ${gc}">${c.label}</th>`;});g+=`</tr>`;
+  const hstyle=`border-bottom:1px solid var(--line);padding:0 8px 4px;vertical-align:bottom;font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em`;
+  let m=`<tr><th class="lead" style="border-bottom:1px solid var(--line)"></th><th class="slead" style="${hstyle}">Status</th><th class="vlead" style="${hstyle}">Verdict</th>`;
+  P.MEASURES.forEach(me=>m+=`<th class="meas">${me.label}</th>`);m+=`</tr>`;
+  const body=document.createElement("tbody");
+  domain.scales.forEach(v=>{
+    const vd=P.verdict(season,v);const row=vd.row;
+    const tr=document.createElement("tr");
+    let pill;
+    if(vd.kind==="none"){
+      pill=`<span class="pill none">—</span>`;
+    } else {
+      const pc=P.COLORS[vd.best.group]; // color by the domain of the strongest measure
+      const sym=vd.kind==="pass"?"✓":vd.kind==="near"?"≈":"✗";
+      const lbl=vd.kind==="fail"?`${P.labelFor[vd.best.key]} ${fmt(vd.gap)}`:P.labelFor[vd.best.key];
+      pill=`<span class="pill" style="background:${pc}22;color:${pc}">${sym} ${lbl}</span>`;
+    }
+    const maxR=Math.max(...P.MEASURES.map(m=>row[m.key]));
+    let cells="";
+    P.MEASURES.forEach(me=>{
+      const r=row[me.key];const isAp=P.APRIORI[v]===me.key;const isMax=r===maxR;
+      const style=`background:${heat(r)};${isAp?`--apc:${col};`:''}`;
+      const cls="cell"+(isAp?" ap":"")+(isMax?" max":"");
+      const vstyle=`color:${textColor(r,isMax)}`;
+      cells+=`<td class="${cls}" style="${style}" title="${P.NAMES[v]} × ${me.label}: r=${r.toFixed(2)}"><div class="v" style="${vstyle}">${r.toFixed(2)}</div></td>`;
+    });
+    const status=P.FROZE.has(v)?`<span class="chip froze">Froze</span>`:`<span class="chip tink">Tinkered</span>`;
+    tr.innerHTML=`<td class="lead"><span class="nm">${P.NAMES[v]}</span> <span class="code">(${v})</span></td><td class="scell">${status}</td><td class="vcell">${pill}</td>${cells}`;
+    body.appendChild(tr);
+  });
+  t.innerHTML=`<thead>${g}${m}</thead>`;t.appendChild(body);scroll.appendChild(t);el.appendChild(scroll);
+  return el;
+}
+function render(){
+  const mount=document.getElementById("mount");mount.innerHTML="";
+  P.DOMAINS.forEach(d=>mount.appendChild(card(d)));
+  document.getElementById("s-Fall").setAttribute("aria-pressed",String(season==="Fall"));
+  document.getElementById("s-Spring").setAttribute("aria-pressed",String(season==="Spring"));
+}
+document.getElementById("s-Fall").onclick=()=>{season="Fall";render();};
+document.getElementById("s-Spring").onclick=()=>{season="Spring";render();};
+render();
+</script>
+</body>
+</html>
