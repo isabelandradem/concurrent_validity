@@ -20,6 +20,10 @@
   .bar-in{max-width:1080px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
   h1{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:0}
   .sub{font-size:13.5px;color:var(--soft);margin:3px 0 0;max-width:600px}
+  .lang-links{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:12px;color:var(--faint)}
+  .lang-links a{color:var(--soft);text-decoration:none}
+  .lang-links a:hover{color:var(--ink)}
+  .lang-links a.active{color:var(--ink);font-weight:700}
   .seg{display:inline-flex;background:#eceef1;border-radius:8px;padding:3px;gap:2px}
   .seg button{appearance:none;border:0;cursor:pointer;font:inherit;font-size:13.5px;font-weight:600;color:var(--soft);padding:7px 20px;border-radius:6px;background:transparent;transition:all .15s}
   .seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,32,46,.12),0 0 0 1px rgba(20,32,46,.04)}
@@ -114,6 +118,11 @@
 <header class="bar">
   <div class="bar-in">
     <div>
+      <nav class="lang-links" aria-label="Language pages">
+        <a class="active" href="./proto-a-calm-matrix.html">English</a>
+        <span aria-hidden="true">|</span>
+        <a href="./proto-a-calm-matrix-spa.html">Spanish</a>
+      </nav>
       <h1>Discriminant Validity — Matrix & Bar Views</h1>
       <p class="sub">Explore Fall/Spring concurrent evidence by domain. Use <b>Heatmap</b> for verdict-first scanning, or <b>Bar chart</b> for a focused view of one criterion measure at a time.</p>
     </div>
