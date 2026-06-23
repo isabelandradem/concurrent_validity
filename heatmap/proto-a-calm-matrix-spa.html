@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Discriminant Validity — Matrix & Bar Views</title>
+<title>Discriminant Validity (Spanish) — Matrix & Bar Views</title>
 <style>
   :root{
     --ink:#18212f; --soft:#4f5a6a; --faint:#6f7c8f; --line:#dde2e9; --line2:#e8edf3;
@@ -19,7 +19,7 @@
   header.bar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   .bar-in{max-width:1080px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
   h1{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:0}
-  .sub{font-size:13.5px;color:var(--soft);margin:3px 0 0;max-width:600px}
+  .sub{font-size:13.5px;color:var(--soft);margin:3px 0 0;max-width:680px}
   .seg{display:inline-flex;background:#eceef1;border-radius:8px;padding:3px;gap:2px}
   .seg button{appearance:none;border:0;cursor:pointer;font:inherit;font-size:13.5px;font-weight:600;color:var(--soft);padding:7px 20px;border-radius:6px;background:transparent;transition:all .15s}
   .seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,32,46,.12),0 0 0 1px rgba(20,32,46,.04)}
@@ -36,8 +36,8 @@
   .howto-list{margin:0;padding-left:18px;color:var(--soft);font-size:12.5px;line-height:1.5}
   .howto-list li{margin:2px 0}
   .howto-list b{color:var(--ink);font-weight:650}
+
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:640;padding:3px 10px;border-radius:999px;white-space:nowrap;line-height:1.25}
-  .pill.neut{background:#f1f4f8;color:#516072;border:1px solid #e2e7ee}
   .pill.none{background:#f3f5f8;color:var(--none);border:1px solid #e7ebf1}
   .pill.verdict{border:1px solid transparent}
   .pill.verdict.pass{background:#edf7f1;color:#2f7d4f;border-color:#d7ecdf}
@@ -72,7 +72,6 @@
   .nm{font-size:13.5px;font-weight:640}
   .code{color:var(--faint);font-weight:500;font-size:12px}
   td.cell{text-align:center;font-size:12.5px;font-variant-numeric:tabular-nums;height:38px;border-bottom:1px solid var(--line2);color:var(--soft);min-width:64px;transition:filter .12s}
-  td.cell.dim{color:var(--faint)}
   td.cell .v{display:flex;align-items:center;justify-content:center;height:38px;font-weight:540}
   td.ap .v{box-shadow:inset 0 0 0 2.5px var(--apc,#27314a);border-radius:7px;margin:4px;height:30px}
   td.max .v{font-weight:850;font-size:14px;letter-spacing:-.01em}
@@ -80,7 +79,6 @@
   tbody tr:hover td.lead,tbody tr:hover td.scell,tbody tr:hover td.vcell{background:#f2f7fd}
   tbody tr:hover td.cell{filter:brightness(1.045)}
   tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
-  .tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:#cfd683;background:#b9c24d;border-radius:3px;padding:1px 5px;vertical-align:1px;margin-left:2px}
 
   .bars{padding:14px 22px 16px}
   .mseg{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
@@ -114,8 +112,8 @@
 <header class="bar">
   <div class="bar-in">
     <div>
-      <h1>Discriminant Validity — Matrix & Bar Views</h1>
-      <p class="sub">Explore Fall/Spring concurrent evidence by domain. Use <b>Heatmap</b> for verdict-first scanning, or <b>Bar chart</b> for a focused view of one criterion measure at a time.</p>
+      <h1>Discriminant Validity (Spanish) — Matrix & Bar Views</h1>
+      <p class="sub">Spanish sample. Explore Fall/Spring evidence by domain. Use <b>Heatmap</b> for verdict-first scanning, or <b>Bar chart</b> for a focused view of one measure at a time.</p>
     </div>
     <div class="seg" role="group" aria-label="Season">
       <button id="s-Fall" aria-pressed="true">Fall</button>
@@ -137,7 +135,7 @@
       <li><b>Season toggle:</b> Fall and Spring update all domains.</li>
       <li><b>Per-domain view toggle:</b> each domain can switch between Heatmap and Bar chart.</li>
       <li><b>Heatmap view:</b> verdict-first matrix with strongest value bold and the a priori cell outlined.</li>
-      <li><b>Bar chart view:</b> criterion tabs, Pearson <i>r</i> bars on a -0.20 to 0.70 scale, dashed <i>r</i>=.30 guide, significance (<i>ns</i>), sample size (<i>n</i>), and expected/tinkered tags.</li>
+      <li><b>Bar chart view:</b> measure tabs, Pearson <i>r</i> bars on a -0.20 to 0.70 scale, dashed <i>r</i>=.30 guide, significance (<i>ns</i>), sample size (<i>n</i>), and expected/tinkered tags.</li>
     </ul>
   </section>
   <section class="howto" aria-label="How to read this chart">
@@ -145,17 +143,76 @@
     <ul class="howto-list">
       <li><b>Verdict pills:</b> <b>✓</b> expected criterion is strongest, <b>≈</b> strongest is in the same domain family, <b>✗</b> another domain is strongest.</li>
       <li><b>Heatmap cues:</b> bold number = strongest in the row; outlined cell = a priori criterion match.</li>
+      <li><b>Literacy note:</b> Spanish has no direct literacy criterion (TOPEL), so literacy rows show no a priori verdict.</li>
       <li><b>Bar chart cues:</b> dashed line marks <i>r</i>=.30; <b>ns</b> means not significant (<i>p</i> ≥ .05); <b>expected</b> and <b>tinkered</b> are row-level tags.</li>
     </ul>
   </section>
   <div id="mount"></div>
 </div>
 
-<script src="./proto-data.js"></script>
 <script src="../data.js"></script>
 <script>
-const P = window.PROTO;
-// sequential blue ramp (light -> deep blue); domain color lives in the headers & a priori outlines
+const SPA_DATA=(window.VALIDITY_DATA&&window.VALIDITY_DATA.SPA)||{Fall:[],Spring:[]};
+const P={
+  DATA:SPA_DATA,
+  MEASURES:[
+    { key:"rema_a_irt", label:"REMA A", group:"MAT" },
+    { key:"rema_b_irt", label:"REMA B", group:"MAT" },
+    { key:"rema_tot_irt", label:"REMA Tot", group:"MAT" },
+    { key:"igdis_Dibujos_score", label:"Dibujos", group:"LAN" },
+    { key:"igdis_Verbos_ Expressivos_score", label:"Verbos Expr.", group:"LAN" },
+    { key:"htks_score", label:"HTKS", group:"ATL" },
+  ],
+  COL_GROUPS:[
+    { key:"MAT", label:"Math", count:3 },
+    { key:"LAN", label:"Language", count:2 },
+    { key:"ATL", label:"EF", count:1 },
+  ],
+  COLORS:{ MAT:"#2f8f4f", LIT:"#b07d10", LAN:"#cf4030", ATL:"#9c3f72" },
+  FROZE:new Set(["MAT2","MAT3","MAT6b","MAT7","MAT8","MAT9","MAT10","LIT2","LIT3a","LIT3b"]),
+  DOMAINS:[
+    { key:"MAT", label:"Math", criterion:"REMA", scales:["MAT2","MAT3","MAT4","MAT5","MAT6a","MAT6b","MAT7","MAT8","MAT9","MAT10"] },
+    { key:"LIT", label:"Literacy", criterion:"No direct criterion", scales:["LIT1a","LIT1b","LIT1c","LIT1d","LIT2","LIT3a","LIT3b","LIT4","LIT5"] },
+    { key:"LAN", label:"Language", criterion:"myIGDIs", scales:["LAN6","LAN7a","LAN7b"] },
+    { key:"ATL", label:"Executive Function", criterion:"HTKS", scales:["ATL5a","ATL5b","ATL8","ATL9"] },
+  ],
+  NAMES:{
+    ATL5a:"Control Impulses 1", ATL5b:"Control Impulses 2", ATL8:"Working Memory", ATL9:"Flexible Thinking",
+    LAN6:"Vocabulary", LAN7a:"Word Categories", LAN7b:"Shared Characteristics",
+    LIT1a:"Rhyme", LIT1b:"Blending & Adding", LIT1c:"Segmenting", LIT1d:"Decoding & Encoding",
+    LIT2:"Concepts of Print", LIT3a:"Letter Names", LIT3b:"Letter Sounds", LIT4:"Retell Stories", LIT5:"Answer Questions",
+    MAT2:"Subitizing", MAT3:"Count 1 by 1", MAT4:"More or Less", MAT5:"Numerals", MAT6a:"Add", MAT6b:"Subtract",
+    MAT7:"Patterns", MAT8:"Measurement", MAT9:"Shapes", MAT10:"Position of Objects",
+  },
+  APRIORI:{
+    MAT2:"rema_a_irt", MAT3:"rema_a_irt", MAT4:"rema_a_irt", MAT5:"rema_a_irt", MAT6a:"rema_a_irt", MAT6b:"rema_a_irt",
+    MAT7:"rema_b_irt", MAT8:"rema_b_irt", MAT9:"rema_b_irt", MAT10:"rema_b_irt",
+    LAN6:"igdis_Dibujos_score", LAN7a:"igdis_Verbos_ Expressivos_score", LAN7b:"igdis_Dibujos_score",
+    ATL5a:"htks_score", ATL5b:"htks_score", ATL8:"htks_score", ATL9:"htks_score",
+  }
+};
+P.labelFor={}; P.MEASURES.forEach((m)=>{P.labelFor[m.key]=m.label;});
+P.rowByVar=(season,v)=>P.DATA[season].find((d)=>d.variable===v);
+P.verdict=(season,v)=>{
+  const row=P.rowByVar(season,v);
+  const ap=P.APRIORI[v];
+  if(!ap||!row) return { kind:"none", row };
+  const apMeasure=P.MEASURES.find((m)=>m.key===ap);
+  const apGroup=apMeasure?apMeasure.group:null;
+  const apR=row[ap];
+  let best=P.MEASURES[0], bestOther=null;
+  P.MEASURES.forEach((m)=>{
+    if(row[m.key]>row[best.key]) best=m;
+    if(m.key!==ap&&(bestOther===null||row[m.key]>row[bestOther.key])) bestOther=m;
+  });
+  const gap=apR-row[bestOther.key];
+  let kind;
+  if(gap>=-0.0001) kind="pass";
+  else if(best.group===apGroup) kind="near";
+  else kind="fail";
+  return { kind, row, apKey:ap, apGroup, apR, gap, best, beatenBy:bestOther, beatenR:row[bestOther.key] };
+};
+
 const STOPS=[[244,249,253],[214,231,246],[176,209,238],[120,176,219],[58,130,190],[20,86,150]];
 const MAX=0.70;
 const BAR_MIN=-0.20;
@@ -164,43 +221,44 @@ const BAR_ZERO=((0-BAR_MIN)/(BAR_MAX-BAR_MIN))*100;
 const BAR_THRESH=((0.30-BAR_MIN)/(BAR_MAX-BAR_MIN))*100;
 const N_KEY_MAP={
   rema_a_irt:"rema_a_n", rema_b_irt:"rema_b_n", rema_tot_irt:"rema_tot_n",
-  topel_pa_stdscore:"topel_n",
-  "igdis_Picture_ Naming_score":"igdis_pn_n",
-  "igdis_Which_One_ Doesn't_Belong_score":"igdis_wodb_n",
+  igdis_Dibujos_score:"igdis_d_n", "igdis_Verbos_ Expressivos_score":"igdis_ve_n",
   htks_score:"htks_n"
 };
 const P_KEY_MAP={
   rema_a_irt:"rema_a_p", rema_b_irt:"rema_b_p", rema_tot_irt:"rema_tot_p",
-  topel_pa_stdscore:"topel_p",
-  "igdis_Picture_ Naming_score":"igdis_pn_p",
-  "igdis_Which_One_ Doesn't_Belong_score":"igdis_wodb_p",
+  igdis_Dibujos_score:"igdis_d_p", "igdis_Verbos_ Expressivos_score":"igdis_ve_p",
   htks_score:"htks_p"
 };
-const MEASURE_DESCRIPTIONS={
-  rema_a_irt:"REMA-Short Part A: Number & Operations; strongest for most MAT2-MAT6 scales.",
-  rema_b_irt:"REMA-Short Part B: Geometry/Patterning/Measurement focus.",
-  rema_tot_irt:"REMA combined score (Part A + Part B).",
-  topel_pa_stdscore:"TOPEL Phonological Awareness criterion for literacy scales.",
-  "igdis_Picture_ Naming_score":"myIGDIs Picture Naming criterion for vocabulary-related scales.",
-  "igdis_Which_One_ Doesn't_Belong_score":"myIGDIs Which One Doesn't Belong criterion for categorization/comprehension.",
-  htks_score:"HTKS criterion for executive function scales."
+const DOMAIN_MEASURE_KEYS={
+  MAT:["rema_a_irt","rema_b_irt","rema_tot_irt"],
+  LAN:["igdis_Dibujos_score","igdis_Verbos_ Expressivos_score"],
+  ATL:["htks_score"],
+  LIT:["rema_a_irt","rema_b_irt","rema_tot_irt","igdis_Dibujos_score","igdis_Verbos_ Expressivos_score","htks_score"],
 };
+const MEASURE_DESCRIPTIONS={
+  rema_a_irt:"REMA-Short Part A: Number & Operations.",
+  rema_b_irt:"REMA-Short Part B: Geometry/Patterning/Measurement.",
+  rema_tot_irt:"REMA combined score (Part A + Part B).",
+  igdis_Dibujos_score:"myIGDIs Dibujos.",
+  "igdis_Verbos_ Expressivos_score":"myIGDIs Verbos Expresivos.",
+  htks_score:"HTKS criterion for executive function."
+};
+
 function rgbAt(r){const t=Math.max(0,Math.min(r,MAX))/MAX;const x=t*(STOPS.length-1);const i=Math.min(Math.floor(x),STOPS.length-2);const f=x-i;const a=STOPS[i],b=STOPS[i+1];return a.map((v,k)=>Math.round(v+(b[k]-v)*f));}
 function heat(r){const c=rgbAt(r);return `rgb(${c[0]},${c[1]},${c[2]})`;}
 function lum(c){return (0.2126*c[0]+0.7152*c[1]+0.0722*c[2])/255;}
-// white text on dark cells; dark text on light (heavier ink for the bold max).
 function textColor(r,strong){const L=lum(rgbAt(r));if(L<=0.5)return "#fff";return strong?"var(--ink)":"#454c59";}
 function barPct(r){const clamped=Math.max(BAR_MIN,Math.min(BAR_MAX,r));return ((clamped-BAR_MIN)/(BAR_MAX-BAR_MIN))*100;}
 function alpha(hex,a){if(/^#[0-9a-fA-F]{6}$/.test(hex))return `${hex}${a}`;return hex;}
 function barFillColor(r,col){
   if(r<0) return "#d0d5dc";
-  if(r>=0.50) return col;         // Strong
-  if(r>=0.30) return alpha(col,"b5"); // Moderate
-  if(r>=0.10) return alpha(col,"78"); // Weak
+  if(r>=0.50) return col;
+  if(r>=0.30) return alpha(col,"b5");
+  if(r>=0.10) return alpha(col,"78");
   return "#e5e7eb";
 }
 function rowByVarFull(season,v){
-  const full=(window.VALIDITY_DATA&&window.VALIDITY_DATA.EN&&window.VALIDITY_DATA.EN[season])||null;
+  const full=P.DATA[season]||null;
   return Array.isArray(full)?full.find((d)=>d.variable===v):null;
 }
 
@@ -208,7 +266,10 @@ let season="Fall";
 const viewByDomain={};
 const barMeasureByDomain={};
 function fmt(x){return (x>=0?"":"−")+Math.abs(x).toFixed(2);}
-function domainMeasures(domain){return P.MEASURES.filter((m)=>m.group===domain.key);}
+function domainMeasures(domain){
+  const keys=DOMAIN_MEASURE_KEYS[domain.key]||P.MEASURES.map((m)=>m.key);
+  return P.MEASURES.filter((m)=>keys.includes(m.key));
+}
 function selectedBarMeasure(domain){
   const keys=domainMeasures(domain).map((m)=>m.key);
   const cur=barMeasureByDomain[domain.key];
@@ -230,7 +291,7 @@ function barPanel(domain,col){
     wrap.appendChild(tabs);
   }
   const note=document.createElement("p");note.className="bar-note";
-  note.innerHTML=`<b>${selMeta.label}</b> — ${MEASURE_DESCRIPTIONS[selMeta.key]||"Correlation profile for this criterion measure."}`;
+  note.innerHTML=`<b>${selMeta.label}</b> — ${MEASURE_DESCRIPTIONS[selMeta.key]||"Correlation profile for this measure."}`;
   wrap.appendChild(note);
   const mag=document.createElement("div");mag.className="mag-legend";
   mag.innerHTML=
@@ -282,8 +343,9 @@ function barPanel(domain,col){
 function card(domain){
   const col=P.COLORS[domain.key];
   const view=viewByDomain[domain.key]||"heatmap";
+  const critLabel=domain.criterion||"No direct criterion";
   const el=document.createElement("section");el.className="card";
-  el.innerHTML=`<div class="chead" style="--chead-bg:${col}1a"><div class="chead-left"><span class="cdot" style="background:${col}"></span><h2>${domain.label}</h2><span class="crit">a priori criterion: ${domain.criterion}</span></div><div class="viewseg" role="group" aria-label="${domain.label} view"><button data-role="view" data-domain="${domain.key}" data-view="heatmap" aria-pressed="${String(view==='heatmap')}">Heatmap</button><button data-role="view" data-domain="${domain.key}" data-view="bars" aria-pressed="${String(view==='bars')}">Bar chart</button></div></div>`;
+  el.innerHTML=`<div class="chead" style="--chead-bg:${col}1a"><div class="chead-left"><span class="cdot" style="background:${col}"></span><h2>${domain.label}</h2><span class="crit">a priori criterion: ${critLabel}</span></div><div class="viewseg" role="group" aria-label="${domain.label} view"><button data-role="view" data-domain="${domain.key}" data-view="heatmap" aria-pressed="${String(view==='heatmap')}">Heatmap</button><button data-role="view" data-domain="${domain.key}" data-view="bars" aria-pressed="${String(view==='bars')}">Bar chart</button></div></div>`;
   if(view==="bars"){
     el.appendChild(barPanel(domain,col));
     return el;
@@ -291,7 +353,7 @@ function card(domain){
   const scroll=document.createElement("div");scroll.className="scroll";
   const t=document.createElement("table");
   let g=`<tr><th class="lead"></th><th class="slead"></th><th class="vlead"></th>`;
-  P.COL_GROUPS.forEach(c=>{const gc=P.COLORS[c.key];const gLabel=c.key==="ATL"?"EF":c.label;g+=`<th class="grp" colspan="${c.count}" style="color:${gc};border-bottom:2.5px solid ${gc}">${gLabel}</th>`;});g+=`</tr>`;
+  P.COL_GROUPS.forEach(c=>{const gc=P.COLORS[c.key];g+=`<th class="grp" colspan="${c.count}" style="color:${gc};border-bottom:2.5px solid ${gc}">${c.label}</th>`;});g+=`</tr>`;
   const hstyle=`border-bottom:1px solid var(--line);padding:6px 10px 8px;vertical-align:bottom;font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;line-height:1.2`;
   let m=`<tr><th class="lead" style="border-bottom:1px solid var(--line)"></th><th class="slead" style="${hstyle}">Status</th><th class="vlead" style="${hstyle}">Verdict</th>`;
   P.MEASURES.forEach(me=>m+=`<th class="meas">${me.label}</th>`);m+=`</tr>`;
@@ -325,7 +387,6 @@ function card(domain){
 }
 function render(){
   const mount=document.getElementById("mount");mount.innerHTML="";
-  document.body.dataset.season=season;
   P.DOMAINS.forEach(d=>mount.appendChild(card(d)));
   document.getElementById("s-Fall").setAttribute("aria-pressed",String(season==="Fall"));
   document.getElementById("s-Spring").setAttribute("aria-pressed",String(season==="Spring"));

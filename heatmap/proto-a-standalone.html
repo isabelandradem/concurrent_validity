@@ -28,7 +28,7 @@
   .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
   .pill.neut{background:#eef0f2;color:#5d6675} .pill.none{background:#eef0f2;color:var(--none)}
   .chip{display:inline-flex;align-items:center;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap}
-  .chip.froze{background:#e7eef6;color:#3f6592} .chip.tink{background:#f4ecdf;color:#8a6a37}
+  .chip.tink{background:#f4ecdf;color:#8a6a37}
   .ramp{width:120px;height:9px;border-radius:5px;border:1px solid var(--line);
     background:linear-gradient(90deg,#f4f9fd,#d6e7f6,#b0d1ee,#78b0db,#3a82be,#145696)}
 
@@ -84,7 +84,7 @@
     <b>✓</b> the criterion itself is strongest; <b>≈</b> a different measure in the <i>same</i> criterion family is strongest
     (still convergent — e.g. Patterns leans on REMA Total rather than REMA B); <b>✗</b> a measure from <i>another</i> domain
     is strongest (a discriminant concern, gap to the criterion shown). Each pill is <b>tinted by the domain</b> of that row's strongest
-    measure — the same colors as the column headers. The <b>Status</b> column flags whether each assessment was <b>frozen</b> or still
+    measure — the same colors as the column headers. The <b>Status</b> column flags assessments still
     being <b>tinkered</b> with mid-pilot. Cells are shaded by magnitude — the grid recedes so the verdict leads.
     English sample; direct assessments by RTI.
   </p>
@@ -285,7 +285,7 @@ function card(domain){
       const vstyle=`color:${textColor(r,isMax)}`;
       cells+=`<td class="${cls}" style="${style}" title="${P.NAMES[v]} × ${me.label}: r=${r.toFixed(2)}"><div class="v" style="${vstyle}">${r.toFixed(2)}</div></td>`;
     });
-    const status=P.FROZE.has(v)?`<span class="chip froze">Froze</span>`:`<span class="chip tink">Tinkered</span>`;
+    const status=P.FROZE.has(v)?``:`<span class="chip tink">Tinkered</span>`;
     tr.innerHTML=`<td class="lead"><span class="nm">${P.NAMES[v]}</span> <span class="code">(${v})</span></td><td class="scell">${status}</td><td class="vcell">${pill}</td>${cells}`;
     body.appendChild(tr);
   });
