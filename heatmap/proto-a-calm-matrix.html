@@ -300,7 +300,7 @@ function card(domain){
   const scroll=document.createElement("div");scroll.className="scroll";
   const t=document.createElement("table");
   let g=`<tr><th class="lead"></th><th class="slead"></th><th class="vlead"></th>`;
-  P.COL_GROUPS.forEach(c=>{const gc=P.COLORS[c.key];const gLabel=c.key==="ATL"?"EF":c.label;g+=`<th class="grp" colspan="${c.count}" style="color:${gc};border-bottom:2.5px solid ${gc}">${gLabel}</th>`;});g+=`</tr>`;
+  P.COL_GROUPS.forEach(c=>{const gc=P.COLORS[c.key];g+=`<th class="grp" colspan="${c.count}" style="color:${gc};border-bottom:2.5px solid ${gc}">${c.label}</th>`;});g+=`</tr>`;
   const hstyle=`border-bottom:1px solid var(--line);padding:6px 10px 8px;vertical-align:bottom;font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;line-height:1.2`;
   let m=`<tr><th class="lead" style="border-bottom:1px solid var(--line)"></th><th class="slead" style="${hstyle}">Status</th><th class="vlead" style="${hstyle}">Verdict</th>`;
   P.MEASURES.forEach(me=>m+=`<th class="meas">${me.label}</th>`);m+=`</tr>`;

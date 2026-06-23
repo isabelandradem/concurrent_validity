@@ -75,10 +75,10 @@ window.PROTO = (function () {
     { key: "MAT", label: "Math",           count: 3 },
     { key: "LIT", label: "Literacy",       count: 1 },
     { key: "LAN", label: "Language",       count: 2 },
-    { key: "ATL", label: "Exec. Function", count: 1 },
+    { key: "ATL", label: "EF",             count: 1 },
   ];
 
-  // Domain accent colors: Math = green, Literacy = gold, Language = red, Exec. Function = magenta.
+  // Domain accent colors: Math = green, Literacy = gold, Language = red, EF = magenta.
   const COLORS = { MAT: "#2f8f4f", LIT: "#b07d10", LAN: "#cf4030", ATL: "#9c3f72" };
 
   // Assessments frozen mid-pilot (everything else was still being tinkered with).
@@ -88,7 +88,7 @@ window.PROTO = (function () {
     { key: "MAT", label: "Math",               criterion: "REMA",     scales: ["MAT2","MAT3","MAT4","MAT5","MAT6a","MAT6b","MAT7","MAT8","MAT9","MAT10"] },
     { key: "LIT", label: "Literacy",           criterion: "TOPEL PA", scales: ["LIT1a","LIT1b","LIT1c","LIT1d","LIT2","LIT3a","LIT3bi","LIT3bii","LIT4","LIT5"] },
     { key: "LAN", label: "Language",           criterion: "myIGDIs",  scales: ["LAN6","LAN7a","LAN7b"] },
-    { key: "ATL", label: "Executive Function", criterion: "HTKS",     scales: ["ATL5a","ATL5b","ATL8","ATL9"] },
+    { key: "ATL", label: "EF",                 criterion: "HTKS",     scales: ["ATL5a","ATL5b","ATL8","ATL9"] },
   ];
 
   const NAMES = {
