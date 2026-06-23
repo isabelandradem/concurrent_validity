@@ -30,7 +30,6 @@
 
   .legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--soft);margin:20px 2px 0}
   .lg{display:inline-flex;align-items:center;gap:7px}
-  .howto .legend{margin:4px 0 8px}
   .overview{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px}
   .ov-head{margin:0 0 4px;font-size:12.5px;font-weight:700;color:var(--ink)}
   .ov-list{margin:0;padding-left:18px;color:var(--soft);font-size:12.5px;line-height:1.5}
@@ -132,6 +131,13 @@
   </div>
 </header>
 <div class="wrap">
+  <div class="legend" aria-label="Verdict and strength legend">
+    <span class="lg"><span class="pill verdict pass">✓ a priori strongest</span></span>
+    <span class="lg"><span class="pill verdict near">≈ same-domain match strongest</span></span>
+    <span class="lg"><span class="pill verdict fail">✗ beaten by another domain</span></span>
+    <span class="lg"><span class="pill none">— no a priori match</span></span>
+    <span class="lg" style="margin-left:auto">weak <span class="ramp"></span> strong</span>
+  </div>
   <section class="overview" aria-label="Included below">
     <p class="ov-head">What's included below</p>
     <ul class="ov-list">
@@ -143,13 +149,6 @@
   </section>
   <section class="howto" aria-label="How to read this chart">
     <p class="howto-head">How to read this chart</p>
-    <div class="legend" aria-label="Verdict and strength legend">
-      <span class="lg"><span class="pill verdict pass">✓ a priori strongest</span></span>
-      <span class="lg"><span class="pill verdict near">≈ same-domain match strongest</span></span>
-      <span class="lg"><span class="pill verdict fail">✗ beaten by another domain</span></span>
-      <span class="lg"><span class="pill none">— no a priori match</span></span>
-      <span class="lg" style="margin-left:auto">weak <span class="ramp"></span> strong</span>
-    </div>
     <ul class="howto-list">
       <li><b>Verdict pills:</b> <b>✓</b> expected criterion is strongest, <b>≈</b> strongest is in the same domain family, <b>✗</b> another domain is strongest.</li>
       <li><b>Heatmap cues:</b> bold number = strongest in the row; outlined cell = a priori criterion match.</li>
