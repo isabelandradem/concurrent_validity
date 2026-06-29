@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khan Academy Kids — Boston Raffle</title>
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;polygon points='50,5 92,28 92,72 50,95 8,72 8,28' fill='%231D2B63'/&gt;&lt;text x='50' y='66' text-anchor='middle' font-size='52' font-family='Arial' font-weight='700' fill='white'&gt;K&lt;/text&gt;&lt;/svg&gt;"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <img
+      src="Khan_Academy_Kids_logo.png"
+      alt="Khan Academy Kids"
+      class="logo"
+    />
+  </header>
+
+  <main class="stage">
+    <div class="title-row">
+      <img src="peck 2.gif" alt="Peck the bird mascot" class="mascot" />
+      <div class="title-block">
+        <h1>Join the Raffle!</h1>
+        <p class="subtitle">
+          ISTELive 2026
+          <span class="round-badge">Round 1</span>
+        </p>
+      </div>
+    </div>
+
+
+    <section class="reel-card" id="reelCard">
+      <div class="reel-label">Spinning the wheel</div>
+      <div class="reel">
+        <div class="reel-name" id="reelName">Press the button to start!</div>
+        <div class="reel-org" id="reelOrg">&nbsp;</div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button id="pickBtn" class="big-btn">
+        <span class="btn-text">Pick a Winner</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </button>
+      <button id="resetBtn" class="ghost-btn" hidden>↺ Spin again</button>
+    </div>
+
+    <div class="meta-row">
+      <label class="upload-label">
+        <span>Use a different spreadsheet</span>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" />
+      </label>
+      <div class="counter">
+        <strong id="countNum">0</strong> attendees loaded
+      </div>
+    </div>
+
+    <p class="hint" id="hint">
+      Loading <strong>Round 1</strong> attendees from <code>Boston Gates (Responses).xlsx</code>…
+    </p>
+  </main>
+
+  <!-- Winner overlay -->
+  <div class="winner-overlay" id="winnerOverlay" hidden>
+    <div class="winner-card">
+      <div class="winner-badge">Winner</div>
+      <div class="winner-name" id="winnerName">—</div>
+      <div class="winner-org" id="winnerOrg">—</div>
+      <div class="winner-actions">
+        <button id="closeWinner" class="big-btn small">Awesome</button>
+        <button id="spinAgain" class="ghost-btn">Spin again</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Khan Academy at ISTE 2026
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
