@@ -82,7 +82,7 @@ window.PROTO = (function () {
   const COLORS = { MAT: "#2f8f4f", LIT: "#b07d10", LAN: "#cf4030", ATL: "#9c3f72" };
 
   // Assessments frozen mid-pilot (everything else was still being tinkered with).
-  const FROZE = new Set(["MAT2","MAT3","MAT6b","MAT7","MAT8","MAT9","MAT10","LIT2","LIT3a","LIT3bi","LIT3bii"]);
+  const FROZE = new Set(["ATL5a","ATL5b","MAT2","MAT3","MAT6b","MAT7","MAT8","MAT9","MAT10","LIT2","LIT3a","LIT3bi","LIT3bii"]);
 
   const DOMAINS = [
     { key: "MAT", label: "Math",               criterion: "REMA",     scales: ["MAT2","MAT3","MAT4","MAT5","MAT6a","MAT6b","MAT7","MAT8","MAT9","MAT10"] },
@@ -92,7 +92,7 @@ window.PROTO = (function () {
   ];
 
   const NAMES = {
-    ATL5a:"Control Impulses 1", ATL5b:"Control Impulses 2", ATL8:"Working Memory", ATL9:"Flexible Thinking",
+    ATL5a:"Hearts & Stars", ATL5b:"Day & Night", ATL8:"Working Memory", ATL9:"Flexible Thinking",
     LAN6:"Vocabulary", LAN7a:"Word Categories", LAN7b:"Shared Characteristics",
     LIT1a:"Rhyme", LIT1b:"Blending & Adding", LIT1c:"Segmenting", LIT1d:"Decoding & Encoding",
     LIT2:"Concepts of Print", LIT3a:"Letter Names", LIT3bi:"Consonant Sounds", LIT3bii:"Vowel Sounds",
