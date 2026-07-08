@@ -106,7 +106,6 @@ window.PROTO = (function () {
     MAT2:"rema_a_irt", MAT3:"rema_a_irt", MAT4:"rema_a_irt", MAT5:"rema_a_irt", MAT6a:"rema_a_irt", MAT6b:"rema_a_irt",
     MAT7:"rema_b_irt", MAT8:"rema_b_irt", MAT9:"rema_b_irt",
     LIT1a:"topel_pa_stdscore", LIT1b:"topel_pa_stdscore", LIT1c:"topel_pa_stdscore", LIT1d:"topel_pa_stdscore",
-    LIT3a:"topel_pa_stdscore", LIT3bi:"topel_pa_stdscore", LIT3bii:"topel_pa_stdscore",
     LAN6:"igdis_Picture_ Naming_score", LAN7a:"igdis_Which_One_ Doesn't_Belong_score", LAN7b:"igdis_Which_One_ Doesn't_Belong_score",
     ATL5a:"htks_score", ATL5b:"htks_score", ATL8:"htks_score", ATL9:"htks_score",
   };
